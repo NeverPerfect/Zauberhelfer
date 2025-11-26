@@ -1,3 +1,4 @@
+/* GLOBALE STILE */
 body {
     margin: 0;
     font-family: system-ui, sans-serif;
@@ -23,6 +24,20 @@ h2, h3 {
     margin-top: 0;
 }
 
+/* REPRÄSENTATIONS-DROPDOWN */
+#repräsentation {
+    grid-column: 1;
+}
+
+#repräsentation select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+/* EINGABEN */
 .input-row {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -93,85 +108,18 @@ h2, h3 {
     font-size: 14px;
 }
 
-.hidden {
-    display: none;
-}
-
+/* MODIFIKATIONEN */
 #mod-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 15px;
+    margin-bottom: 20px;
 }
 
 .modblock {
     border: 1px solid #ddd;
     padding: 10px;
     border-radius: 5px;
-}
-
-#buttons {
-    margin-top: 20px;
-    text-align: center;
-}
-
-button {
-    padding: 8px 12px;
-    margin: 0 5px;
-    border: none;
-    background: #0077ee;
-    color: white;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background: #005fcc;
-}
-
-.result-big {
-    font-size: 1.6em;
-    margin-top: 20px;
-    font-weight: bold;
-}
-
-.red {
-    color: #c00;
-}
-
-.green {
-    color: #090;
-}
-
-.warning {
-    color: #a00;
-    font-weight: bold;
-}
-
-#mods-container {
-    margin-bottom: 15px;
-}
-
-#mods-warnung {
-    color: #a00;
-    font-weight: bold;
-    font-size: 0.9em;
-    margin-top: 5px;
-}
-
-#dauer-container,
-#kosten-container,
-#wirkungsdauer-container {
-    margin-bottom: 10px;
-}
-
-#zauberdauer-ausgabe,
-#neue-zauberdauer,
-#kosten-ausgabe,
-#neue-kosten,
-#wirkungsdauer-ausgabe,
-#neue-wirkungsdauer {
-    font-size: 1.1em;
-    margin: 5px 0;
 }
 
 .mod-category {
@@ -191,14 +139,65 @@ button:hover {
     padding-bottom: 5px;
 }
 
-.modblock {
-    margin-bottom: 8px;
-    background-color: white;
-    padding: 8px;
-    border-radius: 4px;
-    border: 1px solid #ddd;
+/* ERGEBNISSE */
+#results-container {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    gap: 10px;
 }
 
+.result-box {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    flex: 1;
+    text-align: center;
+}
+
+.result-big {
+    font-size: 1.6em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.red {
+    color: #c00;
+}
+
+.green {
+    color: #090;
+}
+
+/* BUTTONS */
+#buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: none;
+    background: #0077ee;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #005fcc;
+}
+
+#mods-warnung {
+    color: #a00;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* STAB-SPEICHER */
 #stab-speicher-container {
     margin-top: 20px;
     border: 1px solid #ddd;
@@ -250,6 +249,7 @@ button:hover {
     font-weight: bold;
     color: #c00;
 }
+
 .ausloesen-btn {
     padding: 4px 8px;
     background: #c00;
@@ -260,5 +260,63 @@ button:hover {
 }
 
 .ausloesen-btn:hover {
+    background: #a00;
+}
+
+/* HIDDEN */
+.hidden {
+    display: none;
+}
+
+/* XML IMPORT */
+#xml-import-container {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+#xml-import-container h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #666;
+}
+
+#xml-import {
+    display: none;
+}
+
+#xml-import-button {
+    padding: 8px 12px;
+    background: #ccc;
+    color: #666;
+    border: none;
+    border-radius: 4px;
+    cursor: not-allowed;
+    width: 100%;
+}
+
+#xml-import-button:hover {
+    background: #ccc;
+}
+
+/* ZURÜCKSETZEN BUTTON */
+#reset-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: #c00;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 1000;
+}
+
+#reset-button:hover {
     background: #a00;
 }

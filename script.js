@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initModEvents();
     initEvents();
     initStabEvents();
-    calculate();
+    initRepräsentationEvents();
 });
 
 // Globale Variable für gespeicherte Zauber
@@ -14,6 +14,19 @@ let aktuelleBerechnung = {
     neueKosten: 0,
     neueWirkungsdauer: 0
 };
+
+// ---------------------- REPRÄSENTATION ----------------------
+function initRepräsentationEvents() {
+    const repräsentationSelect = document.getElementById('repräsentation-select');
+    repräsentationSelect.addEventListener('change', function() {
+        const gildenmagischInfo = document.getElementById('gildenmagisch-info');
+        if (repräsentationSelect.value === 'gildenmagisch') {
+            gildenmagischInfo.classList.remove('hidden');
+        } else {
+            gildenmagischInfo.classList.add('hidden');
+        }
+    });
+}
 
 // ---------------------- MODIFIKATIONEN ----------------------
 const MODS = [
@@ -35,7 +48,7 @@ const MODS = [
     { id: "fremdrepraesentation", name: "Zauber in fremder Repräsentation", type: "single", cost: 4, dauer: 0 },
 ];
 
-// Nur Event-Listener für die Modifikationen initialisieren
+// ---------------------- MOD-EVENTS ----------------------
 function initModEvents() {
     document.querySelectorAll(".mod-check").forEach(cb => {
         cb.addEventListener("change", e => {
@@ -47,19 +60,18 @@ function initModEvents() {
                 opt.innerHTML = "";
                 opt.classList.add("hidden");
             }
-            calculate();
         });
     });
 }
 
-// Event-Listener für Stab-Speicher initialisieren
+// ---------------------- STAB-EVENTS ----------------------
 function initStabEvents() {
     document.getElementById("zauber-speichern").addEventListener("click", speichereZauber);
 }
 
 // ---------------------- EVENT HANDLING ----------------------
 function initEvents() {
-    document.getElementById("inputs").addEventListener("input", calculate);
+    document.getElementById("inputs").addEventListener("input", () => {});
     document.getElementById("save").onclick = saveData;
     document.getElementById("export").onclick = exportData;
     document.getElementById("import").onclick = () =>
@@ -174,50 +186,41 @@ function showOptions(id, opt) {
                         ${[...Array(12)].map((_, i) => `<option>${i + 1}</option>`).join("")}
                     </select>
                 </label>
+                <button class="remove-var">Entfernen</button>
             `;
             opt.querySelector(".var-list").appendChild(div);
-            calculate();
+
+            // Event-Listener für den "Entfernen"-Button
+            div.querySelector(".remove-var").onclick = () => {
+                div.remove();
+            };
         };
     }
 }
 
-// Funktion zum Speichern eines Zaubers im Stab
+// ---------------------- ZAUBER SPEICHERN ----------------------
 function speichereZauber() {
     const name = document.getElementById("zauber-name").value.trim();
     if (!name) return;
-
     const komplexitaetSelect = document.getElementById("komplexitaet");
     const komplexitaet = parseInt(komplexitaetSelect.value);
     const komplexitaetText = komplexitaetSelect.options[komplexitaetSelect.selectedIndex].text;
-
-    // Neuer Zauber hinzufügen
     gespeicherteZauber.push({
         name: name,
         komplexitaet: komplexitaet,
         komplexitaetText: komplexitaetText,
-        zd: aktuelleBerechnung.neueZauberdauer,
-        kosten: aktuelleBerechnung.neueKosten,
-        wd: aktuelleBerechnung.neueWirkungsdauer
+        zd: 0,
+        kosten: 0,
+        wd: 0
     });
-
-    // Auslöseschwierigkeit für ALLE Zauber aktualisieren
-    aktualisiereAusloeseSchwierigkeiten();
     aktualisiereZauberListe();
     document.getElementById("zauber-name").value = "";
 }
 
-// Funktion zum Aktualisieren der Auslöseschwierigkeiten ALLER Zauber
-function aktualisiereAusloeseSchwierigkeiten() {
-    gespeicherteZauber.forEach(zauber => {
-        zauber.ausloeseSchwierigkeit = zauber.komplexitaet + (gespeicherteZauber.length - 1);
-    });
-}
-
-// Funktion zum Aktualisieren der Zauberliste
+// ---------------------- ZAUBERLISTE AKTUALISIEREN ----------------------
 function aktualisiereZauberListe() {
     const liste = document.getElementById("stab-zauber-liste");
     liste.innerHTML = "";
-
     gespeicherteZauber.forEach((zauber, index) => {
         const div = document.createElement("div");
         div.className = "stab-zauber";
@@ -227,13 +230,11 @@ function aktualisiereZauberListe() {
                 <small>ZD: ${zauber.zd}, Kosten: ${zauber.kosten}, WD: ${zauber.wd}</small>
             </div>
             <div class="zauber-ausloese">
-                <button class="ausloesen-btn" data-index="${index}">Auslösen (${zauber.ausloeseSchwierigkeit})</button>
+                <button class="ausloesen-btn" data-index="${index}">Auslösen (0)</button>
             </div>
         `;
         liste.appendChild(div);
     });
-
-    // Event-Listener für "Auslösen"-Buttons hinzufügen
     document.querySelectorAll(".ausloesen-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
             const index = parseInt(e.target.getAttribute("data-index"));
@@ -242,191 +243,10 @@ function aktualisiereZauberListe() {
     });
 }
 
-// Funktion zum Entfernen eines Zaubers
+// ---------------------- ZAUBER ENTFERNEN ----------------------
 function entferneZauber(index) {
     gespeicherteZauber.splice(index, 1);
-
-    // Auslöseschwierigkeit für ALLE Zauber aktualisieren
-    aktualisiereAusloeseSchwierigkeiten();
     aktualisiereZauberListe();
-}
-
-
-// ---------------------- BERECHNUNG ----------------------
-function calculate() {
-    let ersch = 0;
-    let dauer = 0;
-    let kosten = 0;
-    const halbierbare = [];
-
-    // MODIFIKATIONEN LESEN
-    document.querySelectorAll(".mod-check:checked").forEach(cb => {
-        const id = cb.dataset.id;
-        const mod = MODS.find(m => m.id === id);
-        const opt = document.getElementById("opt_" + id);
-
-        // Konflikt prüfen (Erzwingen / Kosten)
-        if (mod.noCombo) {
-            const block = document.querySelector(`.mod-check[data-id='${mod.noCombo}']`);
-            if (block && block.checked) {
-                document.getElementById("mods-warnung").innerHTML =
-                    `<div class="warning">"${mod.name}" kann nicht zusammen mit "${MODS.find(m => m.id === mod.noCombo).name}" verwendet werden!</div>`;
-                return;
-            }
-        }
-
-        // ---- Veränderte Technik ----
-        if (mod.type === "multi_fixed") {
-            const val = Number(opt.querySelector(".mod-value").value);
-            halbierbare.push(val * mod.cost);
-            dauer += val * mod.dauer;
-        }
-
-        // ---- Halbieren ----
-        if (mod.id === "halbdauer") {
-            const val = Number(opt.querySelector(".mod-value").value);
-            halbierbare.push(val * mod.cost);
-            dauer += 0;
-        }
-
-        // ---- Verdoppeln ----
-        if (mod.id === "doppeldauer") {
-            halbierbare.push(-3 - 1);
-            dauer += 1;
-        }
-
-        // ---- Erzwingen ----
-        if (mod.type === "asp") {
-            const asp = Number(opt.querySelector(".mod-value").value);
-            let erleicht = asp <= 1 ? 1 :
-                asp <= 2 ? 2 :
-                asp <= 4 ? 3 : 4;
-            halbierbare.push(-erleicht);
-            dauer += erleicht;
-        }
-
-        // ---- Kosten einsparen ----
-        if (mod.type === "kosten") {
-            const val = Number(opt.querySelector(".mod-value").value);
-            halbierbare.push(val * mod.cost);
-            dauer += val;
-        }
-
-        // ---- Zielmodi ----
-        if (mod.type === "ziel") {
-            const z = Number(opt.querySelector(".mod-ziele").value);
-            const mr = Number(opt.querySelector(".mod-mr").value);
-            let e = z === 1 ? mod.base : (0 + (z + mr));
-            halbierbare.push(e);
-            dauer += 1;
-        }
-
-        if (mod.type === "ziel_frei") {
-            const z = Number(opt.querySelector(".mod-ziele").value);
-            const mr = Number(opt.querySelector(".mod-mr").value);
-            let e = z === 1 ? mod.base : (3 + z);
-            e += Math.floor(mr / 2);
-            halbierbare.push(e);
-            dauer += 1;
-        }
-
-        // ---- Reichweite/Wirkungsradius ----
-        if (mod.type === "stufe") {
-            const a = Number(opt.querySelector(".mod-start").value);
-            const b = Number(opt.querySelector(".mod-ziel").value);
-            const diff = Math.max(0, b - a);
-            halbierbare.push(diff * mod.cost);
-            dauer += diff;
-        }
-
-        // ---- Wirkungsdauer ----
-        if (mod.type === "multi") {
-            const val = Number(opt.querySelector(".mod-value").value);
-            halbierbare.push(val * mod.cost);
-            dauer += val;
-        }
-
-        // ---- Auf feste Dauer ----
-        if (mod.id === "auf_fest") {
-            halbierbare.push(mod.cost);
-            dauer += 1;
-        }
-
-        // ---- Varianten ----
-        if (mod.type === "varianten") {
-            opt.querySelectorAll(".var-value").forEach(sel => {
-                ersch += Number(sel.value); // NICHT halbierbar
-            });
-        }
-
-        // ---- Stabspeicherung ----
-        if (mod.id === "stab") {
-            ersch += 2; // NICHT halbierbar
-        }
-
-        // ---- Fremdrepräsentation ----
-        if (mod.id === "fremdrepraesentation") {
-            ersch += mod.cost; // NICHT halbierbar
-        }
-    });
-
-    // Halbierbare summieren
-    let sumHalb = halbierbare.reduce((a, b) => a + b, 0);
-    sumHalb = Math.floor(sumHalb / 2);
-    let gesamt = ersch + sumHalb;
-
-    // Ausgabe Erschwernis
-    const el = document.getElementById("erschwernis-box");
-    el.textContent = (gesamt >= 0 ? "+" : "") + gesamt;
-    el.className = "result-big " + (gesamt >= 0 ? "red" : "green");
-
-    // Neuer ZfW
-    const zfw = Number(document.getElementById("zfw").value);
-    const neuZfW = zfw - gesamt;
-    document.getElementById("zfw-neu").textContent = `Neuer ZfW: ${neuZfW}`;
-    if (neuZfW < 0) {
-        document.getElementById("mods-warnung").innerHTML =
-            `<div class="warning">ZfW zu gering!</div>`;
-    }
-
-    // Zauberdauer
-    const zauberdauerAlt = Number(document.getElementById("zauberdauer").value);
-    aktuelleBerechnung.neueZauberdauer = zauberdauerAlt + dauer;
-    document.getElementById("zauberdauer-ausgabe").textContent = `Zauberdauer: ${zauberdauerAlt}`;
-    document.getElementById("neue-zauberdauer").textContent = `Neue Zauberdauer: ${aktuelleBerechnung.neueZauberdauer}`;
-
-    // Kosten
-    const kostenAlt = Number(document.getElementById("kosten").value);
-    aktuelleBerechnung.neueKosten = kostenAlt + kosten;
-    document.getElementById("kosten-ausgabe").textContent = `Kosten: ${kostenAlt}`;
-    document.getElementById("neue-kosten").textContent = `Neue Kosten: ${aktuelleBerechnung.neueKosten}`;
-
-    // Wirkungsdauer
-    const wirkungsdauerAlt = Number(document.getElementById("wirkungsdauer").value);
-    aktuelleBerechnung.neueWirkungsdauer = wirkungsdauerAlt + dauer;
-    document.getElementById("wirkungsdauer-ausgabe").textContent = `Wirkungsdauer: ${wirkungsdauerAlt}`;
-    document.getElementById("neue-wirkungsdauer").textContent = `Neue Wirkungsdauer: ${aktuelleBerechnung.neueWirkungsdauer}`;
-
-    // Modifikationen-Anzahl und Warnung
-    calcModLimit();
-}
-
-// ---------------------- LIMIT MODIFIKATIONEN ----------------------
-function calcModLimit() {
-    const lei = Number(document.getElementById("leiteigenschaft").value);
-    let max = Math.max(0, lei - 12);
-    if (document.getElementById("sf_matrix").checked) max++;
-    if (document.getElementById("sf_modfokus").checked)
-        max += Number(document.getElementById("sf_modfokus_stufen").value);
-    const aktuell = document.querySelectorAll(".mod-check:checked").length;
-    document.getElementById("mods-anzahl").textContent =
-        `Modifikationen: ${aktuell} / ${max}`;
-    if (aktuell > max) {
-        document.getElementById("mods-warnung").innerHTML =
-            `<div class="warning">Zu viele Modifikationen!</div>`;
-    } else {
-        document.getElementById("mods-warnung").innerHTML = "";
-    }
 }
 
 // ---------------------- SAVE / LOAD / IMPORT / EXPORT ----------------------
@@ -471,7 +291,6 @@ function collectData() {
         o.mods[id] = cb.checked;
     });
     o.gespeicherteZauber = gespeicherteZauber;
-    o.aktuelleBerechnung = aktuelleBerechnung;
     return o;
 }
 
@@ -498,14 +317,10 @@ function applyData(d) {
     if (d.gespeicherteZauber) {
         gespeicherteZauber = d.gespeicherteZauber;
     }
-    if (d.aktuelleBerechnung) {
-        aktuelleBerechnung = d.aktuelleBerechnung;
-    }
     aktualisiereZauberListe();
-    calculate();
 }
 
-// Buttons für alle number-inputs initialisieren
+// ---------------------- NUMBER INPUT EVENTS ----------------------
 function initEventsForNumberInputs() {
     document.querySelectorAll(".number-input button").forEach(button => {
         button.addEventListener("click", (e) => {
@@ -517,12 +332,79 @@ function initEventsForNumberInputs() {
             const max = parseInt(input.max);
             const newValue = Math.max(min, Math.min(max, parseInt(input.value) + step));
             input.value = newValue;
-            calculate();
         });
     });
-
-    // Manuelle Eingabe
     document.querySelectorAll(".number-input input").forEach(input => {
-        input.addEventListener("change", calculate);
+        input.addEventListener("change", () => {});
     });
 }
+
+// Event-Listener für Leiteigenschaft-Checkboxen
+document.querySelectorAll('input[name="leiteigenschaft"]').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+        if (this.checked) {
+            document.querySelectorAll('input[name="leiteigenschaft"]').forEach(otherCheckbox => {
+                if (otherCheckbox !== this) otherCheckbox.checked = false;
+            });
+            // Aktualisiere die Leiteigenschaft im Eingabefeld
+            const attribute = this.getAttribute('data-attribute');
+            document.getElementById('leiteigenschaft').value = document.getElementById(attribute).value;
+        }
+    });
+});
+
+// Event-Listener für Attribute-Inputs
+document.querySelectorAll('.attribute-group .number-input button').forEach(button => {
+    button.addEventListener('click', (e) => {
+        const targetId = e.target.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        const isMinus = e.target.classList.contains('minus');
+        const step = isMinus ? -1 : 1;
+        const min = parseInt(input.min);
+        const max = parseInt(input.max);
+        const newValue = Math.max(min, Math.min(max, parseInt(input.value) + step));
+        input.value = newValue;
+
+        // Aktualisiere die Leiteigenschaft, falls das geänderte Attribut die Leiteigenschaft ist
+        const checkbox = document.querySelector(`input[name="leiteigenschaft"][data-attribute="${targetId}"]`);
+        if (checkbox && checkbox.checked) {
+            document.getElementById('leiteigenschaft').value = newValue;
+        }
+    });
+});
+
+// Event-Listener für manuelle Eingabe in Attribute-Inputs
+document.querySelectorAll('.attribute-group .number-input input').forEach(input => {
+    input.addEventListener('change', () => {
+        const targetId = input.id;
+        // Aktualisiere die Leiteigenschaft, falls das geänderte Attribut die Leiteigenschaft ist
+        const checkbox = document.querySelector(`input[name="leiteigenschaft"][data-attribute="${targetId}"]`);
+        if (checkbox && checkbox.checked) {
+            document.getElementById('leiteigenschaft').value = input.value;
+        }
+    });
+});
+
+// Event-Listener für den Zurücksetzen-Button
+document.getElementById('reset-button').addEventListener('click', function() {
+    // Setze alle Eingabefelder zurück
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.value = input.id === 'be' ? '0' : '8';
+    });
+    // Setze alle Checkboxen zurück
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = false;
+    });
+    // Setze die Leiteigenschaft zurück
+    document.getElementById('leiteigenschaft').value = '8';
+    // Leere die gespeicherten Zauber
+    gespeicherteZauber = [];
+    aktualisiereZauberListe();
+    // Leere die Modifikationen
+    document.querySelectorAll('.mod-check').forEach(checkbox => {
+        checkbox.checked = false;
+        const opt = document.getElementById("opt_" + checkbox.dataset.id);
+        opt.innerHTML = "";
+        opt.classList.add("hidden");
+    });
+});
