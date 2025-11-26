@@ -1,0 +1,264 @@
+body {
+    margin: 0;
+    font-family: system-ui, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+}
+
+#app {
+    display: grid;
+    grid-template-columns: 260px 1fr 300px;
+    gap: 20px;
+    padding: 20px;
+}
+
+aside, section {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+h2, h3 {
+    margin-top: 0;
+}
+
+.input-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    align-items: end;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.input-group label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.number-input {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.number-input button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background: #0077ee;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+}
+
+.number-input button:hover {
+    background: #005fcc;
+}
+
+.number-input button:active {
+    background: #0044aa;
+}
+
+.number-input input {
+    width: 50px;
+    text-align: center;
+    margin: 0 3px;
+    padding: 3px;
+}
+
+#sf-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+}
+
+#sf-group label {
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+}
+
+.hidden {
+    display: none;
+}
+
+#mod-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.modblock {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#buttons {
+    margin-top: 20px;
+    text-align: center;
+}
+
+button {
+    padding: 8px 12px;
+    margin: 0 5px;
+    border: none;
+    background: #0077ee;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #005fcc;
+}
+
+.result-big {
+    font-size: 1.6em;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.red {
+    color: #c00;
+}
+
+.green {
+    color: #090;
+}
+
+.warning {
+    color: #a00;
+    font-weight: bold;
+}
+
+#mods-container {
+    margin-bottom: 15px;
+}
+
+#mods-warnung {
+    color: #a00;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+#dauer-container,
+#kosten-container,
+#wirkungsdauer-container {
+    margin-bottom: 10px;
+}
+
+#zauberdauer-ausgabe,
+#neue-zauberdauer,
+#kosten-ausgabe,
+#neue-kosten,
+#wirkungsdauer-ausgabe,
+#neue-wirkungsdauer {
+    font-size: 1.1em;
+    margin: 5px 0;
+}
+
+.mod-category {
+    margin-bottom: 15px;
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.mod-category h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 5px;
+}
+
+.modblock {
+    margin-bottom: 8px;
+    background-color: white;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+#stab-speicher-container {
+    margin-top: 20px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.stab-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.stab-input input {
+    flex: 1;
+    padding: 6px;
+}
+
+.stab-input button {
+    padding: 6px 12px;
+    background: #0077ee;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#stab-zauber-liste {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.stab-zauber {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.stab-zauber .zauber-info {
+    flex: 1;
+}
+
+.stab-zauber .zauber-ausloese {
+    font-weight: bold;
+    color: #c00;
+}
+.ausloesen-btn {
+    padding: 4px 8px;
+    background: #c00;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.ausloesen-btn:hover {
+    background: #a00;
+}

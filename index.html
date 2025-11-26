@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <title>DSA – Helfer für Gildenmagier</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div id="app">
+        <!-- INFOBOX -->
+        <aside id="infobox">
+            <h2>Gildenmagische Repräsentation</h2>
+            <ul>
+                <li>Konzentration, Sicht, Geste, Formel – keine zentrale Komponente</li>
+                <li>Alle Spontanen Modifikationen halbieren die Zuschläge (erst addieren, dann halbieren)</li>
+                <li>Varianten & Stabspeicherung werden nicht halbiert</li>
+                <li>Boni aus verlängerter Zauberdauer: +1 zusätzlich</li>
+            </ul>
+        </aside>
+        <!-- EINGABEN -->
+        <section id="inputs">
+            <h2>Eingaben</h2>
+            <!-- Leiteigenschaft, ZfW, Zauberdauer, Kosten, Wirkungsdauer, Sonderfertigkeiten -->
+            <div class="input-row">
+                <div class="input-group">
+                    <label>Leiteigenschaft:</label>
+                    <div class="number-input">
+                        <button class="minus" data-target="leiteigenschaft">–</button>
+                        <input type="number" id="leiteigenschaft" min="1" max="31" value="10">
+                        <button class="plus" data-target="leiteigenschaft">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>ZfW:</label>
+                    <div class="number-input">
+                        <button class="minus" data-target="zfw">–</button>
+                        <input type="number" id="zfw" min="0" max="40" value="10">
+                        <button class="plus" data-target="zfw">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Zauberdauer:</label>
+                    <div class="number-input">
+                        <button class="minus" data-target="zauberdauer">–</button>
+                        <input type="number" id="zauberdauer" min="0" max="50" value="1">
+                        <button class="plus" data-target="zauberdauer">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Kosten:</label>
+                    <div class="number-input">
+                        <button class="minus" data-target="kosten">–</button>
+                        <input type="number" id="kosten" min="0" max="50" value="1">
+                        <button class="plus" data-target="kosten">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Wirkungsdauer:</label>
+                    <div class="number-input">
+                        <button class="minus" data-target="wirkungsdauer">–</button>
+                        <input type="number" id="wirkungsdauer" min="0" max="50" value="1">
+                        <button class="plus" data-target="wirkungsdauer">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Sonderfertigkeiten:</label>
+                    <div id="sf-group">
+                        <label><input type="checkbox" id="sf_matrix"> Matrixverständnis</label>
+                        <label>
+                            <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
+                        </label>
+                        <select id="sf_modfokus_stufen" class="hidden"></select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MODIFIKATIONEN -->
+            <h3>Modifikationen</h3>
+            <div id="mod-container">
+                <!-- Technik -->
+                <div class="mod-category">
+                    <h4>Technik</h4>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="tech"> Veränderte Technik
+                        </label>
+                        <div class="mod-options hidden" id="opt_tech"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="techz"> Veränderte Technik (zentral)
+                        </label>
+                        <div class="mod-options hidden" id="opt_techz"></div>
+                    </div>
+                </div>
+
+                <!-- Zauberdauer -->
+                <div class="mod-category">
+                    <h4>Zauberdauer</h4>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="halbdauer"> Zauberdauer halbieren
+                        </label>
+                        <div class="mod-options hidden" id="opt_halbdauer"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="doppeldauer"> Zauberdauer verdoppeln
+                        </label>
+                        <div class="mod-options hidden" id="opt_doppeldauer"></div>
+                    </div>
+                </div>
+
+                <!-- Kosten verändern -->
+                <div class="mod-category">
+                    <h4>Kosten verändern</h4>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="erzwingen"> Erzwingen (AsP)
+                        </label>
+                        <div class="mod-options hidden" id="opt_erzwingen"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="kosten"> Kosten einsparen
+                        </label>
+                        <div class="mod-options hidden" id="opt_kosten"></div>
+                    </div>
+                </div>
+
+                <!-- Ziel -->
+                <div class="mod-category">
+                    <h4>Ziel</h4>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="unfreiw"> Unfreiwillig statt freiwillig
+                        </label>
+                        <div class="mod-options hidden" id="opt_unfreiw"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="freiw"> Freiwillig statt unfreiwillig
+                        </label>
+                        <div class="mod-options hidden" id="opt_freiw"></div>
+                    </div>
+                </div>
+
+                <!-- Wirkungsbereich -->
+                <div class="mod-category">
+                    <h4>Wirkungsbereich</h4>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="reichweitex"> Reichweite/Wirkungsradius
+                            erhöhen
+                        </label>
+                        <div class="mod-options hidden" id="opt_reichweitex"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="reichweitek"> Reichweite/Wirkungsradius
+                            verkleinern
+                        </label>
+                        <div class="mod-options hidden" id="opt_reichweitek"></div>
+                    </div>
+                </div>
+
+                <!-- Wirkungsdauer -->
+                <div class="mod-category">
+                    <h4>Wirkungsdauer</h4>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="dauerx"> Wirkungsdauer verdoppeln
+                        </label>
+                        <div class="mod-options hidden" id="opt_dauerx"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="dauerh"> Wirkungsdauer halbieren
+                        </label>
+                        <div class="mod-options hidden" id="opt_dauerh"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="auf_fest"> Aufrechterhalten ➜ feste Dauer
+                        </label>
+                        <div class="mod-options hidden" id="opt_auf_fest"></div>
+                    </div>
+                </div>
+
+                <!-- Sonstiges -->
+                <div class="mod-category">
+                    <h4>Sonstiges</h4>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="varianten"> Varianten
+                        </label>
+                        <div class="mod-options hidden" id="opt_varianten"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="stab"> Zauber in Stab speichern
+                        </label>
+                        <div class="mod-options hidden" id="opt_stab"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="fremdrepraesentation"> Zauber in fremder
+                            Repräsentation
+                        </label>
+                        <div class="mod-options hidden" id="opt_fremdrepraesentation"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mod-container"></div>
+            <!-- SAVE, IMPORT, EXPORT -->
+            <div id="buttons">
+                <button id="save">Speichern</button>
+                <button id="export">Exportieren</button>
+                <button id="import">Importieren</button>
+                <input type="file" id="importFile" class="hidden">
+            </div>
+        </section>
+        <!-- AUSGABEN -->
+        <aside id="outputs">
+            <h2>Ergebnisse</h2>
+            <div id="mods-container">
+                <div id="mods-anzahl"></div>
+                <div id="mods-warnung"></div>
+            </div>
+            <div id="erschwernis-box" class="result-big"></div>
+            <div id="zfw-neu"></div>
+            <div id="dauer-container">
+                <div id="zauberdauer-ausgabe"></div>
+                <div id="neue-zauberdauer"></div>
+            </div>
+            <div id="kosten-container">
+                <div id="kosten-ausgabe"></div>
+                <div id="neue-kosten"></div>
+            </div>
+            <div id="wirkungsdauer-container">
+                <div id="wirkungsdauer-ausgabe"></div>
+                <div id="neue-wirkungsdauer"></div>
+            </div>
+            <div id="asp-ausgabe"></div>
+            <!-- Neues Modul unter "Neue Wirkungsdauer" -->
+            <div id="stab-speicher-container">
+                <h4>Zauber im Stab speichern</h4>
+                <div class="input-group">
+                    <label>Komplexität:</label>
+                    <select id="komplexitaet">
+                        <option value="-2">A++ (-2)</option>
+                        <option value="-1">A+ (-1)</option>
+                        <option value="1" selected>A (1)</option>
+                        <option value="2">B (2)</option>
+                        <option value="3">C (3)</option>
+                        <option value="4">D (4)</option>
+                        <option value="5">E (5)</option>
+                        <option value="6">F (6)</option>
+                    </select>
+                </div>
+                <div class="stab-input">
+                    <input type="text" id="zauber-name" placeholder="Name des Zaubers">
+                    <button id="zauber-speichern">Speichern</button>
+                </div>
+                <div id="stab-zauber-liste"></div>
+            </div>
+        </aside>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
