@@ -1,6 +1,12 @@
 /* GLOBALE STILE */
-body {
+html, body {
+    height: 100%;
     margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+body {
     font-family: system-ui, sans-serif;
     background: #f4f4f4;
     color: #222;
@@ -11,30 +17,102 @@ body {
     grid-template-columns: 260px 1fr 300px;
     gap: 20px;
     padding: 20px;
+    height: calc(100vh - 40px);
+    overflow: hidden;
 }
 
 aside, section {
     background: white;
-    padding: 20px;
+    padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    height: 100%;
+    overflow-y: auto;
 }
 
 h2, h3 {
     margin-top: 0;
+    font-size: 1em;
 }
 
 /* REPRÄSENTATIONS-DROPDOWN */
 #repräsentation {
-    grid-column: 1;
+    padding: 10px;
+}
+
+#repräsentation h2 {
+    font-size: 1em;
+    margin-bottom: 10px;
 }
 
 #repräsentation select {
     width: 100%;
-    padding: 8px;
+    padding: 5px;
     margin-bottom: 10px;
     border-radius: 4px;
     border: 1px solid #ddd;
+}
+
+/* ATTRIBUTE */
+#attribute-container {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+#attribute-container h4 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+.attribute-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.attribute-group {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.attribute-line {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.attribute-label {
+    font-weight: bold;
+    width: 40px;
+}
+
+.attribute-group .number-input {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.attribute-group .checkbox-line {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 5px;
+}
+
+.attribute-group input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.attribute-group .checkbox-label {
+    font-weight: normal;
+    font-size: 0.8em;
 }
 
 /* EINGABEN */
@@ -172,8 +250,37 @@ h2, h3 {
 
 /* BUTTONS */
 #buttons {
-    margin-top: 20px;
-    text-align: center;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+#save {
+    width: 100%;
+    padding: 10px;
+    background: #0077ee;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#buttons-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+#export, #import {
+    width: 48%;
+    padding: 10px;
+    background: #0077ee;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 button {
@@ -188,13 +295,6 @@ button {
 
 button:hover {
     background: #005fcc;
-}
-
-#mods-warnung {
-    color: #a00;
-    font-weight: bold;
-    font-size: 0.9em;
-    margin-top: 5px;
 }
 
 /* STAB-SPEICHER */
@@ -270,10 +370,10 @@ button:hover {
 
 /* XML IMPORT */
 #xml-import-container {
-    margin-top: 20px;
+    margin-top: 10px;
     padding: 10px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #f9f9f9;
 }
 
@@ -289,13 +389,13 @@ button:hover {
 }
 
 #xml-import-button {
-    padding: 8px 12px;
+    width: 100%;
+    padding: 8px;
     background: #ccc;
     color: #666;
     border: none;
     border-radius: 4px;
     cursor: not-allowed;
-    width: 100%;
 }
 
 #xml-import-button:hover {
@@ -319,4 +419,11 @@ button:hover {
 
 #reset-button:hover {
     background: #a00;
+}
+
+/* LINKE SPALTE */
+#app > aside {
+    display: flex;
+    flex-direction: column;
+    height: auto;
 }

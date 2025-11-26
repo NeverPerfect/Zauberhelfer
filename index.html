@@ -18,12 +18,10 @@
                 <option value="weitere">Weitere in Arbeit</option>
             </select>
             <div id="gildenmagisch-info" class="hidden">
-                <h3>Gildenmagische Repräsentation</h3>
                 <ul>
-                    <li>Konzentration, Sicht, Geste, Formel – keine zentrale Komponente</li>
-                    <li>Alle Spontanen Modifikationen halbieren die Zuschläge (erst addieren, dann halbieren)</li>
-                    <li>Varianten & Stabspeicherung werden nicht halbiert</li>
-                    <li>Boni aus verlängerter Zauberdauer: +1 zusätzlich</li>
+                    <li>Technik: Konzentration, Sicht, Geste, Formel – keine zentrale Komponente</li>
+                    <li>Zuschläge für spontane Modifikationen werden halbiert</li>
+                    <li>Ein zustätzlicher Punkt aus verlängerter Zauberdauer</li>
                 </ul>
             </div>
             <div id="attribute-container">
@@ -44,8 +42,11 @@
                             <input type="number" id="kl" min="0" max="31" value="10">
                             <button class="plus" data-target="kl">+</button>
                         </div>
-                        <label><input type="checkbox" name="leiteigenschaft" data-attribute="kl">
-                            Leiteigenschaft</label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="leiteigenschaft" data-attribute="kl"> Leiteigenschaft
+                            </label>
+                        </div>
                     </div>
                     <div class="attribute-group">
                         <label>IN:</label>
@@ -54,9 +55,13 @@
                             <input type="number" id="in" min="0" max="31" value="10">
                             <button class="plus" data-target="in">+</button>
                         </div>
-                        <label><input type="checkbox" name="leiteigenschaft" data-attribute="in">
-                            Leiteigenschaft</label>
+                        <div class="checkbox-container">
+                            <label class="checkbox-label">
+                                <input type="checkbox" name="leiteigenschaft" data-attribute="in"> Leiteigenschaft
+                            </label>
+                        </div>
                     </div>
+
                     <div class="attribute-group">
                         <label>CH:</label>
                         <div class="number-input">
@@ -123,10 +128,13 @@
             <!-- SAVE, IMPORT, EXPORT -->
             <div id="buttons">
                 <button id="save">Speichern</button>
-                <button id="export">Exportieren</button>
-                <button id="import">Importieren</button>
+                <div id="buttons-row">
+                    <button id="export">Exportieren</button>
+                    <button id="import">Importieren</button>
+                </div>
                 <input type="file" id="importFile" class="hidden">
             </div>
+
         </aside>
 
         <!-- EINGABE DER GRUNDWERTE -->
@@ -369,6 +377,7 @@
                 <button id="zauber-speichern">Speichern</button>
             </div>
             <div id="stab-zauber-liste"></div>
+            <div>RkP um dann auch auszugeben, wann ein Zauber zu schwer ist um ihn auszulösen.</div>
         </div>
         </aside>
     </div>
