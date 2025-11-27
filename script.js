@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 const modfokusCheckbox = document.getElementById("sf_modfokus");
 const modfokusDropdown = document.getElementById("sf_modfokus_anzahl");
 if (modfokusCheckbox && modfokusDropdown) {
-    modfokusCheckbox.addEventListener("change", function() {
+    modfokusCheckbox.addEventListener("change", function () {
         modfokusDropdown.classList.toggle("hidden", !this.checked);
         if (!modfokusDropdown.classList.contains("hidden")) {
             modfokusDropdown.innerHTML = "";
@@ -38,30 +38,17 @@ let aktuelleBerechnung = {
 
 // ---------------------- REPRÄSENTATION ----------------------
 function initRepraesentationEvents() {
-    const representationSelect = document.getElementById('repraesentation-select');
-    const representationDetails = document.getElementById('repraesentation-details');
-    const gildenmagischContent = document.getElementById('gildenmagisch-content');
-    const weitereContent = document.getElementById('weitere-content');
+    const select = document.getElementById('repraesentation-select');
 
-    if (!representationSelect || !representationDetails || !gildenmagischContent || !weitereContent) {
-        console.error("Ein oder mehrere Elemente für die Repräsentation wurden nicht gefunden!");
-        return;
-    }
-
-    representationSelect.addEventListener('change', function() {
-        gildenmagischContent.classList.add('hidden');
-        weitereContent.classList.add('hidden');
-
+    select.addEventListener('change', function() {
+        document.querySelectorAll('.repr-content').forEach(content => {
+            content.classList.remove('visible');
+        });
         if (this.value) {
-            representationDetails.classList.remove('hidden');
-        } else {
-            representationDetails.classList.add('hidden');
-        }
-
-        if (this.value === 'gildenmagisch') {
-            gildenmagischContent.classList.remove('hidden');
-        } else if (this.value === 'weitere') {
-            weitereContent.classList.remove('hidden');
+            const content = document.getElementById(`${this.value}-content`);
+            if (content) {
+                content.classList.add('visible');
+            }
         }
     });
 }
@@ -84,7 +71,8 @@ const MODS = [
     { id: "varianten", name: "Varianten", type: "varianten" },
     { id: "stab", name: "Zauber in Stab speichern", type: "single", cost: 2 },
     { id: "fremdrepraesentation", name: "Zauber in fremder Repräsentation", type: "single", cost: 4, dauer: 0 },
-    { id: "miss", name: "Zauber misslungen?", type: "multi_var", cost: 3, dauer: 1, dropdown: [1, 2, 3, 4] }
+    { id: "miss", name: "Zauber misslungen?", type: "multi_var", cost: 3, dauer: 1, dropdown: [1, 2, 3, 4] },
+    { id: "sonstigemods", name: "Sonstige Modifikationen", type: "sonstiges" }
 ];
 
 // ---------------------- MOD-EVENTS ----------------------
@@ -176,6 +164,27 @@ function showOptions(id, opt) {
             <label>Zielstufe:
                 <input type="number" min="0" max="7" class="mod-ziel" value="1">
             </label>
+        `;
+    } else if (mod.type === "sonstiges") {
+        opt.innerHTML = `
+            <div class="sonstige-mods-container">
+                <div class="sonstige-mod-input">
+                    <label>ZfW:</label>
+                    <input type="number" class="mod-zfw" value="0" placeholder="+/-">
+                </div>
+                <div class="sonstige-mod-input">
+                    <label>ZD:</label>
+                    <input type="number" class="mod-zd" value="0" placeholder="+/-">
+                </div>
+                <div class="sonstige-mod-input">
+                    <label>AsP:</label>
+                    <input type="number" class="mod-asp" value="0" placeholder="+/-">
+                </div>
+                <div class="sonstige-mod-input">
+                    <label>WD:</label>
+                    <input type="number" class="mod-wd" value="0" placeholder="+/-">
+                </div>
+            </div>
         `;
     } else if (mod.type === "multi") {
         opt.innerHTML = `
@@ -276,13 +285,13 @@ function initEventsForNumberInputs() {
         });
     });
     document.querySelectorAll(".number-input input").forEach(input => {
-        input.addEventListener("change", () => {});
+        input.addEventListener("change", () => { });
     });
 }
 
 // ---------------------- LEITEIGENSCHAFT-EVENTS ----------------------
 document.querySelectorAll('input[name="leiteigenschaft"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
+    checkbox.addEventListener('change', function () {
         if (this.checked) {
             document.querySelectorAll('input[name="leiteigenschaft"]').forEach(otherCheckbox => {
                 if (otherCheckbox !== this) otherCheckbox.checked = false;
