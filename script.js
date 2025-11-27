@@ -298,6 +298,7 @@ function importData(e) {
             }
 
             // Repräsentation wiederherstellen
+            //BUG: INFOTEXT WIRD AKTUELL NICHT WIEDER HERGESTELLT
             if (data.repraesentationValue) {
                 const select = document.getElementById('repraesentation-select');
                 select.value = data.repraesentationValue;
