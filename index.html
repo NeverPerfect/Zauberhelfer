@@ -3,44 +3,51 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zauberhelfer</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div id="app">
-        <!-- SPALTE LINKS -->
+        <!-- REPRÄSENTATION UND EIGENSCHAFTEN -->
         <aside id="repräsentation">
-            <h2>Repräsentation</h2>
             <select id="repräsentation-select">
                 <option value="">-- Repräsentation wählen --</option>
                 <option value="gildenmagisch">Gildenmagisch</option>
                 <option value="weitere">Weitere in Arbeit</option>
             </select>
-            <div id="gildenmagisch-info" class="hidden">
-                <ul>
-                    <li>Technik: Konzentration, Sicht, Geste, Formel – keine zentrale Komponente</li>
-                    <li>Zuschläge für spontane Modifikationen werden halbiert</li>
-                    <li>Ein zustätzlicher Punkt aus verlängerter Zauberdauer</li>
-                </ul>
+            <div id="repräsentation-details" class="info-box">
+                <div id="gildenmagisch-content" class="hidden">
+                    <p>Technik: Konzentration, Sicht, Geste, Formel – keine zentrale Komponente</p>
+                    <p>Zuschläge für spontane Modifikationen werden, nach dem summieren, halbiert</p>
+                    <p>Spontane Modifikation "verlängerte Zauberdauer" gibt einen zusätzlichen Punkt Erleichterung</p>
+                </div>
+                <div id="weitere-content" class="hidden">
+                    <p>Hier stehen Infos zu "Weitere in Arbeit".</p>
+                </div>
             </div>
             <div id="attribute-container">
-                <h4>Attribute</h4>
+                <h4>Eigenschaften</h4>
                 <div class="attribute-row">
                     <div class="attribute-group">
-                        <label>MU:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="mu">–</button>
-                            <input type="number" id="mu" min="0" max="31" value="10">
-                            <button class="plus" data-target="mu">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">MU:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="mu">–</button>
+                                <input type="number" id="mu" min="0" max="31" value="10">
+                                <button class="plus" data-target="mu">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>KL:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="kl">–</button>
-                            <input type="number" id="kl" min="0" max="31" value="10">
-                            <button class="plus" data-target="kl">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">KL:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="kl">–</button>
+                                <input type="number" id="kl" min="0" max="31" value="10">
+                                <button class="plus" data-target="kl">+</button>
+                            </div>
                         </div>
                         <div class="checkbox-container">
                             <label class="checkbox-label">
@@ -49,11 +56,13 @@
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>IN:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="in">–</button>
-                            <input type="number" id="in" min="0" max="31" value="10">
-                            <button class="plus" data-target="in">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">IN:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="in">–</button>
+                                <input type="number" id="in" min="0" max="31" value="10">
+                                <button class="plus" data-target="in">+</button>
+                            </div>
                         </div>
                         <div class="checkbox-container">
                             <label class="checkbox-label">
@@ -63,59 +72,73 @@
                     </div>
 
                     <div class="attribute-group">
-                        <label>CH:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="ch">–</button>
-                            <input type="number" id="ch" min="0" max="31" value="10">
-                            <button class="plus" data-target="ch">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">CH:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="ch">–</button>
+                                <input type="number" id="ch" min="0" max="31" value="10">
+                                <button class="plus" data-target="ch">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>FF:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="ff">–</button>
-                            <input type="number" id="ff" min="0" max="31" value="10">
-                            <button class="plus" data-target="ff">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">FF:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="ff">–</button>
+                                <input type="number" id="ff" min="0" max="31" value="10">
+                                <button class="plus" data-target="ff">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>GE:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="ge">–</button>
-                            <input type="number" id="ge" min="0" max="31" value="10">
-                            <button class="plus" data-target="ge">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">GE:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="ge">–</button>
+                                <input type="number" id="ge" min="0" max="31" value="10">
+                                <button class="plus" data-target="ge">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>KO:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="ko">–</button>
-                            <input type="number" id="ko" min="0" max="31" value="10">
-                            <button class="plus" data-target="ko">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">KO:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="ko">–</button>
+                                <input type="number" id="ko" min="0" max="31" value="10">
+                                <button class="plus" data-target="ko">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>KK:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="kk">–</button>
-                            <input type="number" id="kk" min="0" max="31" value="10">
-                            <button class="plus" data-target="kk">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">KK:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="kk">–</button>
+                                <input type="number" id="kk" min="0" max="31" value="10">
+                                <button class="plus" data-target="kk">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>INI:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="ini">–</button>
-                            <input type="number" id="ini" min="0" max="31" value="10">
-                            <button class="plus" data-target="ini">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">INI:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="ini">–</button>
+                                <input type="number" id="ini" min="0" max="31" value="10">
+                                <button class="plus" data-target="ini">+</button>
+                            </div>
                         </div>
                     </div>
                     <div class="attribute-group">
-                        <label>BE:</label>
-                        <div class="number-input">
-                            <button class="minus" data-target="be">–</button>
-                            <input type="number" id="be" min="0" max="31" value="0">
-                            <button class="plus" data-target="be">+</button>
+                        <div class="attribute-line">
+                            <label class="attribute-label">BE:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="be">–</button>
+                                <input type="number" id="be" min="0" max="31" value="0">
+                                <button class="plus" data-target="be">+</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -137,13 +160,14 @@
 
         </aside>
 
-        <!-- EINGABE DER GRUNDWERTE -->
+        <!-- EINGABE DER ZAUBERWERTE -->
         <section id="inputs">
-            <h2>Zauber</h2>
-            <select id="zauber-select">
-                <option value="">-- Zauber wählen --</option>
-                <option value="weitere">In Arbeit</option>
-            </select>
+            <div class="zauber-header">
+                <select id="zauber-select">
+                    <option value="">-- Zauber wählen --</option>
+                    <option value="weitere">In Arbeit</option>
+                </select>
+            </div>
             <div class="input-row">
                 <div class="input-group">
                     <label>ZfW:</label>
@@ -170,6 +194,30 @@
                     </div>
                 </div>
                 <div class="input-group">
+                    <label
+                        title="Etwa bei aufrecht zu erhaltenden Zaubern, oder bei mehreren Zielen. Kosten pro SR, A, Gewicht, Ziele...">Kosten
+                        pro Einheit:</label>
+                    <div class="number-input">
+                        <button class="minus" data-target="kosteneinheit">–</button>
+                        <input type="number" id="kosteneinheit" min="0" max="50" value="1">
+                        <button class="plus" data-target="kosteneinheit">+</button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <label>Reichweite:</label>
+                    <select id="reichweite-select">
+                        <option value=""></option>
+                        <option value="weitere">selbst</option>
+                        <option value="weitere">Berührung</option>
+                        <option value="weitere">1 Schritt (oder ZfW Spann)</option>
+                        <option value="weitere">3 Schritt (oder ZfW/2 Schritt)</option>
+                        <option value="weitere">7 Schritt (oder ZfW Schritt)</option>
+                        <option value="weitere">21 Schritt (oder ZfW x 3 Schritt)</option>
+                        <option value="weitere">49 Schritt (oder ZfW x 7 Schritt)</option>
+                        <option value="weitere">Horizont</option>
+                    </select>
+                </div>
+                <div class="input-group">
                     <label>Wirkungsdauer:</label>
                     <div class="number-input">
                         <button class="minus" data-target="wirkungsdauer">–</button>
@@ -177,19 +225,37 @@
                         <button class="plus" data-target="wirkungsdauer">+</button>
                     </div>
                 </div>
-                <div class="input-group">
-                    <label>Sonderfertigkeiten:</label>
+            </div>
+
+            <div class="input-row">
+                <div class="input-group" id="anzahl-einheiten-group">
+                    <label>Anzahl Einheiten:</label>
+                    <div class="number-input">
+                        <button class="minus" data-target="anzahl-einheiten">–</button>
+                        <input type="number" id="anzahl-einheiten" min="0" max="50" value="1">
+                        <button class="plus" data-target="anzahl-einheiten">+</button>
+                    </div>
+                </div>
+            </div>
+            <div class="sf-row">
+                <div class="sf-container">
+                    <div class="sf-header">
+                        <label>Sonderfertigkeiten:</label>
+                    </div>
                     <div id="sf-group">
                         <label><input type="checkbox" id="sf_matrix"> Matrixverständnis</label>
-                        <label>
-                            <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
-                        </label>
-                        <select id="sf_modfokus_stufen" class="hidden"></select>
+                        <label><input type="checkbox" id="sf_krftkontr"> Kraftkontrolle</label>
+                        <div class="sf-item">
+                            <label><input type="checkbox" id="sf_modfokus"> Modifikationsfokus</label>
+                            <select id="sf_modfokus_anzahl" class="hidden"></select>
+                        </div>
+                        <label><input type="checkbox" id="sf_krftfokus"> Kraftfokus</label>
+                        <label><input type="checkbox" id="sf_kugel"> Kugel des Hellsehers</label>
                     </div>
                 </div>
             </div>
             <!-- MODIFIKATIONEN -->
-            <h3>Modifikationen</h3>
+            <h2>Modifikationen</h2>
             <div id="mod-container">
                 <!-- TECHNIK -->
                 <div class="mod-category">
@@ -311,74 +377,156 @@
                     </div>
                     <div class="modblock">
                         <label>
-                            <input type="checkbox" class="mod-check" data-id="fremdrepraesentation"> Sontige
+                            <input type="checkbox" class="mod-check" data-id="sonstigemods"> Sontige
                             Modifikationen (ZfW +/-, AsP +/-, ZD +/-,...)
                         </label>
                     </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="inimod"> INI < 0 </label>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="bemod"> BE>2
+                        </label>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="miss"> Zauber misslungen?
+                        </label>
+                        <div class="mod-options hidden" id="opt_miss"></div>
+                    </div>
                 </div>
-
                 <!-- ERGEBNISSE -->
                 <div id="results-container">
-                    <div class="result-box">
-                        <div>ZfW +/-:</div>
-                        <div id="zfw-diff"></div>
-                        <div>ZfW neu:</div>
-                        <div id="zfw-neu"></div>
-                    </div>
-                    <div class="result-box">
-                        <div>ZD +/-:</div>
-                        <div id="zd-diff"></div>
-                        <div>ZD neu:</div>
-                        <div id="zd-neu"></div>
-                    </div>
-                    <div class="result-box">
-                        <div>AsP +/-:</div>
-                        <div id="kosten-diff"></div>
-                        <div>AsP neu:</div>
-                        <div id="kosten-neu"></div>
-                    </div>
-                    <div class="result-box">
-                        <div>WD +/-:</div>
-                        <div id="wd-diff"></div>
-                        <div>WD neu:</div>
-                        <div id="wd-neu"></div>
-                    </div>
-                    <div class="result-box">
+                    <!-- Oberste Reihe (volle Breite) -->
+                    <div class="result-box full-width">
+                        <h4>Resultat</h4>
                         <div id="mods-container">
                             <div>x/y Modifikationen</div>
                             <div id="mods-anzahl"></div>
-                            <div>Warnung wenn zu viele Modifikationen ausgewählt wurden</div>
+                            <div>Warnungen</div>
                             <div id="mods-warnung"></div>
                         </div>
                     </div>
-                    <div class="result-box">
-                        <div>Erfolgswahrscheinlichkeit</div>
-                        <div id="chance"></div>
+                    <!-- Grid für die 2 Reihen mit 4 Spalten -->
+                    <div class="results-grid">
+                        <!-- Reihe 1 -->
+                        <div class="result-box">
+                            <div>ZfW +/-:</div>
+                            <div id="zfw-diff"></div>
+                        </div>
+                        <div class="result-box">
+                            <div>ZD +/-:</div>
+                            <div id="zd-diff"></div>
+                        </div>
+                        <div class="result-box">
+                            <div>WD +/-:</div>
+                            <div id="wd-diff"></div>
+                        </div>
+                        <div class="result-box">
+                            <div>AsP +/-:</div>
+                            <div id="asp-diff"></div>
+                        </div>
+
+                        <!-- Reihe 2 -->
+                        <div class="result-box">
+                            <div>ZfW neu:</div>
+                            <div id="zfw-neu"></div>
+                        </div>
+                        <div class="result-box">
+                            <div>ZD neu:</div>
+                            <div id="zd-neu"></div>
+                        </div>
+                        <div class="result-box">
+                            <div>WD neu:</div>
+                            <div id="wd-neu"></div>
+                        </div>
+                        <div class="result-box">
+                            <div>AsP neu:</div>
+                            <div id="asp-neu"></div>
+                        </div>
                     </div>
                 </div>
+                <div id="results-container">
+                    <div class="result-box">
+                        <h4>Erfolgswahrscheinlichkeit</h4>
+                        <div id="chance"></div>
+                        <div class="success-attributes-row">
+                            <select class="attribute-select">
+                                <option value="mu">MU</option>
+                                <option value="kl">KL</option>
+                                <option value="in">IN</option>
+                                <option value="ch">CH</option>
+                                <option value="ff">FF</option>
+                                <option value="ge">GE</option>
+                                <option value="ko">KO</option>
+                                <option value="kk">KK</option>
+                            </select>
+                            <input type="number" class="attribute-value" placeholder="Wert">
+                            <select class="attribute-select">
+                                <option value="mu">MU</option>
+                                <option value="kl">KL</option>
+                                <option value="in">IN</option>
+                                <option value="ch">CH</option>
+                                <option value="ff">FF</option>
+                                <option value="ge">GE</option>
+                                <option value="ko">KO</option>
+                                <option value="kk">KK</option>
+                            </select>
+                            <input type="number" class="attribute-value" placeholder="Wert">
+                            <select class="attribute-select">
+                                <option value="mu">MU</option>
+                                <option value="kl">KL</option>
+                                <option value="in">IN</option>
+                                <option value="ch">CH</option>
+                                <option value="ff">FF</option>
+                                <option value="ge">GE</option>
+                                <option value="ko">KO</option>
+                                <option value="kk">KK</option>
+                            </select>
+                            <input type="number" class="attribute-value" placeholder="Wert">
+                        </div>
+                    </div>
+                </div>
+            </div>
         </section>
         <!-- STAB-SPEICHER -->
         <div id="stab-speicher-container">
             <h4>Zauber im Stab speichern</h4>
             <p>Erschwernis, Aktuelle Erschwernis + 2</p>
+
+            <!-- Komplexität: Label + Dropdown in einem Container -->
             <div class="input-group">
-                <label>Komplexität:</label>
+                <label for="komplexitaet">Komplexität:</label>
                 <select id="komplexitaet">
-                    <option value="1" selected>A (1)</option>
-                    <option value="2">B (2)</option>
-                    <option value="3">C (3)</option>
-                    <option value="4">D (4)</option>
-                    <option value="5">E (5)</option>
-                    <option value="6">F (6)</option>
+                    <option value="1" selected>A</option>
+                    <option value="2">B</option>
+                    <option value="3">C</option>
+                    <option value="4">D</option>
+                    <option value="5">E</option>
+                    <option value="6">F</option>
                 </select>
             </div>
+
+            <!-- Ritualkenntnis: Label + Eingabefeld mit Buttons in einem Container -->
+            <div class="input-group">
+                <label for="rkw">Ritualkenntnis:</label>
+                <div class="number-input">
+                    <button class="minus" data-target="rkw">-</button>
+                    <input type="number" id="rkw" min="0" max="40" value="10">
+                    <button class="plus" data-target="rkw">+</button>
+                </div>
+            </div>
+
+            <div>Platz für Warnung, wenn Zauber schwerer auszulösen ist, als RkW</div>
             <div class="stab-input">
                 <input type="text" id="zauber-name" placeholder="Name des Zaubers">
                 <button id="zauber-speichern">Speichern</button>
             </div>
             <div id="stab-zauber-liste"></div>
-            <div>RkP um dann auch auszugeben, wann ein Zauber zu schwer ist um ihn auszulösen.</div>
         </div>
+
         </aside>
     </div>
     <script src="script.js"></script>

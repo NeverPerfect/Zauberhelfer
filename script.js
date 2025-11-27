@@ -1,13 +1,37 @@
 // ---------------------- INIT ----------------------
 document.addEventListener("DOMContentLoaded", () => {
+    // Checkboxen deaktivieren
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+    });
+
+
     initEventsForNumberInputs();
     initModEvents();
     initEvents();
     initStabEvents();
     initRepräsentationEvents();
+    initSonderfertigkeitenEvents();
 });
 
-// Globale Variable für gespeicherte Zauber
+ const modfokusCheckbox = document.getElementById("sf_modfokus");
+    const modfokusDropdown = document.getElementById("sf_modfokus_anzahl");
+
+    modfokusCheckbox.addEventListener("change", function() {
+        modfokusDropdown.classList.toggle("hidden", !this.checked);
+
+        if (!modfokusDropdown.classList.contains("hidden")) {
+            modfokusDropdown.innerHTML = "";
+            for (let i = 1; i <= 5; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = `Anzahl ${i}`;
+                modfokusDropdown.appendChild(option);
+            }
+        }
+    });
+
+// ---------------------- GLOBALE VARIABLEN ----------------------
 let gespeicherteZauber = [];
 let aktuelleBerechnung = {
     neueZauberdauer: 0,
@@ -18,12 +42,21 @@ let aktuelleBerechnung = {
 // ---------------------- REPRÄSENTATION ----------------------
 function initRepräsentationEvents() {
     const repräsentationSelect = document.getElementById('repräsentation-select');
+    const gildenmagischContent = document.getElementById('gildenmagisch-content');
+    const weitereContent = document.getElementById('weitere-content');
+
+    repräsentationSelect.value = '';
+    gildenmagischContent.classList.add('hidden');
+    weitereContent.classList.add('hidden');
+
     repräsentationSelect.addEventListener('change', function() {
-        const gildenmagischInfo = document.getElementById('gildenmagisch-info');
+        gildenmagischContent.classList.add('hidden');
+        weitereContent.classList.add('hidden');
+
         if (repräsentationSelect.value === 'gildenmagisch') {
-            gildenmagischInfo.classList.remove('hidden');
-        } else {
-            gildenmagischInfo.classList.add('hidden');
+            gildenmagischContent.classList.remove('hidden');
+        } else if (repräsentationSelect.value === 'weitere') {
+            weitereContent.classList.remove('hidden');
         }
     });
 }
@@ -46,6 +79,7 @@ const MODS = [
     { id: "varianten", name: "Varianten", type: "varianten" },
     { id: "stab", name: "Zauber in Stab speichern", type: "single", cost: 2 },
     { id: "fremdrepraesentation", name: "Zauber in fremder Repräsentation", type: "single", cost: 4, dauer: 0 },
+    { id: "miss", name: "Zauber misslungen?", type: "multi_var", cost: 3, dauer: 1, dropdown: [1, 2, 3, 4] }
 ];
 
 // ---------------------- MOD-EVENTS ----------------------
@@ -77,51 +111,39 @@ function initEvents() {
     document.getElementById("import").onclick = () =>
         document.getElementById("importFile").click();
     document.getElementById("importFile").addEventListener("change", importData);
-    document.getElementById("sf_modfokus").addEventListener("change", () => {
-        const sel = document.getElementById("sf_modfokus_stufen");
-        sel.classList.toggle("hidden");
-        if (!sel.classList.contains("hidden")) {
-            sel.innerHTML = "";
-            for (let i = 1; i <= 5; i++) {
-                const o = document.createElement("option");
-                o.value = i;
-                o.textContent = `Stufe ${i}`;
-                sel.appendChild(o);
-            }
-        }
-    });
 }
 
-// ---------------------- OPTIONEN RENDERN ----------------------
+// ---------------------- OPTIONEN RENDERN (VOLLSTÄNDIG) ----------------------
 function showOptions(id, opt) {
     opt.classList.remove("hidden");
     const mod = MODS.find(m => m.id === id);
+
     if (mod.type === "multi_fixed") {
-        opt.innerHTML = `<label>Stufen:
+        opt.innerHTML = `<label>Anzahl:
             <select class="mod-value">
             ${mod.dropdown.map(v => `<option value="${v}">${v}</option>`).join("")}
             </select>
         </label>`;
     }
-    if (mod.type === "multi_var") {
+    else if (mod.type === "multi_var") {
         opt.innerHTML = `
             <label>Anzahl:
                 <select class="mod-value">
-                    ${[1, 2, 3, 4].map(v => `<option value="${v}">${v}</option>`).join("")}
+                    ${mod.dropdown ? mod.dropdown.map(v => `<option value="${v}">${v}</option>`).join("") : [1, 2, 3, 4].map(v => `<option value="${v}">${v}</option>`).join("")}
                 </select>
             </label>
         `;
     }
-    if (mod.type === "single") {
+    else if (mod.type === "single") {
         opt.innerHTML = `<span>Keine Optionen</span>`;
     }
-    if (mod.type === "asp") {
+    else if (mod.type === "asp") {
         opt.innerHTML = `
             <label>AsP:
                 <input type="number" min="1" max="20" class="mod-value" value="1">
             </label>`;
     }
-    if (mod.type === "kosten") {
+    else if (mod.type === "kosten") {
         opt.innerHTML = `
             <label>Anzahl:
                 <select class="mod-value">
@@ -129,7 +151,7 @@ function showOptions(id, opt) {
                 </select>
             </label>`;
     }
-    if (mod.type === "ziel") {
+    else if (mod.type === "ziel") {
         opt.innerHTML = `
         <label>Ziele:
             <input type="number" min="1" value="1" class="mod-ziele">
@@ -141,7 +163,7 @@ function showOptions(id, opt) {
         </label>
         `;
     }
-    if (mod.type === "ziel_frei") {
+    else if (mod.type === "ziel_frei") {
         opt.innerHTML = `
         <label>Ziele:
             <input type="number" min="1" value="1" class="mod-ziele">
@@ -153,7 +175,7 @@ function showOptions(id, opt) {
         </label>
         `;
     }
-    if (mod.type === "stufe") {
+    else if (mod.type === "stufe") {
         opt.innerHTML = `
             <label>Startstufe:
                 <input type="number" min="0" max="7" class="mod-start" value="0">
@@ -163,7 +185,7 @@ function showOptions(id, opt) {
             </label>
         `;
     }
-    if (mod.type === "multi") {
+    else if (mod.type === "multi") {
         opt.innerHTML = `
             <label>Anzahl:
                 <select class="mod-value">
@@ -172,7 +194,7 @@ function showOptions(id, opt) {
             </label>
         `;
     }
-    if (mod.type === "varianten") {
+    else if (mod.type === "varianten") {
         opt.innerHTML = `
             <button class="add-var">Variante hinzufügen</button>
             <div class="var-list"></div>
@@ -189,22 +211,20 @@ function showOptions(id, opt) {
                 <button class="remove-var">Entfernen</button>
             `;
             opt.querySelector(".var-list").appendChild(div);
-
-            // Event-Listener für den "Entfernen"-Button
-            div.querySelector(".remove-var").onclick = () => {
-                div.remove();
-            };
+            div.querySelector(".remove-var").onclick = () => div.remove();
         };
     }
 }
 
-// ---------------------- ZAUBER SPEICHERN ----------------------
+// ---------------------- ZAUBER IM STAB SPEICHERN ----------------------
 function speichereZauber() {
     const name = document.getElementById("zauber-name").value.trim();
     if (!name) return;
+
     const komplexitaetSelect = document.getElementById("komplexitaet");
     const komplexitaet = parseInt(komplexitaetSelect.value);
     const komplexitaetText = komplexitaetSelect.options[komplexitaetSelect.selectedIndex].text;
+
     gespeicherteZauber.push({
         name: name,
         komplexitaet: komplexitaet,
@@ -213,6 +233,7 @@ function speichereZauber() {
         kosten: 0,
         wd: 0
     });
+
     aktualisiereZauberListe();
     document.getElementById("zauber-name").value = "";
 }
@@ -221,6 +242,7 @@ function speichereZauber() {
 function aktualisiereZauberListe() {
     const liste = document.getElementById("stab-zauber-liste");
     liste.innerHTML = "";
+
     gespeicherteZauber.forEach((zauber, index) => {
         const div = document.createElement("div");
         div.className = "stab-zauber";
@@ -235,6 +257,7 @@ function aktualisiereZauberListe() {
         `;
         liste.appendChild(div);
     });
+
     document.querySelectorAll(".ausloesen-btn").forEach(btn => {
         btn.addEventListener("click", (e) => {
             const index = parseInt(e.target.getAttribute("data-index"));
@@ -246,77 +269,6 @@ function aktualisiereZauberListe() {
 // ---------------------- ZAUBER ENTFERNEN ----------------------
 function entferneZauber(index) {
     gespeicherteZauber.splice(index, 1);
-    aktualisiereZauberListe();
-}
-
-// ---------------------- SAVE / LOAD / IMPORT / EXPORT ----------------------
-function saveData() {
-    const data = collectData();
-    localStorage.setItem("gildenmagier", JSON.stringify(data));
-}
-
-function exportData() {
-    const data = JSON.stringify(collectData(), null, 2);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "gildenmagier.json";
-    a.click();
-}
-
-function importData(e) {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-        const data = JSON.parse(reader.result);
-        applyData(data);
-    };
-    reader.readAsText(file);
-}
-
-function collectData() {
-    const o = {};
-    o.leiteigenschaft = document.getElementById("leiteigenschaft").value;
-    o.zfw = document.getElementById("zfw").value;
-    o.zauberdauer = document.getElementById("zauberdauer").value;
-    o.kosten = document.getElementById("kosten").value;
-    o.wirkungsdauer = document.getElementById("wirkungsdauer").value;
-    o.sf_matrix = document.getElementById("sf_matrix").checked;
-    o.sf_modfokus = document.getElementById("sf_modfokus").checked;
-    o.sf_modfokus_stufen = document.getElementById("sf_modfokus_stufen").value;
-    o.mods = {};
-    document.querySelectorAll(".mod-check").forEach(cb => {
-        const id = cb.dataset.id;
-        o.mods[id] = cb.checked;
-    });
-    o.gespeicherteZauber = gespeicherteZauber;
-    return o;
-}
-
-function applyData(d) {
-    document.getElementById("leiteigenschaft").value = d.leiteigenschaft;
-    document.getElementById("zfw").value = d.zfw;
-    document.getElementById("zauberdauer").value = d.zauberdauer;
-    document.getElementById("kosten").value = d.kosten;
-    document.getElementById("wirkungsdauer").value = d.wirkungsdauer;
-    document.getElementById("sf_matrix").checked = d.sf_matrix;
-    document.getElementById("sf_modfokus").checked = d.sf_modfokus;
-    if (d.sf_modfokus) {
-        document.getElementById("sf_modfokus_stufen").classList.remove("hidden");
-        document.getElementById("sf_modfokus_stufen").value = d.sf_modfokus_stufen;
-    }
-    for (const id in d.mods) {
-        const cb = document.querySelector(`.mod-check[data-id='${id}']`);
-        if (cb) {
-            cb.checked = d.mods[id];
-            const opt = document.getElementById("opt_" + id);
-            if (cb.checked) showOptions(id, opt);
-        }
-    }
-    if (d.gespeicherteZauber) {
-        gespeicherteZauber = d.gespeicherteZauber;
-    }
     aktualisiereZauberListe();
 }
 
@@ -334,77 +286,32 @@ function initEventsForNumberInputs() {
             input.value = newValue;
         });
     });
+
     document.querySelectorAll(".number-input input").forEach(input => {
         input.addEventListener("change", () => {});
     });
 }
 
-// Event-Listener für Leiteigenschaft-Checkboxen
+// ---------------------- LEITEIGENSCHAFT-EVENTS ----------------------
 document.querySelectorAll('input[name="leiteigenschaft"]').forEach(checkbox => {
     checkbox.addEventListener('change', function() {
         if (this.checked) {
             document.querySelectorAll('input[name="leiteigenschaft"]').forEach(otherCheckbox => {
                 if (otherCheckbox !== this) otherCheckbox.checked = false;
             });
-            // Aktualisiere die Leiteigenschaft im Eingabefeld
             const attribute = this.getAttribute('data-attribute');
             document.getElementById('leiteigenschaft').value = document.getElementById(attribute).value;
         }
     });
 });
 
-// Event-Listener für Attribute-Inputs
-document.querySelectorAll('.attribute-group .number-input button').forEach(button => {
-    button.addEventListener('click', (e) => {
-        const targetId = e.target.getAttribute('data-target');
-        const input = document.getElementById(targetId);
-        const isMinus = e.target.classList.contains('minus');
-        const step = isMinus ? -1 : 1;
-        const min = parseInt(input.min);
-        const max = parseInt(input.max);
-        const newValue = Math.max(min, Math.min(max, parseInt(input.value) + step));
-        input.value = newValue;
-
-        // Aktualisiere die Leiteigenschaft, falls das geänderte Attribut die Leiteigenschaft ist
-        const checkbox = document.querySelector(`input[name="leiteigenschaft"][data-attribute="${targetId}"]`);
-        if (checkbox && checkbox.checked) {
-            document.getElementById('leiteigenschaft').value = newValue;
-        }
-    });
-});
-
-// Event-Listener für manuelle Eingabe in Attribute-Inputs
+// ---------------------- ATTRIBUTE-EVENTS ----------------------
 document.querySelectorAll('.attribute-group .number-input input').forEach(input => {
     input.addEventListener('change', () => {
         const targetId = input.id;
-        // Aktualisiere die Leiteigenschaft, falls das geänderte Attribut die Leiteigenschaft ist
         const checkbox = document.querySelector(`input[name="leiteigenschaft"][data-attribute="${targetId}"]`);
         if (checkbox && checkbox.checked) {
             document.getElementById('leiteigenschaft').value = input.value;
         }
-    });
-});
-
-// Event-Listener für den Zurücksetzen-Button
-document.getElementById('reset-button').addEventListener('click', function() {
-    // Setze alle Eingabefelder zurück
-    document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.value = input.id === 'be' ? '0' : '8';
-    });
-    // Setze alle Checkboxen zurück
-    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-        checkbox.checked = false;
-    });
-    // Setze die Leiteigenschaft zurück
-    document.getElementById('leiteigenschaft').value = '8';
-    // Leere die gespeicherten Zauber
-    gespeicherteZauber = [];
-    aktualisiereZauberListe();
-    // Leere die Modifikationen
-    document.querySelectorAll('.mod-check').forEach(checkbox => {
-        checkbox.checked = false;
-        const opt = document.getElementById("opt_" + checkbox.dataset.id);
-        opt.innerHTML = "";
-        opt.classList.add("hidden");
     });
 });

@@ -1,6 +1,7 @@
 /* GLOBALE STILE */
 html, body {
     height: 100%;
+    height: 100%;
     margin: 0;
     padding: 0;
     overflow: hidden;
@@ -25,9 +26,12 @@ aside, section {
     background: white;
     padding: 15px;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     height: 100%;
     overflow-y: auto;
+    isplay: flex;
+    flex-direction: column;
+    height: auto;
 }
 
 h2, h3 {
@@ -35,9 +39,20 @@ h2, h3 {
     font-size: 1em;
 }
 
+/* LINKE SPALTE */
+#app > aside {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+}
+
 /* REPRÄSENTATIONS-DROPDOWN */
 #repräsentation {
     padding: 10px;
+}
+
+.dropdown-container {
+    margin-bottom: 10px;
 }
 
 #repräsentation h2 {
@@ -51,6 +66,23 @@ h2, h3 {
     margin-bottom: 10px;
     border-radius: 4px;
     border: 1px solid #ddd;
+}
+
+/* Fester Bereich für die ausgeklappten Inhalte */
+.info-box {
+    flex: 1;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    margin-top: 5px;
+    display: flex;
+    align-items: center; 
+}
+
+.hidden {
+    display: none;
 }
 
 /* ATTRIBUTE */
@@ -116,11 +148,19 @@ h2, h3 {
 }
 
 /* EINGABEN */
+.zauber-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
 .input-row {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     align-items: end;
 }
 
@@ -128,6 +168,11 @@ h2, h3 {
     display: flex;
     flex-direction: column;
     text-align: center;
+}
+
+#anzahl-einheiten-group {
+    grid-column: 3 / span 3;
+    margin-top: 10px;
 }
 
 .input-group label {
@@ -171,11 +216,36 @@ h2, h3 {
     padding: 3px;
 }
 
+/* SONDERFERTIGKEITEN */
+.sf-row {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.sf-container {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.sf-header {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.sf-header label {
+    font-weight: bold;
+}
+
 #sf-group {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 #sf-group label {
@@ -186,66 +256,126 @@ h2, h3 {
     font-size: 14px;
 }
 
+.sf-item {
+    display: flex;
+    flex-direction: column; /* Stapelung vertikal */
+    align-items: flex-start; /* Linksbündig ausrichten */
+    gap: 5px; /* Abstand zwischen Checkbox und Dropdown */
+}
+
+/* Dropdown unter der Checkbox */
+#sf_modfokus_stufen {
+    width: 100%; /* Volle Breite des Containers */
+    min-width: 120px; /* Mindestbreite für bessere Lesbarkeit */
+}
+
 /* MODIFIKATIONEN */
 #mod-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-bottom: 20px;
+    gap: 8px; 
+    margin-bottom: 10px; 
+    max-height: 100%;
+    overflow: hidden;
 }
 
 .modblock {
     border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 6px; 
+    border-radius: 4px; 
+    overflow: hidden;
+    max-height: 100%;
+    min-height: 0; 
 }
 
 .mod-category {
-    margin-bottom: 15px;
+    margin-bottom: 8px; 
     border: 1px solid #eee;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 6px; 
+    border-radius: 4px;
     background-color: #f9f9f9;
+    overflow: hidden;
+    max-height: 100%;
+    min-height: auto;
 }
 
 .mod-category h4 {
     margin-top: 0;
-    margin-bottom: 10px;
-    font-size: 1em;
+    margin-bottom: 6px;
+    font-size: 0.9em; 
     color: #333;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 5px;
+    padding-bottom: 3px; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ERGEBNISSE */
 #results-container {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-    gap: 10px;
+    flex-direction: column; /* Stapelung der Elemente vertikal */
+    gap: 6px;
+    margin-bottom: 10px;
+    max-height: 100%;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 3 gleich breite Spalten */
+    gap: 6px;
+    width: 100%;
 }
 
 .result-box {
     border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
+    padding: 6px; 
+    border-radius: 4px;
     background-color: #f9f9f9;
     flex: 1;
     text-align: center;
+    overflow: hidden;
+    max-height: 100%;
+    min-height: 0; 
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
-.result-big {
-    font-size: 1.6em;
-    font-weight: bold;
-    margin-bottom: 10px;
+.result-box h4 {
+    margin-top: 0;
+    margin-bottom: 6px;
+    font-size: 0.9em; 
+    color: #333;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 3px; 
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.red {
-    color: #c00;
+.input-group select {
+    height: 32px;
+    width: 100%;
+    max-width: 150px;
+    margin: 0 auto;
+    display: block;
 }
 
-.green {
-    color: #090;
+/* ERFOLGSWAHRSCHEINLICHKEIT */
+/* Eltern-Container als Flexbox (nur für Erfolgswahrscheinlichkeit) */
+.success-attributes-row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: auto;
+    min-width: fit-content;
+    margin-top: 10px;
+    justify-content: center
+}
+.success-attributes-row .attribute-value {
+    width: 60px;
+    padding: 5px;
 }
 
 /* BUTTONS */
@@ -258,7 +388,7 @@ h2, h3 {
 }
 
 #save {
-    width: 100%;
+    width: auto;
     padding: 10px;
     background: #0077ee;
     color: white;
@@ -274,13 +404,13 @@ h2, h3 {
 }
 
 #export, #import {
-    width: 48%;
     padding: 10px;
     background: #0077ee;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    width: 50%;
 }
 
 button {
@@ -297,25 +427,97 @@ button:hover {
     background: #005fcc;
 }
 
-/* STAB-SPEICHER */
+/* Container */
 #stab-speicher-container {
-    margin-top: 20px;
-    border: 1px solid #ddd;
-    padding: 10px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Alles zentriert */
+    gap: 10px;
+    max-width: 400px; /* Optional: Maximale Breite begrenzen */
+    margin: 0 auto; /* Zentriert auf der Seite */
 }
 
+/* Überschrift und Texte zentrieren */
+#stab-speicher-container h4,
+#stab-speicher-container p,
+.warning-text {
+    text-align: center;
+    width: 100%;
+    margin: 0;
+}
+
+/* Input-Gruppen (Label + Element) */
+.input-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    justify-content: center; /* Zentriert die Input-Gruppen */
+}
+
+/* Label-Stil */
+.input-group label {
+    white-space: nowrap;
+    text-align: right; /* Label rechtsbündig für bessere Ausrichtung */
+}
+
+/* Dropdown schlank machen */
+#komplexitaet {
+    width: auto; /* Nur so breit wie nötig */
+    min-width: 30px; /* Mindestbreite für einen Buchstaben */
+    padding: 6px 2px; /* Weniger Padding */
+    text-align: center;
+}
+
+/* Number-Input-Container */
+.number-input {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+/* Number-Input-Feld */
+.number-input input {
+    width: 40px; /* Schlankere Breite */
+    padding: 6px 2px; /* Weniger horizontaler Padding */
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
+/* Buttons */
+.number-input button,
+#zauber-speichern {
+    padding: 6px 10px;
+    background: #0077ee;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* Stab-Input (Name + Speichern-Button) */
 .stab-input {
     display: flex;
     gap: 10px;
-    margin-bottom: 10px;
+    width: 100%;
+    justify-content: center;
 }
 
 .stab-input input {
     flex: 1;
+    max-width: 200px;
     padding: 6px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
 }
+
 
 .stab-input button {
     padding: 6px 12px;
@@ -327,6 +529,7 @@ button:hover {
 }
 
 #stab-zauber-liste {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 8px;
@@ -359,9 +562,10 @@ button:hover {
     cursor: pointer;
 }
 
-.ausloesen-btn:hover {
+.ausloesen-btn\:hover {
     background: #a00;
 }
+
 
 /* HIDDEN */
 .hidden {
@@ -419,11 +623,4 @@ button:hover {
 
 #reset-button:hover {
     background: #a00;
-}
-
-/* LINKE SPALTE */
-#app > aside {
-    display: flex;
-    flex-direction: column;
-    height: auto;
 }
