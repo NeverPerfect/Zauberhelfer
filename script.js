@@ -14,22 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initSonderfertigkeitenEvents();
 });
 
- const modfokusCheckbox = document.getElementById("sf_modfokus");
-    const modfokusDropdown = document.getElementById("sf_modfokus_anzahl");
 
-    modfokusCheckbox.addEventListener("change", function() {
-        modfokusDropdown.classList.toggle("hidden", !this.checked);
-
-        if (!modfokusDropdown.classList.contains("hidden")) {
-            modfokusDropdown.innerHTML = "";
-            for (let i = 1; i <= 5; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.textContent = `Anzahl ${i}`;
-                modfokusDropdown.appendChild(option);
-            }
-        }
-    });
 
 // ---------------------- GLOBALE VARIABLEN ----------------------
 let gespeicherteZauber = [];
