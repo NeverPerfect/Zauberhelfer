@@ -263,7 +263,7 @@
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_krftkontr"> Kraftkontrolle
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                                <span class="tooltip-text">Ein Punkt Erschöpfung + 1 Aktion</span>
                             </label>
                             <label id="sf_krftkontr_used_container" class="hidden">
                                 <input type="checkbox" id="sf_krftkontr_used" class="hidden">
@@ -275,7 +275,8 @@
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                                <span class="tooltip-text">stab muss in der Hand gehalten werden und darf gerade keine
+                                    andere Funktion erfüllen</span>
                             </label>
                             <select id="sf_modfokus_anzahl" class="hidden"></select>
                         </div>
@@ -285,7 +286,8 @@
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_krftfokus"> Kraftfokus
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                                <span class="tooltip-text">stab muss in der Hand gehalten werden und darf gerade keine
+                                    andere Funktion erfüllen</span>
                             </label>
                             <label id="sf_krftfokus_used_container" class="hidden">
                                 <input type="checkbox" id="sf_krftfokus_used" class="hidden">
@@ -303,6 +305,13 @@
                                 <input type="checkbox" id="sf_kugel_used" class="hidden">
                             </label>
                         </div>
+
+                        <!-- Zauberroutine -->
+                        <label class="tooltip-container">
+                            <input type="checkbox" id="sf_routine"> Zauberroutine
+                            <span class="info-icon">i</span>
+                            <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                        </label>
                     </div>
                 </div>
             </div>
@@ -452,7 +461,14 @@
                 <div id="results-container">
                     <!-- Oberste Reihe (volle Breite) -->
                     <div class="result-box full-width">
-                        <h4>Resultat</h4>
+                        <h4>Resultat
+                            <label class="tooltip-container">
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Die Erschwernis wird auf die Zauberprobe angewendet. Eine
+                                    positive Zahl bedeutet eine Erschwernis (Würfelwürfe werden um diesen Wert
+                                    erschwert).</span>
+                            </label>
+                        </h4>
                         <div id="mods-container">
                             <div>x/y Modifikationen</div>
                             <div id="mods-anzahl"></div>
@@ -477,6 +493,7 @@
                         </div>
                         <div class="result-box">
                             <div>AsP +/-:</div>
+                            <div>AsP 1/2 miss</div>
                             <div id="asp-diff"></div>
                         </div>
 
