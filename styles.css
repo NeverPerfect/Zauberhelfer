@@ -39,28 +39,54 @@ h2, h3 {
     font-size: 1em;
 }
 
-/* LINKE SPALTE */
+/* REPRÄSENTATION UND ATTRIBUTE */
 #app > aside {
     display: flex;
     flex-direction: column;
-    height: auto;
+    height: 100%;
 }
 
-/* REPRÄSENTATIONS-DROPDOWN */
-#repräsentation {
+/* DROPDOWN */
+#repraesentation {
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+    flex: 1; /* Nutzt den verfügbaren Platz */
+    padding: 10px;
+    gap: 10px; /* Abstand zwischen Dropdown und Infobox */
+}
+
+#repraesentation-details {
+    flex: 1;
+    min-height: 100;
+    overflow-y: auto; /* Scrollbar, falls Inhalt zu groß ist */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+/* Inhalte standardmäßig verstecken (über die Klasse) */
+.repr-content {
+    display: none;
+}
+
+/* Sichtbare Inhalte anzeigen (über die Klasse) */
+.repr-content.visible {
+    display: block;
 }
 
 .dropdown-container {
     margin-bottom: 10px;
+    width: 100%;
 }
 
-#repräsentation h2 {
+#repraesentation h2 {
     font-size: 1em;
     margin-bottom: 10px;
 }
 
-#repräsentation select {
+#repraesentation select {
     width: 100%;
     padding: 5px;
     margin-bottom: 10px;
@@ -79,10 +105,6 @@ h2, h3 {
     margin-top: 5px;
     display: flex;
     align-items: center; 
-}
-
-.hidden {
-    display: none;
 }
 
 /* ATTRIBUTE */
@@ -154,6 +176,13 @@ h2, h3 {
     justify-content: center;
     gap: 10px;
     margin-bottom: 20px;
+}
+
+.zauber-header label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    white-space: nowrap; /* Verhindert Umbruch */
 }
 
 .input-row {
@@ -309,6 +338,33 @@ h2, h3 {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Container für die vier Eingabefelder */
+.sonstige-mods-container {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+/* Einzelnes Eingabefeld */
+.sonstige-mod-input {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.sonstige-mod-input label {
+    font-size: 0.8em;
+    margin-bottom: 3px;
+    display: block;
+    text-align: center; /* Zentriert den Text horizontal */
+}
+
+.sonstige-mod-input input {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
 }
 
 /* ERGEBNISSE */

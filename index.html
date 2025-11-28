@@ -11,19 +11,19 @@
 <body>
     <div id="app">
         <!-- REPRÄSENTATION UND EIGENSCHAFTEN -->
-        <aside id="repräsentation">
-            <select id="repräsentation-select">
+        <aside id="repraesentation">
+            <select id="repraesentation-select">
                 <option value="">-- Repräsentation wählen --</option>
                 <option value="gildenmagisch">Gildenmagisch</option>
                 <option value="weitere">Weitere in Arbeit</option>
             </select>
-            <div id="repräsentation-details" class="info-box">
-                <div id="gildenmagisch-content" class="hidden">
+            <div id="repraesentation-details" class="info-box">
+                <div id="gildenmagisch-content" class="repr-content">
                     <p>Technik: Konzentration, Sicht, Geste, Formel – keine zentrale Komponente</p>
                     <p>Zuschläge für spontane Modifikationen werden, nach dem summieren, halbiert</p>
                     <p>Spontane Modifikation "verlängerte Zauberdauer" gibt einen zusätzlichen Punkt Erleichterung</p>
                 </div>
-                <div id="weitere-content" class="hidden">
+                <div id="weitere-content" class="repr-content">
                     <p>Hier stehen Infos zu "Weitere in Arbeit".</p>
                 </div>
             </div>
@@ -167,6 +167,10 @@
                     <option value="">-- Zauber wählen --</option>
                     <option value="weitere">In Arbeit</option>
                 </select>
+                <label>
+                    <input type="checkbox" class="mod-check" data-id="fremdrepraesentation"> Zauber in fremder
+                    Repräsentation
+                </label>
             </div>
             <div class="input-row">
                 <div class="input-group">
@@ -371,15 +375,10 @@
                     </div>
                     <div class="modblock">
                         <label>
-                            <input type="checkbox" class="mod-check" data-id="fremdrepraesentation"> Zauber in fremder
-                            Repräsentation
-                        </label>
-                    </div>
-                    <div class="modblock">
-                        <label>
                             <input type="checkbox" class="mod-check" data-id="sonstigemods"> Sontige
-                            Modifikationen (ZfW +/-, AsP +/-, ZD +/-,...)
+                            Modifikationen                          
                         </label>
+                        <div class="mod-options hidden" id="opt_sonstigemods"></div>
                     </div>
                     <div class="modblock">
                         <label>
@@ -517,9 +516,8 @@
                     <input type="number" id="rkw" min="0" max="40" value="10">
                     <button class="plus" data-target="rkw">+</button>
                 </div>
-            </div>
-
-            <div>Platz für Warnung, wenn Zauber schwerer auszulösen ist, als RkW</div>
+                <div>Platz für Warnung, wenn Zauber schwerer auszulösen ist, als RkW</div>
+            </div>            
             <div class="stab-input">
                 <input type="text" id="zauber-name" placeholder="Name des Zaubers">
                 <button id="zauber-speichern">Speichern</button>
