@@ -171,6 +171,11 @@
                     <input type="checkbox" class="mod-check" data-id="fremdrepraesentation"> Zauber in fremder
                     Repräsentation
                 </label>
+                <label class="switch">
+                    <input type="checkbox" id="toggle-tooltips" checked>
+                    <span class="slider round"></span>
+                    <span class="switch-label">Tooltips On/Off</span>
+                </label>
             </div>
             <div class="input-row">
                 <div class="input-group">
@@ -230,7 +235,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="input-row">
                 <div class="input-group" id="anzahl-einheiten-group">
                     <label>Anzahl Einheiten:</label>
@@ -247,19 +251,62 @@
                         <label>Sonderfertigkeiten:</label>
                     </div>
                     <div id="sf-group">
-                        <label><input type="checkbox" id="sf_matrix"> Matrixverständnis</label>
-                        <label><input type="checkbox" id="sf_krftkontr"> Kraftkontrolle</label>
+                        <!-- Matrixverständnis -->
+                        <label class="tooltip-container">
+                            <input type="checkbox" id="sf_matrix"> Matrixverständnis
+                            <span class="info-icon">i</span>
+                            <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                        </label>
+
+                        <!-- Kraftkontrolle -->
                         <div class="sf-item">
-                            <label><input type="checkbox" id="sf_modfokus"> Modifikationsfokus</label>
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_krftkontr"> Kraftkontrolle
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                            </label>
+                            <label id="sf_krftkontr_used_container" class="hidden">
+                                <input type="checkbox" id="sf_krftkontr_used" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- Modifikationsfokus (unverändert) -->
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                            </label>
                             <select id="sf_modfokus_anzahl" class="hidden"></select>
                         </div>
-                        <label><input type="checkbox" id="sf_krftfokus"> Kraftfokus</label>
-                        <label><input type="checkbox" id="sf_kugel"> Kugel des Hellsehers</label>
+
+                        <!-- Kraftfokus -->
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_krftfokus"> Kraftfokus
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                            </label>
+                            <label id="sf_krftfokus_used_container" class="hidden">
+                                <input type="checkbox" id="sf_krftfokus_used" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- Kugel des Hellsehers -->
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_kugel"> Kugel des Hellsehers
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                            </label>
+                            <label id="sf_kugel_used_container" class="hidden">
+                                <input type="checkbox" id="sf_kugel_used" class="hidden">
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- MODIFIKATIONEN -->
-            <h2>Modifikationen</h2>
             <div id="mod-container">
                 <!-- TECHNIK -->
                 <div class="mod-category">
@@ -528,12 +575,10 @@
                 <button id="zauber-speichern">Speichern</button>
             </div>
             <div id="stab-zauber-liste"></div>
+            <button id="reset-button">Zurücksetzen</button>
         </div>
-
         </aside>
-    </div>
-    <script src="script.js"></script>
-    <button id="reset-button">Zurücksetzen</button>
+        <script src="script.js"></script>
 </body>
 
 </html>

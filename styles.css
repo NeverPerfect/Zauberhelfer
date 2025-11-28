@@ -1,6 +1,5 @@
-/* GLOBALE STILE */
+/* ===== GLOBALE STILE ===== */
 html, body {
-    height: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
@@ -13,6 +12,7 @@ body {
     color: #222;
 }
 
+/* Grid-Layout */
 #app {
     display: grid;
     grid-template-columns: 260px 1fr 300px;
@@ -22,56 +22,43 @@ body {
     overflow: hidden;
 }
 
-aside, section {
+/* Spalten-Stil (gleiche Höhe für alle) */
+#app > aside,
+#app > section {
     background: white;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    height: 100%;
+    height: calc(100vh - 60px);
     overflow-y: auto;
-    isplay: flex;
-    flex-direction: column;
-    height: auto;
-}
-
-h2, h3 {
-    margin-top: 0;
-    font-size: 1em;
-}
-
-/* REPRÄSENTATION UND ATTRIBUTE */
-#app > aside {
     display: flex;
     flex-direction: column;
-    height: 100%;
 }
 
-/* DROPDOWN */
+/* ===== REPRÄSENTATION & ATTRIBUTE ===== */
 #repraesentation {
-    padding: 10px;
     display: flex;
     flex-direction: column;
-    flex: 1; /* Nutzt den verfügbaren Platz */
+    flex: 1;
     padding: 10px;
-    gap: 10px; /* Abstand zwischen Dropdown und Infobox */
+    gap: 10px;
 }
 
 #repraesentation-details {
     flex: 1;
-    min-height: 100;
-    overflow-y: auto; /* Scrollbar, falls Inhalt zu groß ist */
+    min-height: 100px;
+    overflow-y: auto;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #f9f9f9;
+    font-size: 0.9em;
 }
 
-/* Inhalte standardmäßig verstecken (über die Klasse) */
 .repr-content {
     display: none;
 }
 
-/* Sichtbare Inhalte anzeigen (über die Klasse) */
 .repr-content.visible {
     display: block;
 }
@@ -94,7 +81,6 @@ h2, h3 {
     border: 1px solid #ddd;
 }
 
-/* Fester Bereich für die ausgeklappten Inhalte */
 .info-box {
     flex: 1;
     align-items: center;
@@ -104,10 +90,10 @@ h2, h3 {
     background-color: #f9f9f9;
     margin-top: 5px;
     display: flex;
-    align-items: center; 
+    align-items: center;
 }
 
-/* ATTRIBUTE */
+/* Attribute */
 #attribute-container {
     margin-top: 10px;
     padding: 10px;
@@ -117,8 +103,7 @@ h2, h3 {
 }
 
 #attribute-container h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     font-size: 1em;
     color: #333;
 }
@@ -169,7 +154,7 @@ h2, h3 {
     font-size: 0.8em;
 }
 
-/* EINGABEN */
+/* ===== ZAUBER & MODIFIKATIONEN ===== */
 .zauber-header {
     display: flex;
     align-items: center;
@@ -182,7 +167,7 @@ h2, h3 {
     display: flex;
     align-items: center;
     gap: 5px;
-    white-space: nowrap; /* Verhindert Umbruch */
+    white-space: nowrap;
 }
 
 .input-row {
@@ -209,43 +194,7 @@ h2, h3 {
     margin-bottom: 5px;
 }
 
-.number-input {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.number-input button {
-    width: 25px;
-    height: 25px;
-    border: none;
-    background: #0077ee;
-    color: white;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 4px;
-}
-
-.number-input button:hover {
-    background: #005fcc;
-}
-
-.number-input button:active {
-    background: #0044aa;
-}
-
-.number-input input {
-    width: 50px;
-    text-align: center;
-    margin: 0 3px;
-    padding: 3px;
-}
-
-/* SONDERFERTIGKEITEN */
+/* Sonderfertigkeiten */
 .sf-row {
     display: flex;
     justify-content: center;
@@ -287,34 +236,33 @@ h2, h3 {
 
 .sf-item {
     display: flex;
-    flex-direction: column; /* Stapelung vertikal */
-    align-items: flex-start; /* Linksbündig ausrichten */
-    gap: 5px; /* Abstand zwischen Checkbox und Dropdown */
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;    
 }
 
-/* Dropdown unter der Checkbox */
 #sf_modfokus_stufen {
-    width: 100%; /* Volle Breite des Containers */
-    min-width: 120px; /* Mindestbreite für bessere Lesbarkeit */
+    width: 100%;
+    min-width: 120px;
 }
 
-/* MODIFIKATIONEN */
+/* Modifikationen */
 #mod-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 8px; 
-    margin-bottom: 10px; 
+    gap: 8px;
+    margin-bottom: 10px;
     max-height: 100%;
     overflow: hidden;
 }
 
 .modblock {
     border: 1px solid #ddd;
-    padding: 6px; 
-    border-radius: 4px; 
+    padding: 6px;
+    border-radius: 4px;
     overflow: hidden;
     max-height: 100%;
-    min-height: 0; 
+    min-height: 0;
 }
 
 .modblock label {
@@ -328,9 +276,9 @@ h2, h3 {
 }
 
 .mod-category {
-    margin-bottom: 8px; 
+    margin-bottom: 8px;
     border: 1px solid #eee;
-    padding: 6px; 
+    padding: 6px;
     border-radius: 4px;
     background-color: #f9f9f9;
     overflow: hidden;
@@ -339,18 +287,16 @@ h2, h3 {
 }
 
 .mod-category h4 {
-    margin-top: 0;
-    margin-bottom: 6px;
-    font-size: 0.9em; 
+    margin: 0 0 6px 0;
+    font-size: 0.9em;
     color: #333;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 3px; 
+    padding-bottom: 3px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Container für die vier Eingabefelder */
 .sonstige-mods-container {
     display: flex;
     gap: 10px;
@@ -359,22 +305,19 @@ h2, h3 {
     box-sizing: border-box;
 }
 
-/* Einzelnes Eingabefeld */
 .sonstige-mod-input {
     display: flex;
     flex-direction: column;
     flex: 1;
 }
 
-/* Label-Stil */
 .sonstige-mod-input label {
     font-size: 0.8em;
     margin-bottom: 3px;
     display: block;
-    text-align: center; /* Zentriert den Text horizontal */
+    text-align: center;
 }
 
-/* Input-Feld-Stil */
 .sonstige-mod-input input {
     width: 100%;
     padding: 5px;
@@ -382,31 +325,28 @@ h2, h3 {
     box-sizing: border-box;
 }
 
-/* Container für "Varianten"-Überschrift und Button */
 .add-var-header {
     display: flex;
     align-items: center;
 }
 
-/* Button-Stil für "Variante hinzufügen" und "Entfernen" */
 .add-var, .remove-var {
     padding: 2px 6px;
     font-size: 0.7em;
     margin-left: 0.5rem;
     margin-top: 0.1rem;
-    
 }
 
 .remove-var {
     margin-top: 0.5rem;
-    margin-left: 0.0rem;
-    background-color: #e30a0a; /* Hellrot */
-    color: white; /* Weiße Schrift für Kontrast */
-    border: 1px solid #5b0101; /* Dunklerer Rotton für den Rahmen */
+    margin-left: 0;
+    background-color: #e30a0a;
+    color: white;
+    border: 1px solid #5b0101;
 }
 
 .remove-var:hover {
-    background-color: #5b0101; /* Dunkleres Rot beim Hovern */
+    background-color: #5b0101;
 }
 
 .var-item {
@@ -414,15 +354,13 @@ h2, h3 {
     align-items: center;
 }
 
-/* TOOLTIPS */
-/* Container für Tooltips */
+/* ===== TOOLTIPS ===== */
 .tooltip-container {
-    display: inline-flex; /* oder 'flex' für Block-Elemente */
+    display: inline-flex;
     align-items: center;
     cursor: default;
 }
 
-/* Info-Icon-Stil */
 .info-icon {
     display: inline-flex;
     align-items: center;
@@ -439,7 +377,6 @@ h2, h3 {
     font-weight: bold;
 }
 
-/* Tooltip-Stil */
 .tooltip-text {
     position: fixed;
     visibility: hidden;
@@ -457,7 +394,6 @@ h2, h3 {
     pointer-events: none;
 }
 
-/* Pfeilchen */
 .tooltip-text::before {
     content: "";
     position: absolute;
@@ -469,16 +405,15 @@ h2, h3 {
     border-color: transparent #333 transparent transparent;
 }
 
-/* Sichtbarkeits-Klasse für JS */
 .tooltip-text.visible {
     visibility: visible;
     opacity: 1;
 }
 
-/* ERGEBNISSE */
+/* ===== ERGEBNISSE ===== */
 #results-container {
     display: flex;
-    flex-direction: column; /* Stapelung der Elemente vertikal */
+    flex-direction: column;
     gap: 6px;
     margin-bottom: 10px;
     max-height: 100%;
@@ -486,32 +421,31 @@ h2, h3 {
 
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 3 gleich breite Spalten */
+    grid-template-columns: repeat(4, 1fr);
     gap: 6px;
     width: 100%;
 }
 
 .result-box {
     border: 1px solid #ddd;
-    padding: 6px; 
+    padding: 6px;
     border-radius: 4px;
     background-color: #f9f9f9;
     flex: 1;
     text-align: center;
     overflow: hidden;
     max-height: 100%;
-    min-height: 0; 
+    min-height: 0;
     white-space: nowrap;
     text-overflow: ellipsis;
 }
 
 .result-box h4 {
-    margin-top: 0;
-    margin-bottom: 6px;
-    font-size: 0.9em; 
+    margin: 0 0 6px 0;
+    font-size: 0.9em;
     color: #333;
     border-bottom: 1px solid #ddd;
-    padding-bottom: 3px; 
+    padding-bottom: 3px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -525,24 +459,25 @@ h2, h3 {
     display: block;
 }
 
-/* ERFOLGSWAHRSCHEINLICHKEIT */
-/* Eltern-Container als Flexbox (nur für Erfolgswahrscheinlichkeit) */
+/* Eingabefelder in "Erfolgswahrscheinlichkeit" schlanker gestalten */
 .success-attributes-row {
     display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     gap: 8px;
-    width: auto;
-    min-width: fit-content;
-    margin-top: 10px;
-    justify-content: center
-}
-.success-attributes-row .attribute-value {
-    width: 60px;
-    padding: 5px;
+    justify-content: center;
 }
 
-/* BUTTONS */
+.success-attributes-row select,
+.success-attributes-row input {
+    width: 60px; 
+    margin: 0;
+}
+
+.attribute-value {
+    width: 40px; /* Noch schmaler für Zahlenfelder */
+}
+
+/* ===== BUTTONS & INTERAKTIONEN ===== */
 #buttons {
     margin-top: 10px;
     display: flex;
@@ -591,7 +526,7 @@ button:hover {
     background: #005fcc;
 }
 
-/* Container */
+/* Stabzauber */
 #stab-speicher-container {
     background: white;
     padding: 15px;
@@ -599,13 +534,12 @@ button:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Alles zentriert */
+    align-items: center;
     gap: 10px;
-    max-width: 400px; /* Optional: Maximale Breite begrenzen */
-    margin: 0 auto; /* Zentriert auf der Seite */
+    max-width: 400px;
+    margin: 0 auto;
 }
 
-/* Überschrift und Texte zentrieren */
 #stab-speicher-container h4,
 #stab-speicher-container p,
 .warning-text {
@@ -614,30 +548,26 @@ button:hover {
     margin: 0;
 }
 
-/* Input-Gruppen (Label + Element) */
 .input-group {
     display: flex;
     align-items: center;
     gap: 10px;
     width: 100%;
-    justify-content: center; /* Zentriert die Input-Gruppen */
+    justify-content: center;
 }
 
-/* Label-Stil */
 .input-group label {
     white-space: nowrap;
-    text-align: right; /* Label rechtsbündig für bessere Ausrichtung */
+    text-align: right;
 }
 
-/* Dropdown schlank machen */
 #komplexitaet {
-    width: auto; /* Nur so breit wie nötig */
-    min-width: 30px; /* Mindestbreite für einen Buchstaben */
-    padding: 6px 2px; /* Weniger Padding */
+    width: auto;
+    min-width: 30px;
+    padding: 6px 2px;
     text-align: center;
 }
 
-/* Number-Input-Container */
 .number-input {
     display: flex;
     align-items: center;
@@ -646,16 +576,14 @@ button:hover {
     overflow: hidden;
 }
 
-/* Number-Input-Feld */
 .number-input input {
-    width: 40px; /* Schlankere Breite */
-    padding: 6px 2px; /* Weniger horizontaler Padding */
+    width: 40px;
+    padding: 6px 2px;
     text-align: center;
     border: none;
     outline: none;
 }
 
-/* Buttons */
 .number-input button,
 #zauber-speichern {
     padding: 6px 10px;
@@ -666,7 +594,6 @@ button:hover {
     cursor: pointer;
 }
 
-/* Stab-Input (Name + Speichern-Button) */
 .stab-input {
     display: flex;
     gap: 10px;
@@ -681,7 +608,6 @@ button:hover {
     border: 1px solid #ddd;
     border-radius: 4px;
 }
-
 
 .stab-input button {
     padding: 6px 12px;
@@ -726,17 +652,15 @@ button:hover {
     cursor: pointer;
 }
 
-.ausloesen-btn\:hover {
+.ausloesen-btn:hover {
     background: #a00;
 }
 
-
-/* HIDDEN */
 .hidden {
     display: none;
 }
 
-/* XML IMPORT */
+/* XML Import */
 #xml-import-container {
     margin-top: 10px;
     padding: 10px;
@@ -746,8 +670,7 @@ button:hover {
 }
 
 #xml-import-container h4 {
-    margin-top: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px 0;
     font-size: 1em;
     color: #666;
 }
@@ -770,9 +693,9 @@ button:hover {
     background: #ccc;
 }
 
-/* ZURÜCKSETZEN BUTTON */
+/* Reset-Button */
 #reset-button {
-    position: fixed;
+    position: absolute;
     bottom: 20px;
     right: 20px;
     padding: 10px 20px;
@@ -782,9 +705,57 @@ button:hover {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    z-index: 1000;
+    transform: translateX(-60%);
 }
 
-#reset-button:hover {
-    background: #a00;
+/* Toggle-Switch */
+.switch {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin: 8px;
+    /* flex-direction: row-reverse; Schiebt den Text auf die andere Seite des Toggle Switches*/
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: relative;
+    cursor: pointer;
+    width: 50px;
+    height: 24px;
+    background-color: #cccccc;
+    transition: .4s;
+    border-radius: 24px;
+    margin-right: 8px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #4a90e2;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.switch-label {
+    font-size: 0.9rem;
+    user-select: none;
 }

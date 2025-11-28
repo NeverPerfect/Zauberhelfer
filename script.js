@@ -6,6 +6,59 @@ let aktuelleBerechnung = {
     neueWirkungsdauer: 0
 };
 
+// Funktion zum Ein-/Ausblenden aller Tooltips
+function updateTooltipVisibility(disabled) {
+    const toggle = document.getElementById('toggle-tooltips');
+    const infoIcons = document.querySelectorAll('.info-icon');
+
+    toggle.checked = !disabled;
+
+    if (disabled) {
+        // Tooltips deaktivieren: Event-Listener entfernen
+        document.querySelectorAll('.tooltip-container').forEach(container => {
+            const icon = container.querySelector('.info-icon');
+            if (icon) {
+                icon.style.cursor = 'default';
+                icon.style.opacity = '0.3';
+                // Entferne Event-Listener durch Klonen
+                const newIcon = icon.cloneNode(true);
+                icon.parentNode.replaceChild(newIcon, icon);
+            }
+        });
+    } else {
+        // Tooltips aktivieren: Event-Listener hinzufügen
+        initTooltips();
+        infoIcons.forEach(icon => {
+            icon.style.cursor = 'help';
+            icon.style.opacity = '1';
+        });
+    }
+}
+
+// Initialisiere Tooltips
+function initTooltips() {
+    // Entferne alle bestehenden Event-Listener
+    document.querySelectorAll('.tooltip-container').forEach(container => {
+        const icon = container.querySelector('.info-icon');
+        if (!icon) return;
+
+        // Event-Listener hinzufügen
+        icon.addEventListener('mouseenter', (e) => {
+            const tooltip = container.querySelector('.tooltip-text');
+            tooltip.classList.add('visible');
+            const rect = icon.getBoundingClientRect();
+            tooltip.style.left = `${rect.left + window.scrollX}px`;
+            tooltip.style.top = `${rect.bottom + window.scrollY}px`;
+            tooltip.style.transform = 'translateX(-50%) translateY(-100%)';
+        });
+
+        icon.addEventListener('mouseleave', () => {
+            const tooltip = container.querySelector('.tooltip-text');
+            tooltip.classList.remove('visible');
+        });
+    });
+}
+
 // ---------------------- INIT ----------------------
 document.addEventListener("DOMContentLoaded", () => {
     // Standardwerte laden oder zurücksetzen
@@ -21,7 +74,24 @@ document.addEventListener("DOMContentLoaded", () => {
     initStabEvents();
     initRepraesentationEvents();
     initSaveLoadEvents();
+
+    // Tooltip-Logik
+    const tooltipsDisabled = localStorage.getItem('tooltipsDisabled') === 'true';
+    updateTooltipVisibility(tooltipsDisabled);
+
+    // Toggle-Switch Event-Listener
+    document.getElementById('toggle-tooltips').addEventListener('change', function () {
+        const disabled = !this.checked;
+        localStorage.setItem('tooltipsDisabled', disabled);
+        updateTooltipVisibility(disabled);
+    });
+
+    // Initialisiere Tooltips nur, wenn sie nicht deaktiviert sind
+    if (!tooltipsDisabled) {
+        initTooltips();
+    }
 });
+
 
 // ---------------------- REPRÄSENTATION ----------------------
 function initRepraesentationEvents() {
@@ -36,27 +106,6 @@ function initRepraesentationEvents() {
         }
     });
 }
-
-// ---------------------- TOOLTIPS ----------------------
-
-document.querySelectorAll('.tooltip-container').forEach(container => {
-    const icon = container.querySelector('.info-icon');
-    const tooltip = container.querySelector('.tooltip-text');
-
-    if (icon && tooltip) { // Prüfe, ob Icon und Tooltip existieren
-        icon.addEventListener('mouseenter', (e) => {
-            tooltip.classList.add('visible');
-            const rect = icon.getBoundingClientRect();
-            tooltip.style.left = `${rect.left + window.scrollX}px`;
-            tooltip.style.top = `${rect.bottom + window.scrollY}px`;
-            tooltip.style.transform = 'translateX(-50%) translateY(-100%)';
-        });
-
-        icon.addEventListener('mouseleave', () => {
-            tooltip.classList.remove('visible');
-        });
-    }
-});
 
 // ---------------------- MODIFIKATIONEN ----------------------
 const MODS = [
@@ -517,7 +566,7 @@ function loadFromLocalStorage() {
     aktualisiereZauberListe();
 }
 
-// Mod-Fokus-Logik (falls benötigt)
+// Mod-Fokus-Logik
 const modfokusCheckbox = document.getElementById("sf_modfokus");
 const modfokusDropdown = document.getElementById("sf_modfokus_anzahl");
 if (modfokusCheckbox && modfokusDropdown) {
@@ -533,3 +582,41 @@ if (modfokusCheckbox && modfokusDropdown) {
         }
     });
 }
+
+// Logik für die "Angewandt?"-Checkboxen
+const sfCheckboxMappings = [
+    { mainCheckboxId: "sf_krftkontr", containerId: "sf_krftkontr_used_container" },
+    { mainCheckboxId: "sf_krftfokus", containerId: "sf_krftfokus_used_container" },
+    { mainCheckboxId: "sf_kugel", containerId: "sf_kugel_used_container" }
+];
+
+function setupSfCheckboxToggle(mainCheckboxId, containerId) {
+    const mainCheckbox = document.getElementById(mainCheckboxId);
+    const container = document.getElementById(containerId);
+
+    if (mainCheckbox && container) {
+        mainCheckbox.addEventListener("change", function () {
+            // Immer zuerst den Container leeren
+            container.innerHTML = '';
+
+            // Nur wenn aktiviert, Checkbox und Text erstellen
+            if (this.checked) {
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = containerId.replace('_container', '_used');
+                container.appendChild(checkbox);
+
+                const labelText = document.createTextNode(" Angewandt?");
+                container.appendChild(labelText);
+            }
+
+            // Container ausblenden/zeigen
+            container.classList.toggle("hidden", !this.checked);
+        });
+    }
+}
+
+// Initialisiere alle Sonderfertigkeiten
+sfCheckboxMappings.forEach(mapping => {
+    setupSfCheckboxToggle(mapping.mainCheckboxId, mapping.containerId);
+});
