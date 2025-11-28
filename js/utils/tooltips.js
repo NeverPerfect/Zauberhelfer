@@ -30,18 +30,18 @@ function initTooltips() {
     // Entferne alle bestehenden Event-Listener
     document.querySelectorAll('.tooltip-container').forEach(container => {
         const icon = container.querySelector('.info-icon');
-        if (!icon) return;
+        const tooltip = container.querySelector('.tooltip-text');
+        if (!icon || !tooltip) return;
         // Event-Listener hinzufügen
         icon.addEventListener('mouseenter', (e) => {
-            const tooltip = container.querySelector('.tooltip-text');
-            tooltip.classList.add('visible');
+            // Positioniere den Tooltip rechts neben dem Icon (mit Versatz)
             const rect = icon.getBoundingClientRect();
-            tooltip.style.left = `${rect.left + window.scrollX}px`;
-            tooltip.style.top = `${rect.bottom + window.scrollY}px`;
-            tooltip.style.transform = 'translateX(-50%) translateY(-100%)';
+            tooltip.style.left = `${rect.right + window.scrollX + 10}px`; // 10px Abstand rechts
+            tooltip.style.top = `${rect.top + window.scrollY}px`; // Ausrichtung oben
+            tooltip.classList.add('visible');
         });
+
         icon.addEventListener('mouseleave', () => {
-            const tooltip = container.querySelector('.tooltip-text');
             tooltip.classList.remove('visible');
         });
     });

@@ -26,13 +26,23 @@ function showOptions(id, opt) {
     } else if (mod.type === "single") {
         opt.innerHTML = `<span>Keine Optionen</span>`;
     } else if (mod.type === "asp") {
-        opt.innerHTML = `<label>AsP: <input type="number" min="1" max="20" class="mod-value" value="1"></label>`;
+        const aspValues = [1, 2, 4, 8, 16, 32, 64];
+        opt.innerHTML = `<label>AsP: <select class="mod-value">${aspValues.map(v => `<option value="${v}">${v}</option>`).join("")}</select></label>`;
     } else if (mod.type === "kosten") {
-        opt.innerHTML = `<label>Anzahl: <select class="mod-value">${[1, 2, 3, 4].map(v => `<option value="${v}">${v}</option>`).join("")}</select></label>`;
-    } else if (mod.type === "ziel") {
-        opt.innerHTML = `<label>Ziele: <input type="number" min="1" value="1" class="mod-ziele"></label><label>MR (höchste): <select class="mod-mr">${[...Array(20)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}</select></label>`;
-    } else if (mod.type === "ziel_frei") {
-        opt.innerHTML = `<label>Ziele: <input type="number" min="1" value="1" class="mod-ziele"></label><label>MR: <select class="mod-mr">${[...Array(20)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}</select></label>`;
+        opt.innerHTML = `<label>Prozent: <select class="mod-value">${[10, 20, 30, 40, 50].map(v => `<option value="${v}">${v}%</option>`).join("")}</select></label>`;
+    } else if (mod.type === "ziel" || mod.type === "ziel_frei") {
+        opt.innerHTML = `
+        <label>Ziele:
+            <select class="mod-ziele">
+                ${[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(v => `<option value="${v}">${v}</option>`).join("")}
+            </select>
+        </label>
+        <label>MR (höchste):
+            <select class="mod-mr">
+                ${[...Array(20)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}
+            </select>
+        </label>
+    `;
     } else if (mod.type === "stufe") {
         opt.innerHTML = `<label>Startstufe: <input type="number" min="0" max="7" class="mod-start" value="0"></label><label>Zielstufe: <input type="number" min="0" max="7" class="mod-ziel" value="1"></label>`;
     } else if (mod.type === "sonstiges") {
@@ -47,6 +57,37 @@ function showOptions(id, opt) {
         `;
     } else if (mod.type === "multi") {
         opt.innerHTML = `<label>Anzahl: <select class="mod-value">${[1, 2, 3, 4].map(v => `<option value="${v}">${v}</option>`).join("")}</select></label>`;
+    } else if (mod.type === "reichweite") {
+        const startStufen = [
+            { value: 1, text: "Selbst" },
+            { value: 2, text: "Berührung" },
+            { value: 3, text: "1 Schritt" },
+            { value: 4, text: "3 Schritt" },
+            { value: 5, text: "7 Schritt" },
+            { value: 6, text: "21 Schritt" },
+            { value: 7, text: "49 Schritt" }
+        ];
+        const zielStufen = [
+            { value: 2, text: "Berührung" },
+            { value: 3, text: "1 Schritt" },
+            { value: 4, text: "3 Schritt" },
+            { value: 5, text: "7 Schritt" },
+            { value: 6, text: "21 Schritt" },
+            { value: 7, text: "49 Schritt" },
+            { value: 8, text: "Horizont" }
+        ];
+        opt.innerHTML = `
+        <label>Startstufe:
+            <select class="mod-start">
+                ${startStufen.map(s => `<option value="${s.value}">${s.text}</option>`).join("")}
+            </select>
+        </label>
+        <label>Zielstufe:
+            <select class="mod-ziel">
+                ${zielStufen.map(s => `<option value="${s.value}">${s.text}</option>`).join("")}
+            </select>
+        </label>
+    `;
     } else if (mod.type === "varianten") {
         opt.innerHTML = `
         <div class="add-var-header">
@@ -88,3 +129,73 @@ function showOptions(id, opt) {
         };
     }
 }
+
+// Mod-Fokus-Logik
+const modfokusCheckbox = document.getElementById("sf_modfokus");
+const modfokusContainer = document.getElementById("sf_modfokus_used_container");
+
+if (modfokusCheckbox && modfokusContainer) {
+    modfokusCheckbox.addEventListener("change", function () {
+        // Immer zuerst den Container leeren
+        modfokusContainer.innerHTML = '';
+
+        // Nur wenn aktiviert, Label und Dropdown erstellen
+        if (this.checked) {
+            // Erstelle das Label "Anzahl: "
+            const labelText = document.createTextNode("Anzahl: ");
+            modfokusContainer.appendChild(labelText);
+
+            // Erstelle das Dropdown-Element
+            const dropdown = document.createElement("select");
+            dropdown.id = "sf_modfokus_anzahl_dynamic";
+
+            // Fülle das Dropdown mit Optionen 1 bis 5
+            for (let i = 1; i <= 5; i++) {
+                const option = document.createElement("option");
+                option.value = i;
+                option.textContent = i;
+                dropdown.appendChild(option);
+            }
+
+            // Füge das Dropdown zum Container hinzu
+            modfokusContainer.appendChild(dropdown);
+        }
+
+        // Container ausblenden/zeigen
+        modfokusContainer.classList.toggle("hidden", !this.checked);
+    });
+}
+
+// Logik für die "Angewandt?"-Checkboxen
+const sfCheckboxMappings = [
+    { mainCheckboxId: "sf_krftkontr", containerId: "sf_krftkontr_used_container" },
+    { mainCheckboxId: "sf_krftfokus", containerId: "sf_krftfokus_used_container" },
+    { mainCheckboxId: "sf_kugel", containerId: "sf_kugel_used_container" }
+];
+
+function setupSfCheckboxToggle(mainCheckboxId, containerId) {
+    const mainCheckbox = document.getElementById(mainCheckboxId);
+    const container = document.getElementById(containerId);
+    if (mainCheckbox && container) {
+        mainCheckbox.addEventListener("change", function () {
+            // Immer zuerst den Container leeren
+            container.innerHTML = '';
+            // Nur wenn aktiviert, Checkbox und Text erstellen
+            if (this.checked) {
+                const checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+                checkbox.id = containerId.replace('_container', '_used');
+                container.appendChild(checkbox);
+                const labelText = document.createTextNode(" Angewandt?");
+                container.appendChild(labelText);
+            }
+            // Container ausblenden/zeigen
+            container.classList.toggle("hidden", !this.checked);
+        });
+    }
+}
+
+// Initialisiere alle Sonderfertigkeiten
+sfCheckboxMappings.forEach(mapping => {
+    setupSfCheckboxToggle(mapping.mainCheckboxId, mapping.containerId);
+});

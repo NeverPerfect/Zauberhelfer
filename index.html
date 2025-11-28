@@ -10,7 +10,9 @@
 
 <body>
     <div id="app">
-        <!-- REPRÄSENTATION UND EIGENSCHAFTEN -->
+
+        <!-- LINKE SEITENLEISTE -->
+        <!-- REPRÄSENTATION -->
         <aside id="repraesentation">
             <select id="repraesentation-select">
                 <option value="">-- Repräsentation wählen --</option>
@@ -27,8 +29,12 @@
                     <p>Hier stehen Infos zu "Weitere in Arbeit".</p>
                 </div>
             </div>
+
+            <!-- EIGENSCHAFTEN -->
             <div id="attribute-container">
                 <h4>Eigenschaften</h4>
+
+                <!-- MU -->
                 <div class="attribute-row">
                     <div class="attribute-group">
                         <div class="attribute-line">
@@ -40,6 +46,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- KL -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">KL:</label>
@@ -49,12 +57,15 @@
                                 <button class="plus" data-target="kl">+</button>
                             </div>
                         </div>
+                        <!-- Leiteigenschaft Checkbox -->
                         <div class="checkbox-container">
                             <label class="checkbox-label">
                                 <input type="checkbox" name="leiteigenschaft" data-attribute="kl"> Leiteigenschaft
                             </label>
                         </div>
                     </div>
+
+                    <!-- IN -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">IN:</label>
@@ -64,6 +75,7 @@
                                 <button class="plus" data-target="in">+</button>
                             </div>
                         </div>
+                        <!-- Leiteigenschaft Checkbox -->
                         <div class="checkbox-container">
                             <label class="checkbox-label">
                                 <input type="checkbox" name="leiteigenschaft" data-attribute="in"> Leiteigenschaft
@@ -71,6 +83,7 @@
                         </div>
                     </div>
 
+                    <!-- CH -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">CH:</label>
@@ -81,6 +94,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- FF -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">FF:</label>
@@ -91,6 +106,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- GE -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">GE:</label>
@@ -101,6 +118,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- KO -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">KO:</label>
@@ -111,6 +130,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- KK -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">KK:</label>
@@ -121,6 +142,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- INI -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">INI:</label>
@@ -131,6 +154,8 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- BE -->
                     <div class="attribute-group">
                         <div class="attribute-line">
                             <label class="attribute-label">BE:</label>
@@ -144,10 +169,12 @@
                 </div>
             </div>
 
+            <!-- XML IMPORT -->
             <div id="xml-import-container">
                 <h4>Helden Import (in Arbeit)</h4>
                 <button id="xml-import-button" disabled>XML Importieren</button>
             </div>
+
             <!-- SAVE, IMPORT, EXPORT -->
             <div id="buttons">
                 <button id="save">Speichern</button>
@@ -163,21 +190,31 @@
         <!-- EINGABE DER ZAUBERWERTE -->
         <section id="inputs">
             <div class="zauber-header">
+
+                <!-- Zauber wählen Dropdown -->
                 <select id="zauber-select">
                     <option value="">-- Zauber wählen --</option>
                     <option value="weitere">In Arbeit</option>
                 </select>
+
+                <!-- Zauber fremde Repräsentation Checkbox-->
                 <label>
                     <input type="checkbox" class="mod-check" data-id="fremdrepraesentation"> Zauber in fremder
                     Repräsentation
                 </label>
+
+                <!-- Toggle Tooltipps -->
                 <label class="switch">
                     <input type="checkbox" id="toggle-tooltips" checked>
                     <span class="slider round"></span>
                     <span class="switch-label">Tooltips On/Off</span>
                 </label>
             </div>
+
+            <!-- Zauberwerte -->
             <div class="input-row">
+
+                <!-- ZfW -->
                 <div class="input-group">
                     <label>ZfW:</label>
                     <div class="number-input">
@@ -186,6 +223,8 @@
                         <button class="plus" data-target="zfw">+</button>
                     </div>
                 </div>
+
+                <!-- ZD -->
                 <div class="input-group">
                     <label>Zauberdauer:</label>
                     <div class="number-input">
@@ -194,6 +233,8 @@
                         <button class="plus" data-target="zauberdauer">+</button>
                     </div>
                 </div>
+
+                <!-- Grundkosten -->
                 <div class="input-group">
                     <label>Grundkosten:</label>
                     <div class="number-input">
@@ -202,6 +243,8 @@
                         <button class="plus" data-target="kosten">+</button>
                     </div>
                 </div>
+
+                <!-- AsP pro Einheit -->
                 <div class="input-group">
                     <label
                         title="Etwa bei aufrecht zu erhaltenden Zaubern, oder bei mehreren Zielen. Kosten pro SR, A, Gewicht, Ziele...">Kosten
@@ -212,6 +255,8 @@
                         <button class="plus" data-target="kosteneinheit">+</button>
                     </div>
                 </div>
+
+                <!-- Reichweite -->
                 <div class="input-group">
                     <label>Reichweite:</label>
                     <select id="reichweite-select">
@@ -226,6 +271,8 @@
                         <option value="weitere">Horizont</option>
                     </select>
                 </div>
+
+                <!-- WD -->
                 <div class="input-group">
                     <label>Wirkungsdauer:</label>
                     <div class="number-input">
@@ -235,6 +282,8 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Anzahl Einheiten für AsP pro Einheit -->
             <div class="input-row">
                 <div class="input-group" id="anzahl-einheiten-group">
                     <label>Anzahl Einheiten:</label>
@@ -245,12 +294,15 @@
                     </div>
                 </div>
             </div>
+
+            <!-- SONDERFERTIGKEITEN -->
             <div class="sf-row">
                 <div class="sf-container">
                     <div class="sf-header">
                         <label>Sonderfertigkeiten:</label>
                     </div>
                     <div id="sf-group">
+
                         <!-- Matrixverständnis -->
                         <label class="tooltip-container">
                             <input type="checkbox" id="sf_matrix"> Matrixverständnis
@@ -270,15 +322,15 @@
                             </label>
                         </div>
 
-                        <!-- Modifikationsfokus (unverändert) -->
+                        <!-- Modifikationsfokus -->
                         <div class="sf-item">
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">stab muss in der Hand gehalten werden und darf gerade keine
+                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade keine
                                     andere Funktion erfüllen</span>
                             </label>
-                            <select id="sf_modfokus_anzahl" class="hidden"></select>
+                            <label id="sf_modfokus_used_container" class="hidden"></label>
                         </div>
 
                         <!-- Kraftfokus -->
@@ -322,8 +374,10 @@
                     </div>
                 </div>
             </div>
-            <!-- MODIFIKATIONEN -->
+
+            <!-- SPONTANE MODIFIKATIONEN Grid aus 3 Spalten, Mods unterteild in Kategorien-->
             <div id="mod-container">
+
                 <!-- TECHNIK -->
                 <div class="mod-category">
                     <h4>Technik</h4>
@@ -340,6 +394,7 @@
                         <div class="mod-options hidden" id="opt_techz"></div>
                     </div>
                 </div>
+
                 <!-- ZAUBERDAUER -->
                 <div class="mod-category">
                     <h4>Zauberdauer</h4>
@@ -355,6 +410,7 @@
                         </label>
                     </div>
                 </div>
+
                 <!-- KOSTEN VERÄNDERN -->
                 <div class="mod-category">
                     <h4>Kosten verändern</h4>
@@ -366,12 +422,12 @@
                     </div>
                     <div class="modblock">
                         <label>
-                            <input type="checkbox" class="mod-check" data-id="kosten"> Kosten einsparen (Nur
-                            Grundkosten)
+                            <input type="checkbox" class="mod-check" data-id="kosten"> Kosten einsparen
                         </label>
                         <div class="mod-options hidden" id="opt_kosten"></div>
                     </div>
                 </div>
+
                 <!-- ZIEL -->
                 <div class="mod-category">
                     <h4>Ziel</h4>
@@ -388,6 +444,7 @@
                         <div class="mod-options hidden" id="opt_freiw"></div>
                     </div>
                 </div>
+
                 <!-- WIRKUNGSBEREICH -->
                 <div class="mod-category">
                     <h4>Wirkungsbereich</h4>
@@ -406,7 +463,8 @@
                         <div class="mod-options hidden" id="opt_reichweitek"></div>
                     </div>
                 </div>
-                <!-- WIRKUNGSDauer -->
+
+                <!-- WIRKUNGSDAUER -->
                 <div class="mod-category">
                     <h4>Wirkungsdauer</h4>
                     <div class="modblock">
@@ -427,6 +485,7 @@
                         </label>
                     </div>
                 </div>
+
                 <!-- SONSTIGES -->
                 <div class="mod-category">
                     <h4>Sonstiges</h4>
@@ -441,6 +500,7 @@
                         <div class="mod-options hidden" id="opt_varianten"></div>
                     </div>
 
+                    <!-- Sonstige Modifikationen -->
                     <div class="modblock">
                         <label>
                             <input type="checkbox" class="mod-check" data-id="sonstigemods"> Sontige
@@ -464,9 +524,10 @@
                         <div class="mod-options hidden" id="opt_miss"></div>
                     </div>
                 </div>
-                <!-- ERGEBNISSE -->
+
+                <!-- ERGEBNISSE - Grid mit 4 Spalten-->
                 <div id="results-container">
-                    <!-- Oberste Reihe (volle Breite) -->
+                    <!-- Oberste Reihe Resultat -->
                     <div class="result-box full-width">
                         <h4>Resultat
                             <label class="tooltip-container">
@@ -476,15 +537,21 @@
                                     erschwert).</span>
                             </label>
                         </h4>
+
+                        <!-- Anzahl Modifikationen -->
                         <div id="mods-container">
                             <div>x/y Modifikationen</div>
                             <div id="mods-anzahl"></div>
+
+                            <!-- Warnemldungen -->
                             <div>Warnungen</div>
                             <div id="mods-warnung"></div>
                         </div>
                     </div>
+
                     <!-- Grid für die 2 Reihen mit 4 Spalten -->
                     <div class="results-grid">
+
                         <!-- Reihe 1 -->
                         <div class="result-box">
                             <div>ZfW +/-:</div>
@@ -523,6 +590,8 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- ERFOLGSWAHRSCHEINLICHKEIT -->
                 <div id="results-container">
                     <div class="result-box">
                         <h4>Erfolgswahrscheinlichkeit</h4>
@@ -566,7 +635,8 @@
                 </div>
             </div>
         </section>
-        <!-- STAB-SPEICHER -->
+
+        <!-- SPALTE RECHTS - STAB-SPEICHER -->
         <div id="stab-speicher-container">
             <h4>Zauber im Stab speichern</h4>
             <p>Erschwernis, Aktuelle Erschwernis + 2</p>
@@ -603,7 +673,7 @@
         </div>
         </aside>
 
-        <!-- JavaScript Dateien -->
+        <!-- JAVASCRIPT DATEIEN -->
         <script src="js/core/globals.js"></script>
         <script src="js/utils/tooltips.js"></script>
         <script src="js/utils/mods.js"></script>
