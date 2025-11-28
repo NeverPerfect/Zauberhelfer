@@ -280,7 +280,7 @@ h2, h3 {
 #sf-group label {
     font-weight: normal;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 5px;
     font-size: 14px;
 }
@@ -315,6 +315,16 @@ h2, h3 {
     overflow: hidden;
     max-height: 100%;
     min-height: 0; 
+}
+
+.modblock label {
+    display: inline-flex;
+    align-items: flex-end;
+    cursor: default;
+}
+
+.modblock input[type="checkbox"] {
+    margin-right: 0.5em;
 }
 
 .mod-category {
@@ -404,48 +414,66 @@ h2, h3 {
     align-items: center;
 }
 
+/* TOOLTIPS */
+/* Container für Tooltips */
 .tooltip-container {
-    position: relative;
-    display: inline-block;
-    cursor: help;
-    border-bottom: 1px dotted #999;
+    display: inline-flex; /* oder 'flex' für Block-Elemente */
+    align-items: center;
+    cursor: default;
 }
 
-.tooltip-container .tooltip {
+/* Info-Icon-Stil */
+.info-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+    border: 1px solid #4a90e2;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    color: #4a90e2;
+    background-color: #f0f7ff;
+    cursor: help;
+    font-weight: bold;
+}
+
+/* Tooltip-Stil */
+.tooltip-text {
+    position: fixed;
     visibility: hidden;
-    width: 200px;
+    opacity: 0;
+    z-index: 9999;
     background-color: #333;
     color: #fff;
-    text-align: center;
+    padding: 6px 10px;
     border-radius: 4px;
-    padding: 6px;
     font-size: 0.8rem;
-    position: absolute;
-    z-index: 1;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%);
-    opacity: 0;
-    transition: opacity 0.3s;
-    margin-bottom: 10px;
+    max-width: 200px;
+    text-align: left;
+    white-space: normal;
+    transition: opacity 0.2s;
+    pointer-events: none;
 }
 
-.tooltip-container .tooltip::after {
+/* Pfeilchen */
+.tooltip-text::before {
     content: "";
     position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-left: -5px;
+    left: -5px;
+    top: 50%;
+    transform: translateY(-50%);
     border-width: 5px;
     border-style: solid;
-    border-color: #333 transparent transparent transparent;
+    border-color: transparent #333 transparent transparent;
 }
 
-.tooltip-container:hover .tooltip {
+/* Sichtbarkeits-Klasse für JS */
+.tooltip-text.visible {
     visibility: visible;
     opacity: 1;
 }
-
 
 /* ERGEBNISSE */
 #results-container {

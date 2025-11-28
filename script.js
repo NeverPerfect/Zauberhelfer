@@ -37,6 +37,27 @@ function initRepraesentationEvents() {
     });
 }
 
+// ---------------------- TOOLTIPS ----------------------
+
+document.querySelectorAll('.tooltip-container').forEach(container => {
+    const icon = container.querySelector('.info-icon');
+    const tooltip = container.querySelector('.tooltip-text');
+
+    if (icon && tooltip) { // Prüfe, ob Icon und Tooltip existieren
+        icon.addEventListener('mouseenter', (e) => {
+            tooltip.classList.add('visible');
+            const rect = icon.getBoundingClientRect();
+            tooltip.style.left = `${rect.left + window.scrollX}px`;
+            tooltip.style.top = `${rect.bottom + window.scrollY}px`;
+            tooltip.style.transform = 'translateX(-50%) translateY(-100%)';
+        });
+
+        icon.addEventListener('mouseleave', () => {
+            tooltip.classList.remove('visible');
+        });
+    }
+});
+
 // ---------------------- MODIFIKATIONEN ----------------------
 const MODS = [
     { id: "tech", name: "Veränderte Technik", type: "multi_fixed", cost: 7, dauer: 3, dropdown: [1, 2, 3, 4] },
