@@ -720,7 +720,6 @@ button:hover {
 #reset-button {
     position: absolute;
     bottom: 20px;
-    right: 20px;
     padding: 10px 20px;
     background: #c00;
     color: white;
@@ -728,17 +727,17 @@ button:hover {
     border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
-    transform: translateX(-60%);
 }
 
 /* Toggle-Switch */
 .switch {
-    position: relative;
+    position: absolute;
+    flex-direction: column-reverse;
+    gap: 5px;
     display: inline-flex;
-    align-items: center;
     width: fit-content;
-    margin: 8px;
-    /* flex-direction: row-reverse; Schiebt den Text auf die andere Seite des Toggle Switches*/
+    bottom: 70px;
+    align-items: center;
 }
 
 .switch input {
