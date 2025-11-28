@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // ---------------------- REPRÄSENTATION ----------------------
 function initRepraesentationEvents() {
     const select = document.getElementById('repraesentation-select');
-    select.addEventListener('change', function() {
+    select.addEventListener('change', function () {
         document.querySelectorAll('.repr-content').forEach(content => {
             content.classList.remove('visible');
         });
@@ -98,9 +98,9 @@ function showOptions(id, opt) {
     } else if (mod.type === "kosten") {
         opt.innerHTML = `<label>Anzahl: <select class="mod-value">${[1, 2, 3, 4].map(v => `<option value="${v}">${v}</option>`).join("")}</select></label>`;
     } else if (mod.type === "ziel") {
-        opt.innerHTML = `<label>Ziele: <input type="number" min="1" value="1" class="mod-ziele"></label><label>MR (höchste): <select class="mod-mr">${[...Array(20)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join("")}</select></label>`;
+        opt.innerHTML = `<label>Ziele: <input type="number" min="1" value="1" class="mod-ziele"></label><label>MR (höchste): <select class="mod-mr">${[...Array(20)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}</select></label>`;
     } else if (mod.type === "ziel_frei") {
-        opt.innerHTML = `<label>Ziele: <input type="number" min="1" value="1" class="mod-ziele"></label><label>MR: <select class="mod-mr">${[...Array(20)].map((_, i) => `<option value="${i+1}">${i+1}</option>`).join("")}</select></label>`;
+        opt.innerHTML = `<label>Ziele: <input type="number" min="1" value="1" class="mod-ziele"></label><label>MR: <select class="mod-mr">${[...Array(20)].map((_, i) => `<option value="${i + 1}">${i + 1}</option>`).join("")}</select></label>`;
     } else if (mod.type === "stufe") {
         opt.innerHTML = `<label>Startstufe: <input type="number" min="0" max="7" class="mod-start" value="0"></label><label>Zielstufe: <input type="number" min="0" max="7" class="mod-ziel" value="1"></label>`;
     } else if (mod.type === "sonstiges") {
@@ -109,21 +109,56 @@ function showOptions(id, opt) {
                 <div class="sonstige-mod-input"><label>ZfW:</label><input type="number" class="mod-zfw" value="0" placeholder="+/-"></div>
                 <div class="sonstige-mod-input"><label>ZD:</label><input type="number" class="mod-zd" value="0" placeholder="+/-"></div>
                 <div class="sonstige-mod-input"><label>AsP:</label><input type="number" class="mod-asp" value="0" placeholder="+/-"></div>
+                <div class="sonstige-mod-input"><label>AsP/X:</label><input type="number" class="mod-aspx" value="0" placeholder="+/-"></div>
                 <div class="sonstige-mod-input"><label>WD:</label><input type="number" class="mod-wd" value="0" placeholder="+/-"></div>
             </div>
         `;
     } else if (mod.type === "multi") {
         opt.innerHTML = `<label>Anzahl: <select class="mod-value">${[1, 2, 3, 4].map(v => `<option value="${v}">${v}</option>`).join("")}</select></label>`;
     } else if (mod.type === "varianten") {
-        opt.innerHTML = `<button class="add-var">Variante hinzufügen</button><div class="var-list"></div>`;
+        opt.innerHTML = `
+        <div class="add-var-header">
+            <span>Varianten</span>
+            <button class="add-var">Variante hinzufügen</button>
+        </div>
+        <div class="var-list"></div>
+    `;
         opt.querySelector(".add-var").onclick = () => {
             const div = document.createElement("div");
             div.className = "var-item";
-            div.innerHTML = `<label>Erschwernis: <select class="var-value">${[...Array(12)].map((_, i) => `<option>${i+1}</option>`).join("")}</select></label><button class="remove-var">Entfernen</button>`;
+            div.innerHTML = `
+            <div class="sonstige-mods-container">
+                <div class="sonstige-mod-input">
+                    <label>ZfW:</label>
+                    <input type="number" class="var-zfw" value="0" placeholder="+/-">
+                </div>
+                <div class="sonstige-mod-input">
+                    <label>ZD:</label>
+                    <input type="number" class="var-zd" value="0" placeholder="+/-">
+                </div>
+                <div class="sonstige-mod-input">
+                    <label>AsP:</label>
+                    <input type="number" class="var-asp" value="0" placeholder="+/-">
+                </div>
+                <div class="sonstige-mod-input">
+                    <label>AsP/X:</label>
+                    <input type="number" class="var-aspx" value="0" placeholder="+/-">
+                </div>
+                <div class="sonstige-mod-input">
+                    <label>WD:</label>
+                    <input type="number" class="var-wd" value="0" placeholder="+/-">
+                </div>
+            </div>
+            <button class="remove-var">Entfernen</button>
+        `;
             opt.querySelector(".var-list").appendChild(div);
             div.querySelector(".remove-var").onclick = () => div.remove();
         };
     }
+
+
+
+
 }
 
 // ---------------------- ZAUBER IM STAB SPEICHERN ----------------------
@@ -177,7 +212,7 @@ function initEventsForNumberInputs() {
 
 // ---------------------- LEITEIGENSCHAFT-EVENTS ----------------------
 document.querySelectorAll('input[name="leiteigenschaft"]').forEach(checkbox => {
-    checkbox.addEventListener('change', function() {
+    checkbox.addEventListener('change', function () {
         if (this.checked) {
             document.querySelectorAll('input[name="leiteigenschaft"]').forEach(other => {
                 if (other !== this) other.checked = false;
@@ -248,13 +283,23 @@ function saveData() {
         const opt = document.getElementById(`opt_${id}`);
         if (opt && !opt.classList.contains('hidden')) {
             data.checkedMods[id] = true;
-            // Eingabewerte in ausgeklappten Menüs speichern
+
+            // Spezieller Fall für "varianten"
             if (id === 'varianten') {
                 data.checkedMods[`${id}-variants`] = [];
                 opt.querySelectorAll('.var-item').forEach(item => {
-                    data.checkedMods[`${id}-variants`].push(item.querySelector('.var-value').value);
+                    const variant = {
+                        zfw: item.querySelector('.var-zfw').value,
+                        zd: item.querySelector('.var-zd').value,
+                        asp: item.querySelector('.var-asp').value,
+                        asp: item.querySelector('.var-aspx').value,
+                        wd: item.querySelector('.var-wd').value
+                    };
+                    data.checkedMods[`${id}-variants`].push(variant);
                 });
-            } else {
+            }
+            // Für alle anderen Mod-Typen (z. B. "sonstigemods", "miss" etc.)
+            else {
                 opt.querySelectorAll('input, select').forEach(input => {
                     data.checkedMods[`${id}-${input.className}`] = input.value;
                 });
@@ -455,7 +500,7 @@ function loadFromLocalStorage() {
 const modfokusCheckbox = document.getElementById("sf_modfokus");
 const modfokusDropdown = document.getElementById("sf_modfokus_anzahl");
 if (modfokusCheckbox && modfokusDropdown) {
-    modfokusCheckbox.addEventListener("change", function() {
+    modfokusCheckbox.addEventListener("change", function () {
         modfokusDropdown.classList.toggle("hidden", !this.checked);
         if (!this.checked) return;
         modfokusDropdown.innerHTML = "";

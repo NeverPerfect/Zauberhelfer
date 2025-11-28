@@ -368,15 +368,19 @@
                 <div class="mod-category">
                     <h4>Sonstiges</h4>
                     <div class="modblock">
-                        <label>
+                        <label class="tooltip-container">
                             <input type="checkbox" class="mod-check" data-id="varianten"> Varianten
+                            <span class="tooltip">Varianten überschreiben die Grundwerte des Zaubers. Varianten gelten
+                                als spontane Modifikation, Erschwernisse werden aber bei
+                                gildenmagischer Repräsentation nicht halbiert</span>
                         </label>
                         <div class="mod-options hidden" id="opt_varianten"></div>
                     </div>
+
                     <div class="modblock">
                         <label>
                             <input type="checkbox" class="mod-check" data-id="sonstigemods"> Sontige
-                            Modifikationen                          
+                            Modifikationen
                         </label>
                         <div class="mod-options hidden" id="opt_sonstigemods"></div>
                     </div>
@@ -517,7 +521,7 @@
                     <button class="plus" data-target="rkw">+</button>
                 </div>
                 <div>Platz für Warnung, wenn Zauber schwerer auszulösen ist, als RkW</div>
-            </div>            
+            </div>
             <div class="stab-input">
                 <input type="text" id="zauber-name" placeholder="Name des Zaubers">
                 <button id="zauber-speichern">Speichern</button>

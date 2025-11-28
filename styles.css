@@ -345,6 +345,8 @@ h2, h3 {
     display: flex;
     gap: 10px;
     width: 100%;
+    padding: 0 5%;
+    box-sizing: border-box;
 }
 
 /* Einzelnes Eingabefeld */
@@ -354,6 +356,7 @@ h2, h3 {
     flex: 1;
 }
 
+/* Label-Stil */
 .sonstige-mod-input label {
     font-size: 0.8em;
     margin-bottom: 3px;
@@ -361,11 +364,88 @@ h2, h3 {
     text-align: center; /* Zentriert den Text horizontal */
 }
 
+/* Input-Feld-Stil */
 .sonstige-mod-input input {
     width: 100%;
     padding: 5px;
     text-align: center;
+    box-sizing: border-box;
 }
+
+/* Container für "Varianten"-Überschrift und Button */
+.add-var-header {
+    display: flex;
+    align-items: center;
+}
+
+/* Button-Stil für "Variante hinzufügen" und "Entfernen" */
+.add-var, .remove-var {
+    padding: 2px 6px;
+    font-size: 0.7em;
+    margin-left: 0.5rem;
+    margin-top: 0.1rem;
+    
+}
+
+.remove-var {
+    margin-top: 0.5rem;
+    margin-left: 0.0rem;
+    background-color: #e30a0a; /* Hellrot */
+    color: white; /* Weiße Schrift für Kontrast */
+    border: 1px solid #5b0101; /* Dunklerer Rotton für den Rahmen */
+}
+
+.remove-var:hover {
+    background-color: #5b0101; /* Dunkleres Rot beim Hovern */
+}
+
+.var-item {
+    display: flex;
+    align-items: center;
+}
+
+.tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: help;
+    border-bottom: 1px dotted #999;
+}
+
+.tooltip-container .tooltip {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 6px;
+    font-size: 0.8rem;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    margin-bottom: 10px;
+}
+
+.tooltip-container .tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+.tooltip-container:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
 
 /* ERGEBNISSE */
 #results-container {
