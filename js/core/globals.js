@@ -1,0 +1,29 @@
+// ---------------------- GLOBALE VARIABLEN ----------------------
+let gespeicherteZauber = [];
+let aktuelleBerechnung = {
+    neueZauberdauer: 0,
+    neueKosten: 0,
+    neueWirkungsdauer: 0
+};
+
+// Modifikationen
+const MODS = [
+    { id: "tech", name: "Veränderte Technik", type: "multi_fixed", cost: 7, dauer: 3, dropdown: [1, 2, 3, 4] },
+    { id: "techz", name: "Veränderte Technik (zentral)", type: "multi_fixed", cost: 12, dauer: 3, dropdown: [1, 2, 3, 4] },
+    { id: "halbdauer", name: "Zauberdauer halbieren", type: "multi_var", cost: 5, dauer: "-50%" },
+    { id: "doppeldauer", name: "Zauberdauer verdoppeln", type: "single", cost: -4, dauer: "+100%" },
+    { id: "erzwingen", name: "Erzwingen (AsP)", type: "asp", dauer: "+1 je", noCombo: "kosten" },
+    { id: "kosten", name: "Kosten einsparen", type: "kosten", cost: 3, dauer: "+1", noCombo: "erzwingen" },
+    { id: "unfreiw", name: "Unfreiwillig statt freiwillig", type: "ziel", base: 5 },
+    { id: "freiw", name: "Freiwillig statt unfreiwillig", type: "ziel_frei", base: 2 },
+    { id: "reichweitex", name: "Reichweite/Wirkungsradius erhöhen", type: "stufe", cost: 5 },
+    { id: "reichweitek", name: "Reichweite/Wirkungsradius verkleinern", type: "stufe", cost: 3 },
+    { id: "dauerx", name: "Wirkungsdauer verdoppeln", type: "multi", cost: 7, dauer: "+1" },
+    { id: "dauerh", name: "Wirkungsdauer halbieren", type: "multi", cost: 3, dauer: "+1" },
+    { id: "auf_fest", name: "Aufrechterhalten ➜ feste Dauer", type: "single", cost: 7, dauer: "+1" },
+    { id: "varianten", name: "Varianten", type: "varianten" },
+    { id: "stab", name: "Zauber in Stab speichern", type: "single", cost: 2 },
+    { id: "fremdrepraesentation", name: "Zauber in fremder Repräsentation", type: "single", cost: 4, dauer: 0 },
+    { id: "miss", name: "Zauber misslungen?", type: "multi_var", cost: 3, dauer: 1, dropdown: [1, 2, 3, 4] },
+    { id: "sonstigemods", name: "Sonstige Modifikationen", type: "sonstiges" }
+];
