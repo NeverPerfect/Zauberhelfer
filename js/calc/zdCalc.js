@@ -1,10 +1,6 @@
 // zdCalc.js
 // Berechnet die modifikation und aktuelle Zauberdauer
 
-// Globale Variablen
-zauberdauerOriginal = parseInt(zauberdauerInput.value) || 1;
-zauberroutine = false;
-
 // Initialisierung
 function initZdCalc() {
     // Event-Listener für INI-Input (automatische Checkbox-Aktivierung bei INI < 0)
@@ -46,6 +42,7 @@ function initZdCalc() {
     // Event-Listener für Zauberdauer-Input und Buttons
     zauberdauerInput?.addEventListener("input", (e) => {
         zauberdauerOriginal = parseInt(e.target.value) || 0;
+        zauberdauerNeu = zauberdauerOriginal; // Zurücksetzen
         berechneZd();
     });
 
@@ -54,6 +51,7 @@ function initZdCalc() {
         button.addEventListener("click", () => {
             setTimeout(() => {
                 zauberdauerOriginal = parseInt(zauberdauerInput.value) || 0;
+                zauberdauerNeu = zauberdauerOriginal; // Zurücksetzen
                 berechneZd();
             }, 10); // Kurze Verzögerung, um den geänderten Wert zu erfassen
         });
@@ -95,7 +93,7 @@ function initZdCalc() {
 // Berechnet die Modifikationen für die Zauberdauer (ZD)
 function berechneZd() {
     let zdMod = 0; // Modifikator für ZD
-    let zauberdauerNeu = zauberdauerOriginal; // Startwert
+    zauberdauerNeu = zauberdauerOriginal; // Globale Variable zurücksetzen
 
     // 1. Veränderte Technik
     const techChecked = document.querySelector('.mod-check[data-id="tech"]')?.checked;

@@ -1,3 +1,4 @@
+//init.js
 // ---------------------- INIT ----------------------
 document.addEventListener("DOMContentLoaded", () => {
     // Standardwerte laden oder zurücksetzen

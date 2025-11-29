@@ -2,11 +2,6 @@
 // Zählt die Anzahl der möglichen und aktuell ausgewählten Modifikationen
 // Abhängigkeiten: globals.js (MODS), mods.js (.mod-check-Checkboxen)
 
-// Globale Variablen
-matrixVerstaendnis = false;
-modFokusAnzahl = 0;
-modFokusAngewandt = false;
-
 // Initialisierung
 function initModCount() {
     // Event-Listener für Mod-Checkboxen

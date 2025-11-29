@@ -2,12 +2,11 @@
 // Berechnet die Summe der Erschwernisse und den aktuellen ZfW
 // Abhängigkeiten: globals.js (MODS), mods.js, modCount.js
 
-// Globale Variablen
-zfwOriginal = parseInt(zfwInput.value) || 10;
-zauberroutine = false;
-
 // Initialisierung
 function initZfwCalc() {
+    zfwOriginal = parseInt(zfwInput.value) || 10;
+    zfwNeu = zfwOriginal; // Setze zfwNeu auf den Standardwert
+
     // Event-Listener für Mod-Checkboxen
     document.querySelectorAll(".mod-check").forEach(cb => {
         cb.addEventListener("change", berechneZfw);

@@ -1,5 +1,5 @@
 // globals.js
-// Speichert alle global genutzen Variablen udn DOM Elemente
+// Speichert alle global genutzen Variablen und DOM Elemente
 
 // ---------------------- GLOBALE VARIABLEN ----------------------
 let gespeicherteZauber = [];
@@ -9,6 +9,7 @@ let modFokusAnzahl = 0;
 let modFokusAngewandt = 0;
 let zauberdauerOriginal = 1;
 let zfwOriginal = 0;
+let zauberdauerNeu = 0;
 let aktuelleBerechnung = {
     neueZauberdauer: 0,
     neueKosten: 0,
