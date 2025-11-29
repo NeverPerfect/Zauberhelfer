@@ -8,7 +8,7 @@ let modFokusAngewandt = false;
 
 // DOM-Elemente
 const modsAnzahlElement = document.getElementById("mods-anzahl");
-const modsWarnungElement = document.getElementById("mods-warnung");
+const modsWarnungElement = document.getElementById("modcount-warnung");
 
 // Initialisierung
 function initModCount() {

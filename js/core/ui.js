@@ -39,17 +39,3 @@ document.querySelectorAll('.attribute-group .number-input input').forEach(input 
         }
     });
 });
-
-// ---------------------- REPRÄSENTATION ----------------------
-function initRepraesentationEvents() {
-    const select = document.getElementById('repraesentation-select');
-    select.addEventListener('change', function () {
-        document.querySelectorAll('.repr-content').forEach(content => {
-            content.classList.remove('visible');
-        });
-        if (this.value) {
-            const content = document.getElementById(`${this.value}-content`);
-            if (content) content.classList.add('visible');
-        }
-    });
-}

@@ -1,10 +1,18 @@
 // ---------------------- GLOBALE VARIABLEN ----------------------
 let gespeicherteZauber = [];
+let zauberroutine = false;
 let aktuelleBerechnung = {
     neueZauberdauer: 0,
     neueKosten: 0,
     neueWirkungsdauer: 0
 };
+
+// DOM-Elemente
+const repraesentationSelect = document.getElementById("repraesentation-select");
+const zfwInput = document.getElementById("zfw");
+const zauberdauerInput = document.getElementById("zauberdauer");
+const iniInput = document.getElementById("ini");
+const beInput = document.getElementById("be");
 
 // Modifikationen
 const MODS = [
