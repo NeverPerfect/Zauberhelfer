@@ -1,4 +1,3 @@
-// aspCalc.js
 // Berechnet die AsP-Kosten für einen Zauber
 // Abhängigkeiten: globals.js (MODS), mods.js, modCount.js
 
@@ -8,26 +7,26 @@ function initAspCalc() {
     document.getElementById("kosten")?.addEventListener("input", berechneAsp);
     document.getElementById("kosteneinheit")?.addEventListener("input", berechneAsp);
     document.getElementById("anzahl-einheiten")?.addEventListener("input", berechneAsp);
+
+    // Event-Listener für Plus/Minus-Buttons
     document.querySelectorAll('.number-input button[data-target="kosten"], .number-input button[data-target="kosteneinheit"], .number-input button[data-target="anzahl-einheiten"]').forEach(button => {
         button.addEventListener("click", () => {
             setTimeout(berechneAsp, 10);
         });
     });
+
     // Event-Listener für Mod-Checkboxen
     document.querySelectorAll(".mod-check").forEach(cb => {
         cb.addEventListener("change", berechneAsp);
     });
+
     // Event-Listener für Erzwingen-Dropdown
     document.getElementById("opt_erzwingen")?.addEventListener("change", berechneAsp);
+
     // Event-Listener für Kosten einsparen
     document.querySelector('.mod-check[data-id="kosten"]')?.addEventListener("change", berechneAsp);
     document.getElementById("opt_kosten")?.addEventListener("change", berechneAsp);
-    // Event-Listener für Sonderfertigkeiten (Kraftfokus/Kraftkontrolle)
-    document.addEventListener("change", (e) => {
-        if (e.target.id === "sf_krftkontr_used" || e.target.id === "sf_krftfokus_used") {
-            berechneAsp();
-        }
-    });
+
     // Event-Listener für Varianten und Sonstige Modifikationen
     document.addEventListener("change", (e) => {
         if (
@@ -40,18 +39,26 @@ function initAspCalc() {
             berechneAsp();
         }
     });
+
     // Event-Listener für Varianten (Hinzufügen/Entfernen)
     document.addEventListener("click", (e) => {
         if (e.target.classList.contains("add-var") || e.target.classList.contains("remove-var")) {
             setTimeout(berechneAsp, 50);
         }
     });
+
     // Erstmalige Berechnung
     berechneAsp();
 }
 
 // Berechnet die AsP-Kosten
 function berechneAsp() {
+    // 0. Variablen für Kraftfokus/Kraftkontrolle vorab definieren
+    const krftfokusAngewandt = document.getElementById("sf_krftfokus")?.checked && document.getElementById("sf_krftfokus_used")?.checked || false;
+    const krftkontrAngewandt = document.getElementById("sf_krftkontr")?.checked && document.getElementById("sf_krftkontr_used")?.checked || false;
+    console.log("Kraftfokus angewandt:", krftfokusAngewandt);
+    console.log("Kraftkontrolle angewandt:", krftkontrAngewandt);
+
     // 1. Grundkosten (inkl. Erzwingen, Varianten, Sonstige Modifikationen)
     let grundkosten = parseInt(document.getElementById("kosten")?.value) || 0;
     let erzwingenWert = 0;
@@ -88,13 +95,7 @@ function berechneAsp() {
     // 4. Grundkosten (inkl. Erzwingen, Varianten, Sonstige Modifikationen)
     let grundkostenGesamt = grundkosten + erzwingenWert + variantenAsp + sonstigeAsp;
 
-    // 5. Kraftfokus/Kraftkontrolle (jeweils -1 auf Grundkosten)
-    const krftfokusAngewandt = document.getElementById("sf_krftfokus_used")?.checked;
-    const krftkontrAngewandt = document.getElementById("sf_krftkontr_used")?.checked;
-    if (krftfokusAngewandt) grundkostenGesamt = Math.max(1, grundkostenGesamt - 1);
-    if (krftkontrAngewandt) grundkostenGesamt = Math.max(1, grundkostenGesamt - 1);
-
-    // 6. Kosten einsparen (10%, 20%, etc. aus Dropdown, echt gerundet)
+    // 5. Kosten einsparen (10%, 20%, etc. aus Dropdown, echt gerundet)
     const kostenEinsparenChecked = document.querySelector('.mod-check[data-id="kosten"]')?.checked;
     if (kostenEinsparenChecked) {
         const prozent = parseInt(document.querySelector('#opt_kosten .mod-value')?.value) || 0;
@@ -102,21 +103,28 @@ function berechneAsp() {
         grundkostenGesamt = Math.max(1, grundkostenGesamt - reduktion);
     }
 
-    // 7. AsP pro Einheit (inkl. Varianten und Sonstige Modifikationen)
+    // 6. AsP pro Einheit (inkl. Varianten und Sonstige Modifikationen)
     const kosteneinheit = parseInt(document.getElementById("kosteneinheit")?.value) || 0;
     const anzahlEinheiten = parseInt(document.getElementById("anzahl-einheiten")?.value) || 0;
     let aspProEinheit = kosteneinheit * anzahlEinheiten + variantenAspX + sonstigeAspX;
 
-    // 8. Gesamtkosten (Grundkosten + AsP/X)
+    // 7. Gesamtkosten (Grundkosten + AsP/X)
     let aspGesamt = grundkostenGesamt + aspProEinheit;
+    console.log("AspGesamt vor Reduktion:", aspGesamt);
 
-    // 9. Kosten bei Misslingen (nur Grundkosten halbiert, AsP/X bleiben)
-    const aspMiss = Math.round(grundkostenGesamt / 2) + aspProEinheit;
+    // 8. Kraftfokus/Kraftkontrolle (jeweils -1 am Ende)
+    if (krftfokusAngewandt) aspGesamt = Math.max(1, aspGesamt - 1);
+    if (krftkontrAngewandt) aspGesamt = Math.max(1, aspGesamt - 1);
+    console.log("AspGesamt nach Reduktion:", aspGesamt);
+
+    // 9. Kosten bei Misslingen (nur Grundkosten halbiert, dann Kraftfokus/Kraftkontrolle abziehen)
+    let aspMiss = Math.round(grundkostenGesamt / 2) + aspProEinheit;
+    if (krftfokusAngewandt) aspMiss = Math.max(1, aspMiss - 1);
+    if (krftkontrAngewandt) aspMiss = Math.max(1, aspMiss - 1);
 
     // Ausgabe in die richtigen Boxen
     const grundkostenBox = document.querySelector('.results-grid .result-box:nth-child(4)');
     const aspGesamtBox = document.querySelector('.results-grid .result-box:nth-child(8)');
-
     if (grundkostenBox) {
         grundkostenBox.innerHTML = `
             <div>Grundkosten: ${grundkostenGesamt}</div>

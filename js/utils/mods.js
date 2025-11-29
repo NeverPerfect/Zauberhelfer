@@ -1,5 +1,5 @@
-//mods.js
-//Verwaltet Modifikations Dropdowns, hidden containers und mehr 
+// Verwaltet Modifikations-Dropdowns, hidden containers und mehr
+
 // ---------------------- MOD-EVENTS ----------------------
 function initModEvents() {
     document.querySelectorAll(".mod-check").forEach(cb => {
@@ -149,35 +149,22 @@ function showOptions(id, opt) {
 // Mod-Fokus-Logik
 const modfokusCheckbox = document.getElementById("sf_modfokus");
 const modfokusContainer = document.getElementById("sf_modfokus_used_container");
-
 if (modfokusCheckbox && modfokusContainer) {
     modfokusCheckbox.addEventListener("change", function () {
-        // Immer zuerst den Container leeren
         modfokusContainer.innerHTML = '';
-
-        // Nur wenn aktiviert, Label und Dropdown erstellen
         if (this.checked) {
-            // Erstelle das Label "Anzahl: "
             const labelText = document.createTextNode("Anzahl: ");
             modfokusContainer.appendChild(labelText);
-
-            // Erstelle das Dropdown-Element
             const dropdown = document.createElement("select");
             dropdown.id = "sf_modfokus_anzahl_dynamic";
-
-            // Fülle das Dropdown mit Optionen 1 bis 5
             for (let i = 1; i <= 5; i++) {
                 const option = document.createElement("option");
                 option.value = i;
                 option.textContent = i;
                 dropdown.appendChild(option);
             }
-
-            // Füge das Dropdown zum Container hinzu
             modfokusContainer.appendChild(dropdown);
         }
-
-        // Container ausblenden/zeigen
         modfokusContainer.classList.toggle("hidden", !this.checked);
     });
 }
@@ -192,25 +179,45 @@ function setupSfCheckboxToggle(mainCheckboxId, containerId) {
     const mainCheckbox = document.getElementById(mainCheckboxId);
     const container = document.getElementById(containerId);
     if (mainCheckbox && container) {
+        // Standardmäßig ausblenden
+        container.classList.add("hidden");
+
         mainCheckbox.addEventListener("change", function () {
-            // Immer zuerst den Container leeren
             container.innerHTML = '';
-            // Nur wenn aktiviert, Checkbox und Text erstellen
             if (this.checked) {
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
-                checkbox.id = containerId.replace('_container', '_used');
-                container.appendChild(checkbox);
+                checkbox.id = containerId.replace('_container', '');
                 const labelText = document.createTextNode(" Angewandt?");
+                container.appendChild(checkbox);
                 container.appendChild(labelText);
+                checkbox.addEventListener("change", berechneAsp);
+                container.classList.remove("hidden"); // Nur einblenden, wenn aktiviert
+            } else {
+                container.classList.add("hidden"); // Ausblenden, wenn deaktiviert
             }
-            // Container ausblenden/zeigen
-            container.classList.toggle("hidden", !this.checked);
+            berechneAsp();
         });
     }
 }
 
+
 // Initialisiere alle Sonderfertigkeiten
 sfCheckboxMappings.forEach(mapping => {
     setupSfCheckboxToggle(mapping.mainCheckboxId, mapping.containerId);
+    const mainCheckbox = document.getElementById(mapping.mainCheckboxId);
+    if (mainCheckbox && mainCheckbox.checked) {
+        const container = document.getElementById(mapping.containerId);
+        if (container) {
+            container.innerHTML = '';
+            const checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.id = mapping.containerId.replace('_container', '_used');
+            const labelText = document.createTextNode(" Angewandt?");
+            container.appendChild(checkbox);
+            container.appendChild(labelText);
+            checkbox.addEventListener("change", berechneAsp);
+            container.classList.remove("hidden");
+        }
+    }
 });
