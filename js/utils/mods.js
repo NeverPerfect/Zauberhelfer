@@ -1,3 +1,5 @@
+//mods.js
+//Verwaltet Modifikations Dropdowns, hidden containers und mehr 
 // ---------------------- MOD-EVENTS ----------------------
 function initModEvents() {
     document.querySelectorAll(".mod-check").forEach(cb => {
@@ -183,8 +185,7 @@ if (modfokusCheckbox && modfokusContainer) {
 // Logik für die "Angewandt?"-Checkboxen
 const sfCheckboxMappings = [
     { mainCheckboxId: "sf_krftkontr", containerId: "sf_krftkontr_used_container" },
-    { mainCheckboxId: "sf_krftfokus", containerId: "sf_krftfokus_used_container" },
-    { mainCheckboxId: "sf_kugel", containerId: "sf_kugel_used_container" }
+    { mainCheckboxId: "sf_krftfokus", containerId: "sf_krftfokus_used_container" }
 ];
 
 function setupSfCheckboxToggle(mainCheckboxId, containerId) {

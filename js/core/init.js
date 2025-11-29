@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     initZfwCalc();
     initZdCalc();
     initWdCalc();
+    initAspCalc();
     // Tooltip-Logik
     const tooltipsDisabled = localStorage.getItem('tooltipsDisabled') === 'true';
     updateTooltipVisibility(tooltipsDisabled);

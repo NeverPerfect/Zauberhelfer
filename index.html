@@ -232,7 +232,7 @@
                     <label>Grundkosten:</label>
                     <div class="number-input">
                         <button class="minus" data-target="kosten">–</button>
-                        <input type="number" id="kosten" min="0" max="50" value="1">
+                        <input type="number" id="kosten" min="0" max="50" value="0">
                         <button class="plus" data-target="kosten">+</button>
                     </div>
                 </div>
@@ -244,7 +244,7 @@
                         pro Einheit:</label>
                     <div class="number-input">
                         <button class="minus" data-target="kosteneinheit">–</button>
-                        <input type="number" id="kosteneinheit" min="0" max="50" value="1">
+                        <input type="number" id="kosteneinheit" min="0" max="50" value="0">
                         <button class="plus" data-target="kosteneinheit">+</button>
                     </div>
                 </div>
@@ -282,7 +282,7 @@
                     <label>Anzahl Einheiten:</label>
                     <div class="number-input">
                         <button class="minus" data-target="anzahl-einheiten">–</button>
-                        <input type="number" id="anzahl-einheiten" min="0" max="50" value="1">
+                        <input type="number" id="anzahl-einheiten" min="0" max="50" value="0">
                         <button class="plus" data-target="anzahl-einheiten">+</button>
                     </div>
                 </div>
@@ -336,18 +336,6 @@
                             </label>
                             <label id="sf_krftfokus_used_container" class="hidden">
                                 <input type="checkbox" id="sf_krftfokus_used" class="hidden">
-                            </label>
-                        </div>
-
-                        <!-- Kugel des Hellsehers -->
-                        <div class="sf-item">
-                            <label class="tooltip-container">
-                                <input type="checkbox" id="sf_kugel"> Kugel des Hellsehers
-                                <span class="info-icon">i</span>
-                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
-                            </label>
-                            <label id="sf_kugel_used_container" class="hidden">
-                                <input type="checkbox" id="sf_kugel_used" class="hidden">
                             </label>
                         </div>
 
@@ -562,7 +550,6 @@
                         <div class="result-box">
                             <div>Grundkosten</div>
                             <div>AsP/X:</div>
-                            <div id="asp-diff"></div>
                         </div>
 
                         <!-- Reihe 2 -->

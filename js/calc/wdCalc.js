@@ -19,10 +19,21 @@ function initWdCalc() {
         });
     });
 
-    // Event-Listener für dynamische Mod-Optionen
+    // Event-Listener für dynamische Mod-Optionen (Varianten, Sonstige Modifikationen)
     document.addEventListener("change", (e) => {
-        if (e.target.classList.contains("mod-value")) {
+        if (
+            e.target.classList.contains("mod-value") ||
+            e.target.classList.contains("var-wd") ||
+            e.target.classList.contains("mod-wd")
+        ) {
             berechneWd();
+        }
+    });
+
+    // Event-Listener für Varianten (Hinzufügen/Entfernen)
+    document.addEventListener("click", (e) => {
+        if (e.target.classList.contains("add-var") || e.target.classList.contains("remove-var")) {
+            setTimeout(berechneWd, 50);
         }
     });
 
@@ -50,10 +61,27 @@ function berechneWd() {
         wdDiff -= wdOriginal * 0.5 * anzahl; // -50% pro Anzahl
     }
 
+    // 3. Varianten: WD-Werte aller ausgewählten Varianten summieren
+    const variantenChecked = document.querySelector('.mod-check[data-id="varianten"]')?.checked;
+    if (variantenChecked) {
+        const varItems = document.querySelectorAll('#opt_varianten .var-item');
+        varItems.forEach(item => {
+            const wd = parseInt(item.querySelector('.var-wd')?.value) || 0;
+            wdDiff += wd;
+        });
+    }
+
+    // 4. Sonstige Modifikationen: WD-Wert aus dem Feld holen
+    const sonstigemodsChecked = document.querySelector('.mod-check[data-id="sonstigemods"]')?.checked;
+    if (sonstigemodsChecked) {
+        const wd = parseInt(document.querySelector('#opt_sonstigemods .mod-wd')?.value) || 0;
+        wdDiff += wd;
+    }
+
     // Berechnung der neuen WD
     wdNeu = wdOriginal + wdDiff;
 
-    // Ausgabe der WD-Veränderung (ohne farbliche Markierung)
+    // Ausgabe der WD-Veränderung
     const wdDiffElement = document.getElementById("wd-diff");
     wdDiffElement.textContent = wdDiff >= 0 ? `+${wdDiff}` : wdDiff;
 
