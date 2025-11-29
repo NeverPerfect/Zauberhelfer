@@ -1,14 +1,11 @@
 // modCount.js
+// Zählt die Anzahl der möglichen und aktuell ausgewählten Modifikationen
 // Abhängigkeiten: globals.js (MODS), mods.js (.mod-check-Checkboxen)
 
 // Globale Variablen
-let matrixVerstaendnis = false;
-let modFokusAnzahl = 0;
-let modFokusAngewandt = false;
-
-// DOM-Elemente
-const modsAnzahlElement = document.getElementById("mods-anzahl");
-const modsWarnungElement = document.getElementById("modcount-warnung");
+matrixVerstaendnis = false;
+modFokusAnzahl = 0;
+modFokusAngewandt = false;
 
 // Initialisierung
 function initModCount() {

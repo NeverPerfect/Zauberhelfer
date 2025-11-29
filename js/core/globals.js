@@ -1,6 +1,14 @@
+// globals.js
+// Speichert alle global genutzen Variablen udn DOM Elemente
+
 // ---------------------- GLOBALE VARIABLEN ----------------------
 let gespeicherteZauber = [];
 let zauberroutine = false;
+let matrixVerstaendnis = false;
+let modFokusAnzahl = 0;
+let modFokusAngewandt = 0;
+let zauberdauerOriginal = 1;
+let zfwOriginal = 0;
 let aktuelleBerechnung = {
     neueZauberdauer: 0,
     neueKosten: 0,
@@ -13,6 +21,14 @@ const zfwInput = document.getElementById("zfw");
 const zauberdauerInput = document.getElementById("zauberdauer");
 const iniInput = document.getElementById("ini");
 const beInput = document.getElementById("be");
+const zfwDiffElement = document.getElementById("zfw-diff");
+const zfwNeuElement = document.getElementById("zfw-neu");
+const zfwWarnungElement = document.getElementById("zfw-warnung");
+const modsAnzahlElement = document.getElementById("mods-anzahl");
+const modsWarnungElement = document.getElementById("modcount-warnung");
+const zdDiffElement = document.getElementById("zd-diff");
+const zdNeuElement = document.getElementById("zd-neu");
+const zdWarnungElement = document.getElementById("zd-warnung");
 
 // Modifikationen
 const MODS = [

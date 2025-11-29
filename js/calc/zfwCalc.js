@@ -1,13 +1,9 @@
 // zfwCalc.js
+// Berechnet die Summe der Erschwernisse und den aktuellen ZfW
 // Abhängigkeiten: globals.js (MODS), mods.js, modCount.js
 
-// DOM-Elemente
-const zfwDiffElement = document.getElementById("zfw-diff");
-const zfwNeuElement = document.getElementById("zfw-neu");
-const zfwWarnungElement = document.getElementById("zfw-warnung"); // Neuer Container
-
 // Globale Variablen
-let zfwOriginal = parseInt(zfwInput.value) || 10;
+zfwOriginal = parseInt(zfwInput.value) || 10;
 zauberroutine = false;
 
 // Initialisierung
@@ -26,18 +22,20 @@ function initZfwCalc() {
     // Event-Listener für Repräsentation (Dropdown)
     repraesentationSelect?.addEventListener("change", berechneZfw);
 
-    // Event-Listener für ZfW-Input
+    // Event-Listener für ZfW-Input und Buttons
     zfwInput?.addEventListener("input", (e) => {
         zfwOriginal = parseInt(e.target.value) || 0;
         berechneZfw();
     });
 
-    // Event-Listener für BE-Input (inkl. Plus/Minus-Buttons)
-    const beInput = document.getElementById("be");
-    beInput?.addEventListener("input", berechneZfw);
-    // Plus/Minus-Buttons für BE
-    document.querySelectorAll('.number-input button[data-target="be"]')?.forEach(button => {
-        button.addEventListener("click", berechneZfw);
+    // Event-Listener für Plus/Minus-Buttons von ZfW
+    document.querySelectorAll('.number-input button[data-target="zfw"]')?.forEach(button => {
+        button.addEventListener("click", () => {
+            setTimeout(() => {
+                zfwOriginal = parseInt(zfwInput.value) || 0;
+                berechneZfw();
+            }, 10); // Kurze Verzögerung, um den geänderten Wert zu erfassen
+        });
     });
 
     // Event-Listener für dynamische Mod-Optionen

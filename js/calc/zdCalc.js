@@ -1,11 +1,8 @@
 // zdCalc.js
-// DOM-Elemente
-const zdDiffElement = document.getElementById("zd-diff");
-const zdNeuElement = document.getElementById("zd-neu");
-const zdWarnungElement = document.getElementById("zd-warnung");
+// Berechnet die modifikation und aktuelle Zauberdauer
 
 // Globale Variablen
-let zauberdauerOriginal = parseInt(zauberdauerInput.value) || 1;
+zauberdauerOriginal = parseInt(zauberdauerInput.value) || 1;
 zauberroutine = false;
 
 // Initialisierung
@@ -46,15 +43,20 @@ function initZdCalc() {
     // Event-Listener für Repräsentation (Dropdown)
     repraesentationSelect?.addEventListener("change", berechneZd);
 
-    // Event-Listener für Zauberdauer-Input
+    // Event-Listener für Zauberdauer-Input und Buttons
     zauberdauerInput?.addEventListener("input", (e) => {
         zauberdauerOriginal = parseInt(e.target.value) || 0;
         berechneZd();
     });
 
-    // Event-Listener für Plus/Minus-Buttons der Zauberdauer
+    // Event-Listener für Plus/Minus-Buttons von Zauberdauer
     document.querySelectorAll('.number-input button[data-target="zauberdauer"]')?.forEach(button => {
-        button.addEventListener("click", berechneZd);
+        button.addEventListener("click", () => {
+            setTimeout(() => {
+                zauberdauerOriginal = parseInt(zauberdauerInput.value) || 0;
+                berechneZd();
+            }, 10); // Kurze Verzögerung, um den geänderten Wert zu erfassen
+        });
     });
 
     // Event-Listener für BE-Input (inkl. Plus/Minus-Buttons)

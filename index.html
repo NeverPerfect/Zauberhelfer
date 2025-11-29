@@ -222,7 +222,7 @@
                     <label>Zauberdauer:</label>
                     <div class="number-input">
                         <button class="minus" data-target="zauberdauer">–</button>
-                        <input type="number" id="zauberdauer" min="0" max="50" value="1">
+                        <input type="number" id="zauberdauer" min="1" max="50" value="1">
                         <button class="plus" data-target="zauberdauer">+</button>
                     </div>
                 </div>
@@ -270,7 +270,7 @@
                     <label>Wirkungsdauer:</label>
                     <div class="number-input">
                         <button class="minus" data-target="wirkungsdauer">–</button>
-                        <input type="number" id="wirkungsdauer" min="0" max="50" value="1">
+                        <input type="number" id="wirkungsdauer" min="1" max="50" value="1">
                         <button class="plus" data-target="wirkungsdauer">+</button>
                     </div>
                 </div>
@@ -560,8 +560,8 @@
                             <div id="wd-diff"></div>
                         </div>
                         <div class="result-box">
-                            <div>AsP +/-:</div>
-                            <div>AsP 1/2 miss</div>
+                            <div>Grundkosten:</div>
+                            <div>AsP/X:</div>
                             <div id="asp-diff"></div>
                         </div>
 
@@ -579,7 +579,8 @@
                             <div id="wd-neu"></div>
                         </div>
                         <div class="result-box">
-                            <div>AsP neu:</div>
+                            <div>AsP gesamt:</div>
+                            <div>AsP 1/2 miss</div>
                             <div id="asp-neu"></div>
                         </div>
                     </div>
@@ -664,7 +665,7 @@
             </div>
             <div id="stab-zauber-liste"></div>
             <button id="reset-button">Zurücksetzen</button>
-            
+
             <!-- Toggle Tooltipps -->
             <label class="switch">
                 <input type="checkbox" id="toggle-tooltips" checked>
