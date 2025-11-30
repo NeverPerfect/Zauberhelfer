@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zaubern auf Entfernung – Erschwernisrechner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin: 5px 0;
+        }
+
+        select,
+        input {
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            font-weight: bold;
+            margin-top: 20px;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Zaubern auf Entfernung – Erschwernisrechner</h1>
+
+    <div class="section">
+        <h2>Entfernung</h2>
+        <label for="distance">Entfernung (pro angefangene 500 Schritt):</label>
+        <select id="distance">
+            <option value="0">0 Schritt</option>
+            <option value="4">1–500 Schritt (+4)</option>
+            <option value="8">501–1000 Schritt (+8)</option>
+            <option value="12">1001–1500 Schritt (+12)</option>
+            <option value="16">1501–2000 Schritt (+16)</option>
+            <option value="20">2001–2500 Schritt (+20)</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <h2>Zielgröße</h2>
+        <label for="targetSize">Zielgröße:</label>
+        <select id="targetSize">
+            <option value="6">Sehr Klein (+6)</option>
+            <option value="4">Klein (+4)</option>
+            <option value="2">Mittel (+2)</option>
+            <option value="0">Groß (±0)</option>
+            <option value="-2">Sehr Groß (-2)</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <h2>Umwelt</h2>
+        <label>
+            <input type="checkbox" id="coverCheck"> Deckung
+        </label>
+        <select id="cover" disabled>
+            <option value="0">Keine (+0)</option>
+            <option value="2">Leicht (+2)</option>
+            <option value="4">Stark (+4)</option>
+        </select>
+
+        <label>
+            <input type="checkbox" id="lightCheck"> Lichtverhältnisse
+        </label>
+        <select id="light" disabled>
+            <option value="0">Optimal (±0)</option>
+            <option value="2">Schlecht (+2)</option>
+            <option value="4">Sehr schlecht (+4)</option>
+            <option value="6">Dunkel (+6)</option>
+            <option value="8">Stockdunkel (+8)</option>
+        </select>
+
+        <label>
+            <input type="checkbox" id="fogCheck"> Dunst/Nebel
+        </label>
+        <select id="fog" disabled>
+            <option value="0">Kein (±0)</option>
+            <option value="2">Leicht (+2)</option>
+            <option value="4">Stark (+4)</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <h2>Bewegung</h2>
+        <label>
+            <input type="checkbox" id="movementCheck"> Bewegung des Ziels
+        </label>
+        <select id="movement" disabled>
+            <option value="0">Keine (±0)</option>
+            <option value="2">Langsam (+2)</option>
+            <option value="4">Schnell (+4)</option>
+        </select>
+
+        <label>
+            <input type="checkbox" id="fixedTargetCheck"> Fest montiertes Ziel
+        </label>
+        <select id="fixedTarget" disabled>
+            <option value="-2">Ja (-2)</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <h2>Sonstiges</h2>
+        <label>
+            <input type="checkbox" id="eagleEyesCheck"> Zauber ADLERAUGE (–ZfP/2)
+        </label>
+        <select id="eagleEyesValue" disabled>
+            <option value="0">0</option>
+            <option value="2">2</option>
+            <option value="4">4</option>
+            <option value="6">6</option>
+            <option value="8">8</option>
+            <option value="10">10</option>
+            <option value="12">12</option>
+        </select>
+
+        <label>
+            <input type="checkbox" id="sixthSenseCheck"> Vorteil Herausragender Sechster Sinn (–3)
+        </label>
+
+        <label>
+            <input type="checkbox" id="veiledAuraCheck"> Ziel hat Vorteil Verhüllte Aura (+3)
+        </label>
+        <label>
+            <input type="checkbox" id="repeatRollCheck"> Wiederholte Probe?
+        </label>
+        <select id="repeatRollValue" disabled>
+            <option value="3">zweiter Versuch</option>
+            <option value="6">dritter Versuch</option>
+            <option value="9">vierter Versuch</option>
+        </select>
+    </div>
+
+
+    <div class="section">
+        <h2>Vor- und Nachteile</h2>
+        <label>
+            <input type="checkbox" class="visionCheck" id="twilightVisionCheck"> Dämmerungssicht
+        </label>
+
+        <label>
+            <input type="checkbox" class="visionCheck" id="nightVisionCheck"> Nachtsicht
+        </label>
+
+        <label>
+            <input type="checkbox" class="visionCheck" id="nightBlindCheck"> Nachtblind
+        </label>
+
+        <label>
+            <input type="checkbox" id="distanceSenseCheck"> Entfernungssinn (–2)
+        </label>
+
+        <label>
+            <input type="checkbox" id="shortSightedCheck"> Kurzsichtig
+        </label>
+        <select id="shortSighted" disabled>
+            <option value="-12">–12</option>
+            <option value="-8">–8</option>
+            <option value="-4">–4</option>
+            <option value="0">±0</option>
+            <option value="4">+4</option>
+            <option value="8">+8</option>
+            <option value="12">+12</option>
+        </select>
+    </div>
+
+    <div class="section">
+        <h2>SF Fernzauberei</h2>
+        <label>
+            <input type="checkbox" id="longRangeMagicCheck"> SF Fernzauberei (Summe wird halbiert)
+        </label>
+    </div>
+
+    <button onclick="calculate()">Erschwernis berechnen</button>
+
+    <div id="result"></div>
+
+    <script src="js/calc/horizont.js"></script>
+</body>
+
+</html>

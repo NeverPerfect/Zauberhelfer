@@ -5,7 +5,47 @@
 // Initialisierung
 function initZfwCalc() {
     zfwOriginal = parseInt(zfwInput.value) || 10;
-    zfwNeu = zfwOriginal; // Setze zfwNeu auf den Standardwert
+    zfwNeu = zfwOriginal;
+
+    // Event-Listener für Merkmalsfokus (Haupt-Checkbox)
+    document.getElementById("sf_merkfokus")?.addEventListener("change", (e) => {
+        if (!e.target.checked) {
+            merkFokusAngewandt = false; // Zurücksetzen, falls deaktiviert
+            merkFokusAnzahl = 0;
+        }
+        berechneZfw();
+    });
+
+    // Event-Listener für Merkmalsfokus-Dropdown und "Angewandt?"-Checkbox
+    document.addEventListener("change", (e) => {
+        if (e.target.id === "sf_merkfokus_anzahl_dynamic") {
+            merkFokusAnzahl = parseInt(e.target.value) || 0;
+            berechneZfw();
+        } else if (e.target.id === "sf_merkfokus_used") {
+            merkFokusAngewandt = e.target.checked;
+            berechneZfw();
+        }
+    });
+
+    // Event-Listener für Kugel des Hellsehers (Haupt-Checkbox)
+    document.getElementById("sf_kugel")?.addEventListener("change", (e) => {
+        if (!e.target.checked) {
+            kugelAngewandt = false; // Zurücksetzen, falls deaktiviert
+            kugelAnzahl = 0;
+        }
+        berechneZfw();
+    });
+
+    // Event-Listener für Kugel des Hellsehers-Dropdown und "Angewandt?"-Checkbox
+    document.addEventListener("change", (e) => {
+        if (e.target.id === "sf_kugel_anzahl_dynamic") {
+            kugelAnzahl = parseInt(e.target.value) || 0;
+            berechneZfw();
+        } else if (e.target.id === "sf_kugel_used") {
+            kugelAngewandt = e.target.checked;
+            berechneZfw();
+        }
+    });
 
     // Event-Listener für Mod-Checkboxen
     document.querySelectorAll(".mod-check").forEach(cb => {
@@ -33,7 +73,7 @@ function initZfwCalc() {
             setTimeout(() => {
                 zfwOriginal = parseInt(zfwInput.value) || 0;
                 berechneZfw();
-            }, 10); // Kurze Verzögerung, um den geänderten Wert zu erfassen
+            }, 10);
         });
     });
 
@@ -92,10 +132,10 @@ function berechneZfw() {
     // 4. Verdoppelte Zauberdauer
     const doppeldauerChecked = document.querySelector('.mod-check[data-id="doppeldauer"]')?.checked;
     if (doppeldauerChecked) {
-        erleichterung += -3; // Standard-Erleichterung
+        erleichterung += 3; // Standard-Erleichterung
         // Gildenmagie: zusätzliche Erleichterung
         if (repraesentationSelect.value === "gildenmagisch") {
-            erleichterung += -1; // Gesamt: -4
+            erleichterung += 1; // Gesamt: -4
         }
     }
 
@@ -207,6 +247,19 @@ function berechneZfw() {
         const anzahl = parseInt(document.querySelector('#opt_miss .mod-value')?.value) || 1;
         erschwernis += 3 * anzahl;
     }
+
+    // 18. Merkmalsfokus (Erleichterung pro Anzahl, nur wenn "Angewandt?")
+    const merkFokusChecked = document.getElementById("sf_merkfokus")?.checked;
+    if (merkFokusChecked && merkFokusAngewandt) {
+        erleichterung += merkFokusAnzahl; // 1 Erleichterung pro Anzahl
+    }
+
+    // 19. Kugel des Hellsehers (Erleichterung für Hellsicht)
+    const kugelChecked = document.getElementById("sf_kugel")?.checked;
+    if (kugelChecked && kugelAngewandt) {
+        erleichterung += kugelAnzahl; // 1 oder 2 Erleichterung
+    }
+
 
     // Sonderfall: Gildenmagie
     if (repraesentationSelect.value === "gildenmagisch") {

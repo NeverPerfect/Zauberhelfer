@@ -30,7 +30,7 @@ function initRepraesentationEvents() {
     });
 }
 
-// ---------------------- OPTIONEN RENDERN ----------------------
+// ---------------------- MODIFIKATIONEN ----------------------
 function showOptions(id, opt) {
     opt.classList.remove("hidden");
     const mod = MODS.find(m => m.id === id);
@@ -146,78 +146,175 @@ function showOptions(id, opt) {
     }
 }
 
-// Mod-Fokus-Logik
-const modfokusCheckbox = document.getElementById("sf_modfokus");
-const modfokusContainer = document.getElementById("sf_modfokus_used_container");
-if (modfokusCheckbox && modfokusContainer) {
-    modfokusCheckbox.addEventListener("change", function () {
-        modfokusContainer.innerHTML = '';
-        if (this.checked) {
-            const labelText = document.createTextNode("Anzahl: ");
-            modfokusContainer.appendChild(labelText);
-            const dropdown = document.createElement("select");
-            dropdown.id = "sf_modfokus_anzahl_dynamic";
-            for (let i = 1; i <= 5; i++) {
-                const option = document.createElement("option");
-                option.value = i;
-                option.textContent = i;
-                dropdown.appendChild(option);
-            }
-            modfokusContainer.appendChild(dropdown);
-        }
-        modfokusContainer.classList.toggle("hidden", !this.checked);
-    });
-}
-
-// Logik für die "Angewandt?"-Checkboxen
+//SONDERFERTIGKEITEN
+// Sonderfertigkeiten mit "Angewandt?"-Checkbox
 const sfCheckboxMappings = [
     { mainCheckboxId: "sf_krftkontr", containerId: "sf_krftkontr_used_container" },
-    { mainCheckboxId: "sf_krftfokus", containerId: "sf_krftfokus_used_container" }
+    { mainCheckboxId: "sf_krftfokus", containerId: "sf_krftfokus_used_container" },
+    { mainCheckboxId: "sf_kugel", containerId: "sf_kugel_used_container" }
 ];
-
 function setupSfCheckboxToggle(mainCheckboxId, containerId) {
     const mainCheckbox = document.getElementById(mainCheckboxId);
     const container = document.getElementById(containerId);
     if (mainCheckbox && container) {
-        // Standardmäßig ausblenden
         container.classList.add("hidden");
-
         mainCheckbox.addEventListener("change", function () {
             container.innerHTML = '';
             if (this.checked) {
                 const checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
-                checkbox.id = containerId.replace('_container', '');
+                checkbox.id = containerId.replace('_container', '_used');
                 const labelText = document.createTextNode(" Angewandt?");
                 container.appendChild(checkbox);
                 container.appendChild(labelText);
                 checkbox.addEventListener("change", berechneAsp);
-                container.classList.remove("hidden"); // Nur einblenden, wenn aktiviert
+                container.classList.remove("hidden");
             } else {
-                container.classList.add("hidden"); // Ausblenden, wenn deaktiviert
+                container.classList.add("hidden");
             }
-            berechneAsp();
+        });
+    }
+}
+// Initialisiere Sonderfertigkeiten mit "Angewandt?"-Checkbox
+sfCheckboxMappings.forEach(mapping => {
+    setupSfCheckboxToggle(mapping.mainCheckboxId, mapping.containerId);
+});
+
+// Logik für Merkmalsfokus
+const sfDropdownMappings = [
+    { mainCheckboxId: "sf_merkfokus", containerId: "sf_merkfokus_used_container" }
+];
+function setupSfDropdownToggle(mainCheckboxId, containerId) {
+    const mainCheckbox = document.getElementById(mainCheckboxId);
+    const container = document.getElementById(containerId);
+    if (mainCheckbox && container) {
+        container.classList.add("hidden");
+        mainCheckbox.addEventListener("change", function () {
+            container.innerHTML = '';
+            if (this.checked) {
+                const labelText = document.createTextNode("Anzahl: ");
+                container.appendChild(labelText);
+                const dropdown = document.createElement("select");
+                dropdown.id = `${mainCheckboxId}_anzahl_dynamic`;
+                for (let i = 1; i <= 5; i++) {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = i;
+                    dropdown.appendChild(option);
+                }
+                container.appendChild(dropdown);
+
+                // Standardwert setzen und Event auslösen
+                dropdown.value = "1";
+                if (mainCheckboxId === "sf_merkfokus") {
+                    merkFokusAnzahl = 1;
+                    dropdown.dispatchEvent(new Event("change"));
+                }
+
+                const appliedCheckbox = document.createElement("input");
+                appliedCheckbox.type = "checkbox";
+                appliedCheckbox.id = `${mainCheckboxId}_used`;
+                const appliedLabel = document.createTextNode(" Angewandt?");
+                container.appendChild(document.createElement("br"));
+                container.appendChild(appliedCheckbox);
+                container.appendChild(appliedLabel);
+                appliedCheckbox.addEventListener("change", () => {
+                    if (mainCheckboxId === "sf_merkfokus") {
+                        merkFokusAngewandt = appliedCheckbox.checked;
+                    }
+                });
+            }
+            container.classList.toggle("hidden", !this.checked);
         });
     }
 }
 
-
-// Initialisiere alle Sonderfertigkeiten
-sfCheckboxMappings.forEach(mapping => {
-    setupSfCheckboxToggle(mapping.mainCheckboxId, mapping.containerId);
-    const mainCheckbox = document.getElementById(mapping.mainCheckboxId);
-    if (mainCheckbox && mainCheckbox.checked) {
-        const container = document.getElementById(mapping.containerId);
-        if (container) {
-            container.innerHTML = '';
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = mapping.containerId.replace('_container', '_used');
-            const labelText = document.createTextNode(" Angewandt?");
-            container.appendChild(checkbox);
-            container.appendChild(labelText);
-            checkbox.addEventListener("change", berechneAsp);
-            container.classList.remove("hidden");
-        }
-    }
+// Initialisiere Sonderfertigkeiten mit Dropdown
+sfDropdownMappings.forEach(mapping => {
+    setupSfDropdownToggle(mapping.mainCheckboxId, mapping.containerId);
 });
+
+// Funktion für UI des Modifikationsfokus (Dropdown + "Angewandt?"-Checkbox)
+function setupModFokusUI() {
+    const modFokusCheckbox = document.getElementById("sf_modfokus");
+    const modFokusContainer = document.getElementById("sf_modfokus_used_container");
+    if (modFokusCheckbox && modFokusContainer) {
+        modFokusCheckbox.addEventListener("change", function () {
+            modFokusContainer.innerHTML = '';
+            if (this.checked) {
+                const labelText = document.createTextNode("Anzahl: ");
+                modFokusContainer.appendChild(labelText);
+                const dropdown = document.createElement("select");
+                dropdown.id = "sf_modfokus_anzahl_dynamic";
+                for (let i = 1; i <= 5; i++) {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = i;
+                    dropdown.appendChild(option);
+                }
+                modFokusContainer.appendChild(dropdown);
+
+                const appliedCheckbox = document.createElement("input");
+                appliedCheckbox.type = "checkbox";
+                appliedCheckbox.id = "sf_modfokus_used_dynamic";
+                const appliedLabel = document.createTextNode(" Angewandt?");
+                modFokusContainer.appendChild(document.createElement("br"));
+                modFokusContainer.appendChild(appliedCheckbox);
+                modFokusContainer.appendChild(appliedLabel);
+
+                // Standardwert setzen und Event manuell auslösen (wie beim Merkmalsfokus)
+                dropdown.value = "1";
+                modFokusAnzahl = 1;
+                dropdown.dispatchEvent(new Event("change"));
+            } else {
+                modFokusContainer.innerHTML = "";
+            }
+        });
+    }
+}
+
+// Initialisiere die UI (z. B. in einer initSonderfertigkeiten()-Funktion)
+setupModFokusUI();
+
+// Funktion für UI der Kugel des Hellsehers
+function setupKugelDesHellsehersUI() {
+    const kugelCheckbox = document.getElementById("sf_kugel");
+    const kugelContainer = document.getElementById("sf_kugel_used_container");
+    if (kugelCheckbox && kugelContainer) {
+        kugelCheckbox.addEventListener("change", function () {
+            kugelContainer.innerHTML = '';
+            if (this.checked) {
+                const labelText = document.createTextNode("Erleichterung: ");
+                kugelContainer.appendChild(labelText);
+                const dropdown = document.createElement("select");
+                dropdown.id = "sf_kugel_anzahl_dynamic";
+                // Nur Werte 1 und 2
+                [1, 2].forEach(i => {
+                    const option = document.createElement("option");
+                    option.value = i;
+                    option.textContent = i;
+                    dropdown.appendChild(option);
+                });
+                kugelContainer.appendChild(dropdown);
+
+                const appliedCheckbox = document.createElement("input");
+                appliedCheckbox.type = "checkbox";
+                appliedCheckbox.id = "sf_kugel_used";
+                const appliedLabel = document.createTextNode(" Angewandt?");
+                kugelContainer.appendChild(document.createElement("br"));
+                kugelContainer.appendChild(appliedCheckbox);
+                kugelContainer.appendChild(appliedLabel);
+
+                // Standardwert setzen und Event manuell auslösen
+                dropdown.value = "1";
+                kugelAnzahl = 1; // Globale Variable (siehe globals.js)
+                dropdown.dispatchEvent(new Event("change"));
+            } else {
+                kugelContainer.innerHTML = "";
+            }
+        });
+    }
+}
+
+// Initialisiere die UI (z. B. in initSonderfertigkeiten())
+setupKugelDesHellsehersUI();

@@ -15,25 +15,21 @@ function initModCount() {
         updateModCount();
     });
 
-    // Event-Listener für Modifikationsfokus (dynamisch erstellt)
-    const modFokusCheckbox = document.getElementById("sf_modfokus");
-    modFokusCheckbox?.addEventListener("change", (e) => {
-        const modFokusContainer = document.getElementById("sf_modfokus_used_container");
+    // Event-Listener für Modifikationsfokus
+    document.getElementById("sf_modfokus")?.addEventListener("change", (e) => {
         if (e.target.checked) {
-            modFokusContainer.innerHTML = `
-                <label>Anzahl:
-                    <select id="sf_modfokus_anzahl_dynamic">
-                        ${[1, 2, 3, 4, 5].map(i => `<option value="${i}">${i}</option>`).join("")}
-                    </select>
-                </label>
-                <label>
-                    <input type="checkbox" id="sf_modfokus_used_dynamic"> Angewandt?
-                </label>
-            `;
-            document.getElementById("sf_modfokus_anzahl_dynamic")?.addEventListener("change", updateModCount);
-            document.getElementById("sf_modfokus_used_dynamic")?.addEventListener("change", updateModCount);
+            // Warte kurz, bis die UI in mods.js erstellt wurde
+            setTimeout(() => {
+                document.getElementById("sf_modfokus_anzahl_dynamic")?.addEventListener("change", (e) => {
+                    modFokusAnzahl = parseInt(e.target.value) || 0;
+                    updateModCount();
+                });
+                document.getElementById("sf_modfokus_used_dynamic")?.addEventListener("change", (e) => {
+                    modFokusAngewandt = e.target.checked;
+                    updateModCount();
+                });
+            }, 50); // Kurze Verzögerung, um sicherzustellen, dass die UI existiert
         } else {
-            modFokusContainer.innerHTML = "";
             modFokusAngewandt = false;
             modFokusAnzahl = 0;
             updateModCount();
@@ -138,7 +134,7 @@ function getCurrentMods() {
         currentMods += ziele;
     }
 
-    // Zauberdauer halbieren (mit Anzahl)
+    // Zauberdauer halbieren
     const halbdauerChecked = document.querySelector('.mod-check[data-id="halbdauer"]')?.checked;
     if (halbdauerChecked) {
         const valueElement = document.querySelector('#opt_halbdauer .mod-value');

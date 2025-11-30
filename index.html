@@ -296,36 +296,6 @@
                     </div>
                     <div id="sf-group">
 
-                        <!-- Matrixverständnis -->
-                        <label class="tooltip-container">
-                            <input type="checkbox" id="sf_matrix"> Matrixverständnis
-                            <span class="info-icon">i</span>
-                            <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
-                        </label>
-
-                        <!-- Kraftkontrolle -->
-                        <div class="sf-item">
-                            <label class="tooltip-container">
-                                <input type="checkbox" id="sf_krftkontr"> Kraftkontrolle
-                                <span class="info-icon">i</span>
-                                <span class="tooltip-text">Ein Punkt Erschöpfung + 1 Aktion</span>
-                            </label>
-                            <label id="sf_krftkontr_used_container" class="hidden">
-                                <input type="checkbox" id="sf_krftkontr_used" class="hidden">
-                            </label>
-                        </div>
-
-                        <!-- Modifikationsfokus -->
-                        <div class="sf-item">
-                            <label class="tooltip-container">
-                                <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
-                                <span class="info-icon">i</span>
-                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade keine
-                                    andere Funktion erfüllen</span>
-                            </label>
-                            <label id="sf_modfokus_used_container" class="hidden"></label>
-                        </div>
-
                         <!-- Kraftfokus -->
                         <div class="sf-item">
                             <label class="tooltip-container">
@@ -339,16 +309,62 @@
                             </label>
                         </div>
 
-                        <!-- Zauberroutine -->
+                        <!-- Kraftkontrolle -->
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_krftkontr"> Kraftkontrolle
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Ein Punkt Erschöpfung + 1 Aktion</span>
+                            </label>
+                            <label id="sf_krftkontr_used_container" class="hidden">
+                                <input type="checkbox" id="sf_krftkontr_used" class="hidden">
+                            </label>
+                        </div>
+
+                        <!-- Kugel des Hellsehers -->
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_kugel"> Kugel des Hellsehers
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Kugel muss in der Hand gehalten werden und darf gerade keine
+                                    andere Funktion erfüllen. Erleichterung für Hellsicht ein weiterer Punkt, wenn aus
+                                    echtem Bergkristall</span>
+                            </label>
+                            <label id="sf_kugel_used_container" class="hidden"></label>
+                        </div>
+
+                        <!-- Matrixverständnis -->
                         <label class="tooltip-container">
-                            <input type="checkbox" id="sf_routine"> Zauberroutine
+                            <input type="checkbox" id="sf_matrix"> Matrixverständnis
                             <span class="info-icon">i</span>
                             <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
                         </label>
 
-                        <!-- Fernzauberei -->
+                        <!-- Merkmalsfokus -->
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_merkfokus"> Merkmalsfokus
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade keine
+                                    andere Funktion erfüllen.</span>
+                            </label>
+                            <label id="sf_merkfokus_used_container" class="hidden"></label>
+                        </div>
+
+                        <!-- Modifikationsfokus -->
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade keine
+                                    andere Funktion erfüllen</span>
+                            </label>
+                            <label id="sf_modfokus_used_container" class="hidden"></label>
+                        </div>
+
+                        <!-- Zauberroutine -->
                         <label class="tooltip-container">
-                            <input type="checkbox" id="sf_fernz"> Fernzauberei
+                            <input type="checkbox" id="sf_routine"> Zauberroutine
                             <span class="info-icon">i</span>
                             <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
                         </label>
@@ -442,6 +458,14 @@
                             verkleinern
                         </label>
                         <div class="mod-options hidden" id="opt_reichweitek"></div>
+                    </div>
+                    <div class="modblock">
+                        <label>
+                            <input type="checkbox" class="mod-check" data-id="reichweiteh"> Zaubern auf Reichweite
+                            <span>Horizont <a href="horizont.html">Zielprobe</a>
+
+
+                        </label>
                     </div>
                 </div>
 
