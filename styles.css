@@ -1,5 +1,6 @@
 /* ===== GLOBALE STILE ===== */
-html, body {
+html,
+body {
     height: 100%;
     margin: 0;
     padding: 0;
@@ -15,16 +16,14 @@ body {
 /* Grid-Layout */
 #app {
     display: grid;
-    grid-template-columns: 260px 1fr 300px;
-    gap: 20px;
-    padding: 20px;
-    height: calc(100vh - 40px);
-    overflow: hidden;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 1rem;
+    padding: 1rem;
 }
 
 /* Spalten-Stil (gleiche Höhe für alle) */
-#app > aside,
-#app > section {
+#app>aside,
+#app>section {
     background: white;
     padding: 15px;
     border-radius: 8px;
@@ -155,6 +154,12 @@ body {
 }
 
 /* ===== ZAUBER & MODIFIKATIONEN ===== */
+#inputs h2,
+#mod-container h2 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
 .zauber-header {
     display: flex;
     align-items: center;
@@ -238,7 +243,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 5px;    
+    gap: 5px;
 }
 
 #sf_modfokus_stufen {
@@ -248,12 +253,10 @@ body {
 
 /* Modifikationen */
 #mod-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-bottom: 10px;
-    max-height: 100%;
-    overflow: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 }
 
 .modblock {
@@ -276,14 +279,12 @@ body {
 }
 
 .mod-category {
-    margin-bottom: 8px;
-    border: 1px solid #eee;
-    padding: 6px;
+    flex: 1;
+    border: 1px solid #ddd;
+    padding: 10px;
     border-radius: 4px;
     background-color: #f9f9f9;
-    overflow: auto;
-    max-height: 100%;
-    min-height: auto;
+    font-size: 0.7em;
 }
 
 .mod-category h4 {
@@ -298,7 +299,8 @@ body {
 }
 
 .mod-options label {
-    display: inline-flex; /* Labels nebeneinander */
+    display: inline-flex;
+    /* Labels nebeneinander */
     align-items: center;
     margin-right: 12px;
     margin-bottom: 6px;
@@ -322,7 +324,8 @@ body {
 }
 
 .sonstige-mods-container label {
-    margin-bottom: 6px; /* Abstand zwischen Label und Eingabefeld */
+    margin-bottom: 6px;
+    /* Abstand zwischen Label und Eingabefeld */
 }
 
 .sonstige-mod-input {
@@ -350,7 +353,8 @@ body {
     align-items: center;
 }
 
-.add-var, .remove-var {
+.add-var,
+.remove-var {
     padding: 2px 6px;
     font-size: 0.7em;
     margin-left: 0.5rem;
@@ -492,13 +496,26 @@ body {
 
 .success-attributes-row select,
 .success-attributes-row input {
-    width: 60px; 
+    width: 60px;
     margin: 0;
 }
 
 .attribute-value {
-    width: 40px; /* Noch schmaler für Zahlenfelder */
+    width: 40px;
 }
+
+/* Kreisdiagramm */
+.chart-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+#tapChart {
+    width: 100% !important;
+    height: auto !important;
+}
+
 
 /* ===== BUTTONS & INTERAKTIONEN ===== */
 #buttons {
@@ -525,7 +542,8 @@ body {
     gap: 10px;
 }
 
-#export, #import {
+#export,
+#import {
     padding: 10px;
     background: #0077ee;
     color: white;
@@ -769,11 +787,11 @@ button:hover {
     border-radius: 50%;
 }
 
-input:checked + .slider {
+input:checked+.slider {
     background-color: #4a90e2;
 }
 
-input:checked + .slider:before {
+input:checked+.slider:before {
     transform: translateX(26px);
 }
 

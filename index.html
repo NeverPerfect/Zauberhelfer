@@ -9,6 +9,77 @@
 </head>
 
 <body>
+    <!-- TEMPLATES FÜR MODIFIKATIONEN -->
+    <template id="template_multi_fixed">
+        <label>Anzahl: <select class="mod-value"></select></label>
+    </template>
+    <template id="template_multi_var">
+        <label>Anzahl: <select class="mod-value"></select></label>
+    </template>
+    <template id="template_single">
+        <span>Keine Optionen</span>
+    </template>
+    <template id="template_asp">
+        <label>AsP: <select class="mod-value"></select></label>
+    </template>
+    <template id="template_kosten">
+        <label>Prozent: <select class="mod-value"></select></label>
+    </template>
+    <template id="template_ziel">
+        <label>Ziele: <select class="mod-ziele"></select></label>
+        <label>MR (höchste): <select class="mod-mr"></select></label>
+    </template>
+    <template id="template_stufe">
+        <label>Startstufe: <input type="number" min="0" max="7" class="mod-start" value="0"></label>
+        <label>Zielstufe: <input type="number" min="0" max="7" class="mod-ziel" value="1"></label>
+    </template>
+    <template id="template_sonstiges">
+        <div class="sonstige-mods-container">
+            <div class="sonstige-mod-input"><label>ZfW:</label><input type="number" class="mod-zfw" value="0"
+                    placeholder="+/-"></div>
+            <div class="sonstige-mod-input"><label>ZD:</label><input type="number" class="mod-zd" value="0"
+                    placeholder="+/-"></div>
+            <div class="sonstige-mod-input"><label>AsP:</label><input type="number" class="mod-asp" value="0"
+                    placeholder="+/-"></div>
+            <div class="sonstige-mod-input"><label>AsP/X:</label><input type="number" class="mod-aspx" value="0"
+                    placeholder="+/-"></div>
+            <div class="sonstige-mod-input"><label>WD:</label><input type="number" class="mod-wd" value="0"
+                    placeholder="+/-"></div>
+        </div>
+    </template>
+    <template id="template_multi">
+        <label>Anzahl: <select class="mod-value"></select></label>
+    </template>
+    <template id="template_reichweite">
+        <label>Startstufe: <select class="mod-start"></select></label>
+        <label>Zielstufe: <select class="mod-ziel"></select></label>
+    </template>
+    <template id="template_varianten">
+        <div class="add-var-header">
+            <span>Varianten</span>
+            <button class="add-var">Variante hinzufügen</button>
+        </div>
+        <div class="var-list"></div>
+    </template>
+    <template id="template_var_item">
+        <div class="var-item">
+            <div class="sonstige-mods-container">
+                <div class="sonstige-mod-input"><label>ZfW:</label><input type="number" class="var-zfw" value="0"
+                        placeholder="+/-"></div>
+                <div class="sonstige-mod-input"><label>ZD:</label><input type="number" class="var-zd" value="0"
+                        placeholder="+/-"></div>
+                <div class="sonstige-mod-input"><label>AsP:</label><input type="number" class="var-asp" value="0"
+                        placeholder="+/-"></div>
+                <div class="sonstige-mod-input"><label>AsP/X:</label><input type="number" class="var-aspx" value="0"
+                        placeholder="+/-"></div>
+                <div class="sonstige-mod-input"><label>WD:</label><input type="number" class="var-wd" value="0"
+                        placeholder="+/-"></div>
+            </div>
+            <button class="remove-var">Entfernen</button>
+        </div>
+    </template>
+
+
     <div id="app">
 
         <!-- LINKE SEITENLEISTE -->
@@ -23,7 +94,8 @@
                 <div id="gildenmagisch-content" class="repr-content">
                     <p>Technik: Konzentration, Sicht, Geste, Formel – keine zentrale Komponente</p>
                     <p>Zuschläge für spontane Modifikationen werden, nach dem summieren, halbiert</p>
-                    <p>Spontane Modifikation "verlängerte Zauberdauer" gibt einen zusätzlichen Punkt Erleichterung</p>
+                    <p>Spontane Modifikation "verlängerte Zauberdauer" gibt einen zusätzlichen Punkt Erleichterung
+                    </p>
                 </div>
                 <div id="weitere-content" class="repr-content">
                     <p>Hier stehen Infos zu "Weitere in Arbeit".</p>
@@ -166,6 +238,18 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- ASP -->
+                    <div class="attribute-group">
+                        <div class="attribute-line">
+                            <label class="attribute-label">AsP:</label>
+                            <div class="number-input">
+                                <button class="minus" data-target="asp">–</button>
+                                <input type="number" id="asp" min="0" max="99" value="0">
+                                <button class="plus" data-target="asp">+</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -189,6 +273,7 @@
 
         <!-- EINGABE DER ZAUBERWERTE -->
         <section id="inputs">
+            <h2 class="section-heading">Zauber</h2>
             <div class="zauber-header">
 
                 <!-- Zauber wählen Dropdown -->
@@ -290,9 +375,10 @@
 
             <!-- SONDERFERTIGKEITEN -->
             <div class="sf-row">
+
                 <div class="sf-container">
                     <div class="sf-header">
-                        <label>Sonderfertigkeiten:</label>
+                        <h2 class="section-heading">Sonderfertigkeiten</h2>
                     </div>
                     <div id="sf-group">
 
@@ -301,7 +387,8 @@
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_krftfokus"> Kraftfokus
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">stab muss in der Hand gehalten werden und darf gerade keine
+                                <span class="tooltip-text">stab muss in der Hand gehalten werden und darf gerade
+                                    keine
                                     andere Funktion erfüllen</span>
                             </label>
                             <label id="sf_krftfokus_used_container" class="hidden">
@@ -326,26 +413,31 @@
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_kugel"> Kugel des Hellsehers
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">Kugel muss in der Hand gehalten werden und darf gerade keine
-                                    andere Funktion erfüllen. Erleichterung für Hellsicht ein weiterer Punkt, wenn aus
+                                <span class="tooltip-text">Kugel muss in der Hand gehalten werden und darf gerade
+                                    keine
+                                    andere Funktion erfüllen. Erleichterung für Hellsicht ein weiterer Punkt, wenn
+                                    aus
                                     echtem Bergkristall</span>
                             </label>
                             <label id="sf_kugel_used_container" class="hidden"></label>
                         </div>
 
                         <!-- Matrixverständnis -->
-                        <label class="tooltip-container">
-                            <input type="checkbox" id="sf_matrix"> Matrixverständnis
-                            <span class="info-icon">i</span>
-                            <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
-                        </label>
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_matrix"> Matrixverständnis
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                            </label>
+                        </div>
 
                         <!-- Merkmalsfokus -->
                         <div class="sf-item">
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_merkfokus"> Merkmalsfokus
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade keine
+                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade
+                                    keine
                                     andere Funktion erfüllen.</span>
                             </label>
                             <label id="sf_merkfokus_used_container" class="hidden"></label>
@@ -356,23 +448,27 @@
                             <label class="tooltip-container">
                                 <input type="checkbox" id="sf_modfokus"> Modifikationsfokus
                                 <span class="info-icon">i</span>
-                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade keine
+                                <span class="tooltip-text">Stab muss in der Hand gehalten werden und darf gerade
+                                    keine
                                     andere Funktion erfüllen</span>
                             </label>
                             <label id="sf_modfokus_used_container" class="hidden"></label>
                         </div>
 
                         <!-- Zauberroutine -->
-                        <label class="tooltip-container">
-                            <input type="checkbox" id="sf_routine"> Zauberroutine
-                            <span class="info-icon">i</span>
-                            <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
-                        </label>
+                        <div class="sf-item">
+                            <label class="tooltip-container">
+                                <input type="checkbox" id="sf_routine"> Zauberroutine
+                                <span class="info-icon">i</span>
+                                <span class="tooltip-text">Quelle, Kurzbeschreibung</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- SPONTANE MODIFIKATIONEN Grid aus 3 Spalten, Mods unterteild in Kategorien-->
+            <!-- SPONTANE MODIFIKATIONEN -->
+            <h2 class="section-heading">Spontane Modifikationen</h2>
             <div id="mod-container">
 
                 <!-- TECHNIK -->
@@ -430,7 +526,8 @@
                     <h4>Ziel</h4>
                     <div class="modblock">
                         <label>
-                            <input type="checkbox" class="mod-check" data-id="unfreiw"> Unfreiwillig statt freiwillig
+                            <input type="checkbox" class="mod-check" data-id="unfreiw"> Unfreiwillig statt
+                            freiwillig
                         </label>
                         <div class="mod-options hidden" id="opt_unfreiw"></div>
                     </div>
@@ -447,14 +544,16 @@
                     <h4>Wirkungsbereich</h4>
                     <div class="modblock">
                         <label>
-                            <input type="checkbox" class="mod-check" data-id="reichweitex"> Reichweite/Wirkungsradius
+                            <input type="checkbox" class="mod-check" data-id="reichweitex">
+                            Reichweite/Wirkungsradius
                             erhöhen
                         </label>
                         <div class="mod-options hidden" id="opt_reichweitex"></div>
                     </div>
                     <div class="modblock">
                         <label>
-                            <input type="checkbox" class="mod-check" data-id="reichweitek"> Reichweite/Wirkungsradius
+                            <input type="checkbox" class="mod-check" data-id="reichweitek">
+                            Reichweite/Wirkungsradius
                             verkleinern
                         </label>
                         <div class="mod-options hidden" id="opt_reichweitek"></div>
@@ -486,7 +585,8 @@
                     </div>
                     <div class="modblock">
                         <label>
-                            <input type="checkbox" class="mod-check" data-id="auf_fest"> Aufrechterhalten ➜ feste Dauer
+                            <input type="checkbox" class="mod-check" data-id="auf_fest"> Aufrechterhalten ➜ feste
+                            Dauer
                         </label>
                     </div>
                 </div>
@@ -529,115 +629,124 @@
                         <div class="mod-options hidden" id="opt_miss"></div>
                     </div>
                 </div>
+            </div>
+            <!-- ERGEBNISSE - Grid mit 4 Spalten-->
+            <div id="results-container">
+                <!-- Oberste Reihe Resultat -->
+                <div class="result-box full-width">
+                    <h4 class="section-heading">Resultat
+                        <label class="tooltip-container">
+                            <span class="info-icon">i</span>
+                            <span class="tooltip-text">Die Erschwernis wird auf die Zauberprobe angewendet. Eine
+                                positive Zahl bedeutet eine Erschwernis (Würfelwürfe werden um diesen Wert
+                                erschwert).</span>
+                        </label>
+                    </h4>
 
-                <!-- ERGEBNISSE - Grid mit 4 Spalten-->
-                <div id="results-container">
-                    <!-- Oberste Reihe Resultat -->
-                    <div class="result-box full-width">
-                        <h4>Resultat
-                            <label class="tooltip-container">
-                                <span class="info-icon">i</span>
-                                <span class="tooltip-text">Die Erschwernis wird auf die Zauberprobe angewendet. Eine
-                                    positive Zahl bedeutet eine Erschwernis (Würfelwürfe werden um diesen Wert
-                                    erschwert).</span>
-                            </label>
-                        </h4>
+                    <!-- Anzahl Modifikationen -->
+                    <div id="mods-container">
+                        <div>Modifikationen</div>
+                        <div id="mods-anzahl"></div>
 
-                        <!-- Anzahl Modifikationen -->
-                        <div id="mods-container">
-                            <div>Modifikationen</div>
-                            <div id="mods-anzahl"></div>
-
-                            <!-- Warnemldungen -->
-                            <div id="modcount-warnung"></div>
-                            <div id="zfw-warnung"></div>
-                            <div id="zd-warnung"></div>
-                        </div>
-                    </div>
-
-                    <!-- Grid für die 2 Reihen mit 4 Spalten -->
-                    <div class="results-grid">
-
-                        <!-- Reihe 1 -->
-                        <div class="result-box">
-                            <div>ZfW +/-</div>
-                            <div id="zfw-diff"></div>
-                        </div>
-                        <div class="result-box">
-                            <div>ZD +/-</div>
-                            <div id="zd-diff"></div>
-                        </div>
-                        <div class="result-box">
-                            <div>WD +/-</div>
-                            <div id="wd-diff"></div>
-                        </div>
-                        <div class="result-box">
-                            <div>Grundkosten</div>
-                            <div>AsP/X:</div>
-                        </div>
-
-                        <!-- Reihe 2 -->
-                        <div class="result-box">
-                            <div>ZfP* max:</div>
-                            <div id="zfw-neu"></div>
-                        </div>
-                        <div class="result-box">
-                            <div>ZD neu</div>
-                            <div id="zd-neu"></div>
-                        </div>
-                        <div class="result-box">
-                            <div>WD neu</div>
-                            <div id="wd-neu"></div>
-                        </div>
-                        <div class="result-box">
-                            <div>AsP gesamt</div>
-                            <div>AsP 1/2 miss</div>
-                            <div id="asp-neu"></div>
-                        </div>
+                        <!-- Warnemldungen -->
+                        <div id="modcount-warnung"></div>
+                        <div id="zfw-warnung"></div>
+                        <div id="zd-warnung"></div>
                     </div>
                 </div>
 
-                <!-- ERFOLGSWAHRSCHEINLICHKEIT -->
-                <div id="results-container">
+                <!-- Grid für die 2 Reihen mit 4 Spalten -->
+                <div class="results-grid">
+
+                    <!-- Reihe 1 -->
                     <div class="result-box">
-                        <h4>Erfolgswahrscheinlichkeit</h4>
-                        <div id="chance"></div>
-                        <div class="success-attributes-row">
-                            <select class="attribute-select">
-                                <option value="mu">MU</option>
-                                <option value="kl">KL</option>
-                                <option value="in">IN</option>
-                                <option value="ch">CH</option>
-                                <option value="ff">FF</option>
-                                <option value="ge">GE</option>
-                                <option value="ko">KO</option>
-                                <option value="kk">KK</option>
-                            </select>
-                            <input type="number" class="attribute-value" placeholder="Wert">
-                            <select class="attribute-select">
-                                <option value="mu">MU</option>
-                                <option value="kl">KL</option>
-                                <option value="in">IN</option>
-                                <option value="ch">CH</option>
-                                <option value="ff">FF</option>
-                                <option value="ge">GE</option>
-                                <option value="ko">KO</option>
-                                <option value="kk">KK</option>
-                            </select>
-                            <input type="number" class="attribute-value" placeholder="Wert">
-                            <select class="attribute-select">
-                                <option value="mu">MU</option>
-                                <option value="kl">KL</option>
-                                <option value="in">IN</option>
-                                <option value="ch">CH</option>
-                                <option value="ff">FF</option>
-                                <option value="ge">GE</option>
-                                <option value="ko">KO</option>
-                                <option value="kk">KK</option>
-                            </select>
-                            <input type="number" class="attribute-value" placeholder="Wert">
+                        <div>ZfW +/-</div>
+                        <div id="zfw-diff"></div>
+                    </div>
+                    <div class="result-box">
+                        <div>ZD +/-</div>
+                        <div id="zd-diff"></div>
+                    </div>
+                    <div class="result-box">
+                        <div>WD +/-</div>
+                        <div id="wd-diff"></div>
+                    </div>
+                    <div class="result-box">
+                        <div>Grundkosten</div>
+                        <div>AsP/X:</div>
+                    </div>
+
+                    <!-- Reihe 2 -->
+                    <div class="result-box">
+                        <div>ZfP* max:</div>
+                        <div id="zfw-neu"></div>
+                    </div>
+                    <div class="result-box">
+                        <div>ZD neu</div>
+                        <div id="zd-neu"></div>
+                    </div>
+                    <div class="result-box">
+                        <div>WD neu</div>
+                        <div id="wd-neu"></div>
+                    </div>
+                    <div class="result-box">
+                        <div>AsP gesamt</div>
+                        <div>AsP 1/2 miss</div>
+                        <div id="asp-neu"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ERFOLGSWAHRSCHEINLICHKEIT -->
+            <div id="results-container">
+                <div class="result-box">
+                    <h4 class="section-heading">Erfolgswahrscheinlichkeit</h4>
+                    <div id="chance"></div>
+                    <div class="success-attributes-row">
+                        <select class="attribute-select">
+                            <option value="mu">MU</option>
+                            <option value="kl">KL</option>
+                            <option value="in">IN</option>
+                            <option value="ch">CH</option>
+                            <option value="ff">FF</option>
+                            <option value="ge">GE</option>
+                            <option value="ko">KO</option>
+                            <option value="kk">KK</option>
+                        </select>
+                        <select class="attribute-select">
+                            <option value="mu">MU</option>
+                            <option value="kl">KL</option>
+                            <option value="in">IN</option>
+                            <option value="ch">CH</option>
+                            <option value="ff">FF</option>
+                            <option value="ge">GE</option>
+                            <option value="ko">KO</option>
+                            <option value="kk">KK</option>
+                        </select>
+                        <select class="attribute-select">
+                            <option value="mu">MU</option>
+                            <option value="kl">KL</option>
+                            <option value="in">IN</option>
+                            <option value="ch">CH</option>
+                            <option value="ff">FF</option>
+                            <option value="ge">GE</option>
+                            <option value="ko">KO</option>
+                            <option value="kk">KK</option>
+                        </select>
+                    </div>
+                    <div class="result-section">
+                        <div class="result-card">
+                            <div class="result-header">
+                                <div class="probability-display" id="erfolgswahrscheinlichkeit">0%</div>
+                            </div>
+                            <div>
+                                <p>Wahrscheinlichkeit nach ZfP*: <span id="chancezfp"></span></p>
+                                <div id="zfp-results"></div>
+                            </div>
+
                         </div>
                     </div>
+
                 </div>
             </div>
         </section>
@@ -699,6 +808,7 @@
         <script src="js/calc/wdCalc.js"></script>
         <script src="js/calc/zdCalc.js"></script>
         <script src="js/calc/zfwCalc.js"></script>
+        <script type="module" src="js/calc/chance/chance-init.js"></script>
         <script src="js/core/init.js"></script>
 
 </body>
