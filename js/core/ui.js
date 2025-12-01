@@ -1,3 +1,4 @@
+// ui.js
 // ---------------------- NUMBER INPUT EVENTS ----------------------
 function initEventsForNumberInputs() {
     document.querySelectorAll(".number-input button").forEach(button => {
@@ -9,10 +10,11 @@ function initEventsForNumberInputs() {
             const min = parseInt(input.min) || 0;
             const max = parseInt(input.max) || 100;
             input.value = Math.max(min, Math.min(max, parseInt(input.value) + step));
+            // Trigger das 'input'-Event, damit chance-ui.js reagieren kann
+            input.dispatchEvent(new Event('input', { bubbles: true }));
         });
     });
 }
-
 // ---------------------- LEITEIGENSCHAFT-EVENTS ----------------------
 document.querySelectorAll('input[name="leiteigenschaft"]').forEach(checkbox => {
     checkbox.addEventListener('change', function () {
@@ -27,7 +29,6 @@ document.querySelectorAll('input[name="leiteigenschaft"]').forEach(checkbox => {
         }
     });
 });
-
 // ---------------------- ATTRIBUTE-EVENTS ----------------------
 document.querySelectorAll('.attribute-group .number-input input').forEach(input => {
     input.addEventListener('change', () => {
