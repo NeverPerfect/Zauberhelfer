@@ -740,8 +740,10 @@
                                 <div class="probability-display" id="erfolgswahrscheinlichkeit">0%</div>
                             </div>
                             <div>
-                                <p>Wahrscheinlichkeit nach ZfP*: <span id="chancezfp"></span></p>
-                                <div id="zfp-results"></div>
+                                <p>Wahrscheinlichkeit nach ZfP*: <span id="erfolgswahrscheinlichkeit"></span></p>
+                                <div class="chart-container">
+                                    <canvas id="zfpChart"></canvas>
+                                </div>
                             </div>
 
                         </div>
@@ -796,6 +798,8 @@
         </aside>
 
         <!-- JAVASCRIPT DATEIEN -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
         <script src="js/core/globals.js"></script>
         <script src="js/utils/tooltips.js"></script>
         <script src="js/calc/aspCalc.js"></script>
