@@ -10,7 +10,7 @@ function initEventsForNumberInputs() {
             const min = parseInt(input.min) || 0;
             const max = parseInt(input.max) || 100;
             input.value = Math.max(min, Math.min(max, parseInt(input.value) + step));
-            // Trigger das 'input'-Event, damit chance-ui.js reagieren kann
+            // Trigger das 'input'-Event, damit chance-ui.js die Berechnung aktualisiert
             input.dispatchEvent(new Event('input', { bubbles: true }));
         });
     });
