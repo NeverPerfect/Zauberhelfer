@@ -21,17 +21,21 @@ export function updateResults() {
         document.getElementById('erfolgswahrscheinlichkeit').textContent = `${result.total.toFixed(2)}%`;
 
         const ctx = document.getElementById('zfpChart').getContext('2d');
-        const labels = result.zfps.map((_, i) => `ZfP* ${i}`);
-        const data = result.zfps.map(prob => prob ? prob.toFixed(2) : 0);
+        // ZfP*-Labels und Daten
+        const zfpLabels = result.zfps.map((_, i) => `ZfP* ${i}`);
+        const zfpData = result.zfps.map(prob => prob ? prob.toFixed(2) : 0);
+
+        // Gescheiterte Proben als zusätzliches Segment
+        const failedProbability = (100 - result.total).toFixed(2);
+        const labels = [...zfpLabels, "Gescheiterte Proben"];
+        const data = [...zfpData, failedProbability];
 
         // Chart aktualisieren oder neu erstellen
         if (zfpChart) {
-            // Daten aktualisieren, wenn Chart bereits existiert
             zfpChart.data.labels = labels;
             zfpChart.data.datasets[0].data = data;
             zfpChart.update();
         } else {
-            // Neues Chart erstellen, wenn es noch keins gibt
             zfpChart = new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -41,7 +45,8 @@ export function updateResults() {
                         backgroundColor: [
                             '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
                             '#9966FF', '#FF9F40', '#8AC24A', '#E91E63',
-                            '#00BCD4', '#673AB7', '#FF5722', '#795548'
+                            '#00BCD4', '#673AB7', '#FF5722', '#795548',
+                            '#CCCCCC' // Farbe für gescheiterte Proben (grau)
                         ],
                         borderWidth: 1
                     }]
@@ -54,7 +59,11 @@ export function updateResults() {
                         tooltip: { enabled: true },
                         datalabels: {
                             color: '#fff',
-                            formatter: (value, ctx) => `${ctx.chart.data.labels[ctx.dataIndex]}\n${value}%`,
+                            formatter: (value, ctx) => {
+                                return ctx.dataIndex === labels.length - 1
+                                    ? `misslungen\n${value}%`
+                                    : `${labels[ctx.dataIndex]}\n${value}%`;
+                            },
                             font: { weight: 'bold', size: 10 }
                         }
                     }
